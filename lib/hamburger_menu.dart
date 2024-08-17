@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'home.dart';
+import 'assetsPage/assets.dart';
 
 class AppDrawer extends StatelessWidget {
   final User user = User(username: 'UserName', email: 'username@gmail.com', image: 'assets/images/userProfileImage.png');
@@ -67,13 +68,13 @@ class AppDrawer extends StatelessWidget {
                         leading: Icon(Icons.home, color: Colors.white, size: 22),
                         title: Text('Home', style: TextStyle(color: Colors.white, fontSize: 14)),
                         trailing: const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white, size: 15),
-                        // onTap: () {
-                        //   Navigator.pushAndRemoveUntil(
-                        //     context,
-                        //     MaterialPageRoute(builder: (context) => HomePage()),
-                        //         (Route<dynamic> route) => false,
-                        //   );
-                        // },
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomePage()),
+                                (Route<dynamic> route) => false,
+                          );
+                        },
                       ),
                       ListTile(
                         contentPadding: EdgeInsets.only(left: 30.0, right: 25.0),
@@ -91,13 +92,13 @@ class AppDrawer extends StatelessWidget {
                         title: Text('Assets', style: TextStyle(color: Colors.white, fontSize: 14)),
                         trailing: const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white, size: 15),
 
-                        // onTap: () {
-                        //   Navigator.pushAndRemoveUntil(
-                        //     context,
-                        //     MaterialPageRoute(builder: (context) => AssetsPage(image:user.image),), // image is passed as a parameter
-                        //         (Route<dynamic> route) => false,
-                        //   );
-                        // }
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => AssetsPage(image:user.image),), // image is passed as a parameter
+                                (Route<dynamic> route) => false,
+                          );
+                        }
                       ),
                       ListTile(
                         contentPadding: EdgeInsets.only(left: 30.0, right: 25.0),

@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'hamburger_menu.dart';
-// import 'assets.dart';
 
 
 class HomePage extends StatefulWidget {
