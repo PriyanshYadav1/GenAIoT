@@ -56,15 +56,6 @@ class _AssetsPageState extends State<AssetsPage> {
     filteredAssets = assets; // Initialize filtered assets with the full list
   }
 
-  // void filterAssets(String query) {
-  //   final filtered = assets.where((asset) {
-  //     return asset.title.toLowerCase().contains(query.toLowerCase());
-  //   }).toList();
-  //
-  //   setState(() {
-  //     filteredAssets = filtered;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
