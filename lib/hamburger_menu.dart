@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-
+import 'home.dart';
 
 class AppDrawer extends StatelessWidget {
   final User user = User(username: 'UserName', email: 'username@gmail.com', image: 'assets/images/userProfileImage.png');
@@ -127,11 +127,11 @@ class AppDrawer extends StatelessWidget {
                   leading: Icon(Icons.logout, color: Colors.white, size: 18),
                   title: Text('Log Out', style: TextStyle(color: Colors.white, fontSize: 14)),
                   onTap: () {
-                    // Navigator.pushAndRemoveUntil(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => HomePage()),
-                    //       (Route<dynamic> route) => false,
-                    // );
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                          (Route<dynamic> route) => false,
+                    );
                   },
                 ),
               ],
