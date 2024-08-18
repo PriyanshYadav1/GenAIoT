@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:genaiot/SignUp_Screen.dart';
+import 'package:genaiot/home.dart';
+import 'package:genaiot/passkey_Screen.dart';
 
 class login_Screen extends StatelessWidget {
   login_Screen({super.key});
@@ -23,77 +26,114 @@ class login_Screen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(80),
               child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset('assets/images/logo-no-background.png'),
-                    SizedBox(
-                      height: 60,
-                    ),
-                    const Text(
-                      "Welcome!",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Roboto',
-                          fontSize: 30),
-                    ),
-                    const SizedBox(
-                      height: 60,
-                    ),
-                    TextField(
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration(
-                        hintText: 'Email',
-                        border: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/images/logo-no-background.png'),
+                      SizedBox(
+                        height: 60,
                       ),
-                      controller: emailController,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextField(
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration(
-                        hintText: 'Password',
-                        border: OutlineInputBorder(
+                      const Text(
+                        "Welcome!",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Roboto',
+                            fontSize: 30),
+                      ),
+                      const SizedBox(
+                        height: 60,
+                      ),
+                      TextField(
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: 'Email',
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.grey),
                             borderRadius: BorderRadius.circular(30),
-                            borderSide: const BorderSide(color: Colors.white)),
-                        filled: true,
-                        fillColor: Colors.white,
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        controller: emailController,
                       ),
-                      controller: passwordController,
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(color: Colors.black),
+                      const SizedBox(
+                        height: 20,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Sign Up',
-                        style: TextStyle(color: Colors.white),
+                      TextField(
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: 'Password',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide:
+                                  const BorderSide(color: Colors.white)),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        controller: passwordController,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    )
-                  ],
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                        },
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                          child: Row(
+                        children: [
+                          SizedBox(
+                            width: 27,
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => passkey_Screen()));
+                            },
+                            child: const Text(
+                              'Passkey Login',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 40,
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => signUp_Screen()));
+                            },
+                            child: const Text(
+                              'Sign Up',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      )),
+                      const SizedBox(
+                        height: 25,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
