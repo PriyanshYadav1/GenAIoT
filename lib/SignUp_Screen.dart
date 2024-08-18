@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-class login_Screen extends StatelessWidget {
-  login_Screen({super.key});
-
+class signUp_Screen extends StatelessWidget {
   //Controllers for fields
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final signUP_EmailController = TextEditingController();
+  final signUP_PasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +27,10 @@ class login_Screen extends StatelessWidget {
                   children: [
                     Image.asset('assets/images/logo-no-background.png'),
                     SizedBox(
-                      height: 60,
+                      height: 80,
                     ),
                     const Text(
-                      "Welcome!",
+                      "Sign Up",
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -40,7 +38,7 @@ class login_Screen extends StatelessWidget {
                           fontSize: 30),
                     ),
                     const SizedBox(
-                      height: 60,
+                      height: 20,
                     ),
                     TextField(
                       textAlign: TextAlign.center,
@@ -53,7 +51,7 @@ class login_Screen extends StatelessWidget {
                         filled: true,
                         fillColor: Colors.white,
                       ),
-                      controller: emailController,
+                      controller: signUP_EmailController,
                     ),
                     const SizedBox(
                       height: 20,
@@ -68,7 +66,22 @@ class login_Screen extends StatelessWidget {
                         filled: true,
                         fillColor: Colors.white,
                       ),
-                      controller: passwordController,
+                      controller: signUP_PasswordController,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration(
+                        hintText: ' Retype Password',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.white)),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      controller: signUP_PasswordController,
                     ),
                     const SizedBox(
                       height: 40,
@@ -76,7 +89,7 @@ class login_Screen extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {},
                       child: const Text(
-                        'Login',
+                        'Register',
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
@@ -86,7 +99,7 @@ class login_Screen extends StatelessWidget {
                     TextButton(
                       onPressed: () {},
                       child: const Text(
-                        'Sign Up',
+                        'Login',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
