@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
 import 'assetsPage/assets.dart';
+import 'login_Screen.dart';
 
 class AppDrawer extends StatelessWidget {
   final User user = User(username: 'UserName', email: 'username@gmail.com', image: 'assets/images/userProfileImage.png');
@@ -130,7 +131,7 @@ class AppDrawer extends StatelessWidget {
                   onTap: () {
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
+                      MaterialPageRoute(builder: (context) => login_Screen()),
                           (Route<dynamic> route) => false,
                     );
                   },

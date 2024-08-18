@@ -32,25 +32,19 @@ class _AssetsPageState extends State<AssetsPage> {
     ListItem(title: 'Police Car Monitoring System 5', icon: Icons.directions_car),
     ListItem(title: 'Police Car Monitoring System 6', icon: Icons.directions_car),
     ListItem(title: 'Police Car Monitoring System 7', icon: Icons.directions_car),
-    ListItem(title: 'Police Car Monitoring System 1', icon: Icons.directions_car),
-    ListItem(title: 'Police Car Monitoring System 2', icon: Icons.directions_car),
-    ListItem(title: 'Police Car Monitoring System 3', icon: Icons.directions_car),
-    ListItem(title: 'Police Car Monitoring System 4', icon: Icons.directions_car),
-    ListItem(title: 'Police Car Monitoring System 5', icon: Icons.directions_car),
-    ListItem(title: 'Police Car Monitoring System 6', icon: Icons.directions_car),
-    ListItem(title: 'Police Car Monitoring System 7', icon: Icons.directions_car),
-    ListItem(title: 'Police Car Monitoring System 1', icon: Icons.directions_car),
-    ListItem(title: 'Police Car Monitoring System 2', icon: Icons.directions_car),
-    ListItem(title: 'Police Car Monitoring System 3', icon: Icons.directions_car),
-    ListItem(title: 'Police Car Monitoring System 4', icon: Icons.directions_car),
-    ListItem(title: 'Police Car Monitoring System 5', icon: Icons.directions_car),
-    ListItem(title: 'Police Car Monitoring System 6', icon: Icons.directions_car),
-    ListItem(title: 'Police Car Monitoring System 7', icon: Icons.directions_car),
+    ListItem(title: 'Police Car Monitoring System 8', icon: Icons.directions_car),
+    ListItem(title: 'Police Car Monitoring System 9', icon: Icons.directions_car),
+    ListItem(title: 'Police Car Monitoring System 10', icon: Icons.directions_car),
+    ListItem(title: 'Police Car Monitoring System 11', icon: Icons.directions_car),
+    ListItem(title: 'Police Car Monitoring System 12', icon: Icons.directions_car),
+    ListItem(title: 'Police Car Monitoring System 13', icon: Icons.directions_car),
+    ListItem(title: 'Police Car Monitoring System 14', icon: Icons.directions_car),
+    ListItem(title: 'Police Car Monitoring System 15', icon: Icons.directions_car),
   ];
 
   List<ListItem> filteredAssets = [];
 
-  @override
+
   void initState() {
     super.initState();
     filteredAssets = assets; // Initialize filtered assets with the full list
