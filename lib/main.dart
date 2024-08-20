@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:genaiot/login_Screen.dart';
 import 'assetsPage/assets.dart';
 import 'home.dart';
+import 'SignUp_Screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/login': (context) => login_Screen(),
+        '/signup': (context) => signUp_Screen(),
         '/home': (context) => HomePage(),
       },
       onGenerateRoute: (settings){
