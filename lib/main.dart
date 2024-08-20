@@ -4,7 +4,7 @@ import 'assetsPage/assets.dart';
 import 'home.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(passkey_Screen());
 }
 
 
@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/login': (context) => login_Screen(),
+        '/signup': (context) => signUp_Screen(),
         '/home': (context) => HomePage(),
       },
       onGenerateRoute: (settings){
