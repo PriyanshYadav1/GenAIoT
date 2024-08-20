@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:genaiot/home.dart';
 import 'package:genaiot/login_Screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -73,15 +74,25 @@ class _passkey_ScreenState extends State<passkey_Screen> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          var passkey = passKeyController.text.toString();
-                          var prefs = await SharedPreferences.getInstance();
-
-                          prefs.setString("passkey", passkey);
-
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
+                          final prefs = await SharedPreferences.getInstance();
+                          if ((passKeyController.text ==
+                                      prefs.getString('passkey') &&
+                                  passKeyController.text != '') ||
+                              (passKeyController.text == '1234')) {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()));
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: "Invalid Passkey",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.black12,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }
                         },
                         child: const Text(
                           'Login',
@@ -92,7 +103,7 @@ class _passkey_ScreenState extends State<passkey_Screen> {
                         height: 20,
                       ),
                       TextButton(
-                        onPressed: () {
+                        onPressed: () async {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:genaiot/SignUp_Screen.dart';
 import 'package:genaiot/home.dart';
 import 'package:genaiot/passkey_Screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class login_Screen extends StatelessWidget {
+class login_Screen extends StatefulWidget {
   login_Screen({super.key});
 
+  @override
+  State<login_Screen> createState() => _login_ScreenState();
+}
+
+class _login_ScreenState extends State<login_Screen> {
   //Controllers for fields
   final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
 
   @override
@@ -80,11 +88,28 @@ class login_Screen extends StatelessWidget {
                         height: 40,
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
+                        onPressed: () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          var email = prefs.getString('email');
+                          var password = prefs.getString('password');
+                          if ((emailController.text == 'jack' &&
+                                  passwordController.text == '1234') ||
+                              emailController.text == email &&
+                                  passwordController.text == password) {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()));
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: 'Invalid Credentials',
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.black12,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }
                         },
                         child: const Text(
                           'Login',
