@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:genaiot/login_Screen.dart';
 import 'assetsPage/assets.dart';
 import 'home.dart';
-import 'SignUp_Screen.dart'
+import 'SignUp_Screen.dart';
 
 void main() {
   runApp(MyApp());
