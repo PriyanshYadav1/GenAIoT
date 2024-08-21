@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:genaiot/SignUp_Screen.dart';
-import 'package:genaiot/home.dart';
-import 'package:genaiot/passkey_Screen.dart';
+import 'package:genaiot/views/SignUp_Screen.dart';
+import 'package:genaiot/views/home.dart';
+import 'package:genaiot/views/passkey_Screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class login_Screen extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'assets.dart';
+import '../views/assets.dart';
 
 //SearchDelegate class to handle search functionality for assets
 class AssetSearchDelegate extends SearchDelegate {

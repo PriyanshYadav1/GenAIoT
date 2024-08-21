@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:kdgaugeview/kdgaugeview.dart';
-import 'assetsPage/assets.dart';
+import 'assets.dart';
 
 
 

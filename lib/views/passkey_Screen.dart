@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:genaiot/home.dart';
-import 'package:genaiot/login_Screen.dart';
+import 'package:genaiot/views/home.dart';
+import 'package:genaiot/views/login_Screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class passkey_Screen extends StatefulWidget {
