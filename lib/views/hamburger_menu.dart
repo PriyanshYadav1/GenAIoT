@@ -1,11 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'home.dart';
 import 'assets.dart';
 import 'login_Screen.dart';
 
 class AppDrawer extends StatelessWidget {
-  final User user = User(username: 'UserName', email: 'username@gmail.com', image: 'assets/images/userProfileImage.png');
+  final User user = User(
+      username: 'UserName',
+      email: 'username@gmail.com',
+      image: 'assets/images/userProfileImage.png');
 
   AppDrawer({super.key});
 
@@ -21,7 +23,8 @@ class AppDrawer extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.zero,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 30.0, bottom: 25.0, top: 40.0),
+                    padding: const EdgeInsets.only(
+                        left: 30.0, bottom: 25.0, top: 40.0),
                     child: Row(
                       children: [
                         CircleAvatar(
@@ -67,56 +70,79 @@ class AppDrawer extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     children: <Widget>[
                       ListTile(
-                        contentPadding: const EdgeInsets.only(left: 30.0, right: 25.0),
-                        leading: const Icon(Icons.home, color: Colors.white, size: 22),
-                        title: const Text('Home', style: TextStyle(color: Colors.white, fontSize: 14)),
-                        trailing: const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white, size: 15),
+                        contentPadding:
+                            const EdgeInsets.only(left: 30.0, right: 25.0),
+                        leading: const Icon(Icons.home,
+                            color: Colors.white, size: 22),
+                        title: const Text('Home',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 14)),
+                        trailing: const Icon(Icons.arrow_forward_ios_rounded,
+                            color: Colors.white, size: 15),
                         onTap: () {
                           Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (context) => const HomePage()),
-                                (Route<dynamic> route) => false,
+                            MaterialPageRoute(
+                                builder: (context) => const HomePage()),
+                            (Route<dynamic> route) => false,
                           );
                         },
                       ),
                       ListTile(
-                        contentPadding: const EdgeInsets.only(left: 30.0, right: 25.0),
-                        leading: const Icon(Icons.person_outline_rounded, color: Colors.white, size: 22),
-                        title: const Text('My Profile', style: TextStyle(color: Colors.white, fontSize: 14)),
-                        trailing: const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white, size: 15),
-
-                        onTap: () {
-
-                        },
-                      ),
-                      ListTile(
-                        contentPadding: const EdgeInsets.only(left: 30.0, right: 25.0),
-                        leading: const Icon(Icons.settings_outlined, color: Colors.white, size: 22),
-                        title: const Text('Assets', style: TextStyle(color: Colors.white, fontSize: 14)),
-                        trailing: const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white, size: 15),
-
-                        onTap: () {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => AssetsPage(image:user.image),), // image is passed as a parameter
-                                (Route<dynamic> route) => false,
-                          );
-                        }
-                      ),
-                      ListTile(
-                        contentPadding: const EdgeInsets.only(left: 30.0, right: 25.0),
-                        leading: const Icon(Icons.cloud_queue, color: Colors.white, size: 22),
-                        title: const Text('Sites', style: TextStyle(color: Colors.white, fontSize: 14)),
-                        trailing: const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white, size: 15),
-
+                        contentPadding:
+                            const EdgeInsets.only(left: 30.0, right: 25.0),
+                        leading: const Icon(Icons.person_outline_rounded,
+                            color: Colors.white, size: 22),
+                        title: const Text('My Profile',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 14)),
+                        trailing: const Icon(Icons.arrow_forward_ios_rounded,
+                            color: Colors.white, size: 15),
                         onTap: () {},
                       ),
                       ListTile(
-                        contentPadding: const EdgeInsets.only(left: 30.0, right: 25.0),
-                        leading: const Icon(Icons.confirmation_num_outlined, color: Colors.white, size: 22),
-                        title: const Text('Tickets', style: TextStyle(color: Colors.white, fontSize: 14)),
-                        trailing: const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white, size: 15),
-
+                          contentPadding:
+                              const EdgeInsets.only(left: 30.0, right: 25.0),
+                          leading: const Icon(Icons.settings_outlined,
+                              color: Colors.white, size: 22),
+                          title: const Text('Assets',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 14)),
+                          trailing: const Icon(Icons.arrow_forward_ios_rounded,
+                              color: Colors.white, size: 15),
+                          onTap: () {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    AssetsPage(image: user.image),
+                              ),
+                              // image is passed as a parameter
+                              (Route<dynamic> route) => false,
+                            );
+                          }),
+                      ListTile(
+                        contentPadding:
+                            const EdgeInsets.only(left: 30.0, right: 25.0),
+                        leading: const Icon(Icons.cloud_queue,
+                            color: Colors.white, size: 22),
+                        title: const Text('Sites',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 14)),
+                        trailing: const Icon(Icons.arrow_forward_ios_rounded,
+                            color: Colors.white, size: 15),
+                        onTap: () {},
+                      ),
+                      ListTile(
+                        contentPadding:
+                            const EdgeInsets.only(left: 30.0, right: 25.0),
+                        leading: const Icon(Icons.confirmation_num_outlined,
+                            color: Colors.white, size: 22),
+                        title: const Text('Tickets',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 14)),
+                        trailing: const Icon(Icons.arrow_forward_ios_rounded,
+                            color: Colors.white, size: 15),
                         onTap: () {},
                       ),
                     ],
@@ -127,21 +153,23 @@ class AppDrawer extends StatelessWidget {
                   color: Colors.white,
                 ),
                 ListTile(
-                  contentPadding: const EdgeInsets.only(left: 30.0, right: 25.0),
-                  leading: const Icon(Icons.logout, color: Colors.white, size: 18),
-                  title: const Text('Log Out', style: TextStyle(color: Colors.white, fontSize: 14)),
+                  contentPadding:
+                      const EdgeInsets.only(left: 30.0, right: 25.0),
+                  leading:
+                      const Icon(Icons.logout, color: Colors.white, size: 18),
+                  title: const Text('Log Out',
+                      style: TextStyle(color: Colors.white, fontSize: 14)),
                   onTap: () {
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => const login_Screen()),
-                          (Route<dynamic> route) => false,
+                      MaterialPageRoute(builder: (context) => login_Screen()),
+                      (Route<dynamic> route) => false,
                     );
                   },
                 ),
               ],
             ),
           ),
-
         ],
       ),
     );
@@ -149,11 +177,9 @@ class AppDrawer extends StatelessWidget {
 }
 
 class User {
-   late final String username;
-   late final String email;
-   late final String image;
+  late final String username;
+  late final String email;
+  late final String image;
 
-   User({required this.username, required this.email, required this.image});
-
-
+  User({required this.username, required this.email, required this.image});
 }
