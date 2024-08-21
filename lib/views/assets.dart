@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
-import '../scr_5_asset_stats_representation.dart';
-import 'asset_search.dart';
-import '../hamburger_menu.dart';
+import 'scr_5_asset_stats_representation.dart';
+import '../controllers/asset_search.dart';
+import 'hamburger_menu.dart';
 
 
 

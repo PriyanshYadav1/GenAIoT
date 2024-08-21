@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:genaiot/login_Screen.dart';
-import 'assetsPage/assets.dart';
-import 'home.dart';
-import 'SignUp_Screen.dart';
+import 'package:genaiot/views/login_Screen.dart';
+import 'views/assets.dart';
+import 'views/home.dart';
+import 'views/SignUp_Screen.dart';
 
 void main() {
   runApp(MyApp());
