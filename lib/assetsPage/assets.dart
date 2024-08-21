@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
+import '../scr_5_asset_stats_representation.dart';
 import 'asset_search.dart';
 import '../hamburger_menu.dart';
-import '../scr_5_asset_stats_representation.dart';
+
+
 
 class AssetsPage extends StatefulWidget {
 
@@ -47,7 +49,7 @@ class _AssetsPageState extends State<AssetsPage> {
 
   void initState() {
     super.initState();
-     filteredAssets = assets; // Initialize filtered assets with the full list
+    filteredAssets = assets; // Initialize filtered assets with the full list
   }
 
 
@@ -110,10 +112,10 @@ class _AssetsPageState extends State<AssetsPage> {
               title: Text(item.title),
               trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,),
                   onTap: () {
-                   // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => State_Representation(title: item.title ),), // title is passed as a parameter
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => StatRepresentation(title: item.title ),), // image is passed as a parameter
+                    );
                   }
                         ),
             );

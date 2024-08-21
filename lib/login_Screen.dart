@@ -138,7 +138,7 @@ class _login_ScreenState extends State<login_Screen> {
                             ),
                           ),
                           SizedBox(
-                            width: 40,
+                            width: 20,
                           ),
                           TextButton(
                             onPressed: () {
