@@ -9,9 +9,8 @@ import 'hamburger_menu.dart';
 class AssetsPage extends StatefulWidget {
 
   final String image;
-  AssetsPage({required this.image});
+  const AssetsPage({super.key, required this.image});
 
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Assets',
@@ -47,6 +46,7 @@ class _AssetsPageState extends State<AssetsPage> {
   List<ListItem> filteredAssets = [];
 
 
+  @override
   void initState() {
     super.initState();
     filteredAssets = assets; // Initialize filtered assets with the full list
@@ -62,7 +62,7 @@ class _AssetsPageState extends State<AssetsPage> {
           builder: (context) => Row(
             children: [
               IconButton(
-                icon: Icon(Icons.menu),
+                icon: const Icon(Icons.menu),
                 onPressed: () {
                   Scaffold.of(context).openDrawer();
                 },
@@ -79,7 +79,7 @@ class _AssetsPageState extends State<AssetsPage> {
             ],
           ),
         ),
-        title: Text('Assets',
+        title: const Text('Assets',
           style: TextStyle(fontWeight: FontWeight.bold),),
 
         centerTitle: true,
@@ -87,7 +87,7 @@ class _AssetsPageState extends State<AssetsPage> {
           Padding(
             padding: const EdgeInsets.only(right: 15.0),
             child: IconButton(
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
               onPressed: () {
                 showSearch(
                   context: context,
@@ -110,7 +110,7 @@ class _AssetsPageState extends State<AssetsPage> {
               hoverColor: Colors.grey[400],
               leading: Icon(item.icon),
               title: Text(item.title),
-              trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,),
+              trailing: const Icon(Icons.arrow_forward_ios_rounded,size: 20,),
                   onTap: () {
                     Navigator.push(
                       context,

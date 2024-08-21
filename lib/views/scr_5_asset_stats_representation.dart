@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:kdgaugeview/kdgaugeview.dart';
-import 'assets.dart';
 
 
 
 class StatRepresentation extends StatefulWidget {
   final String title;
-  StatRepresentation({required this.title});
+  const StatRepresentation({super.key, required this.title});
 
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,10 +33,10 @@ class _RepresentationState extends State<StatRepresentation> {
       body: Container(
         child: Column(
           children: [
-            SizedBox(width: double.infinity,height: 20),
+            const SizedBox(width: double.infinity,height: 20),
             Row(
               children: <Widget>[
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Expanded(
                     child: Stack(
                       fit: StackFit.loose,
@@ -51,7 +49,7 @@ class _RepresentationState extends State<StatRepresentation> {
                         // ),
                         Container(
                           decoration: BoxDecoration(border:Border.all(width: 1.2,color: Colors.grey.shade300),borderRadius: BorderRadius.circular(5),color: Colors.white),
-                          padding: EdgeInsetsDirectional.all(20),
+                          padding: const EdgeInsetsDirectional.all(20),
                           //color: Colors.white,
                           height: 200,
                           width: 200,
@@ -72,26 +70,26 @@ class _RepresentationState extends State<StatRepresentation> {
                             //     )
                             //   ],
                             // ),
-                            duration: Duration(seconds: 1),
+                            duration: const Duration(seconds: 1),
                             unitOfMeasurement: "PSI",
-                            unitOfMeasurementTextStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,height: -10,color: Colors.grey,),
-                            speedTextStyle: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,height: 2,color: Colors.lightBlueAccent),
+                            unitOfMeasurementTextStyle: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,height: -10,color: Colors.grey,),
+                            speedTextStyle: const TextStyle(fontSize: 25,fontWeight: FontWeight.bold,height: 2,color: Colors.lightBlueAccent),
                             innerCirclePadding: 7,
                             subDivisionCircleColors: Colors.white,
                             divisionCircleColors: Colors.white,
                             //inactiveGaugeColor: Colors.white,
-                            minMaxTextStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,height: -8,color: Colors.grey),
+                            minMaxTextStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.bold,height: -8,color: Colors.grey),
                           ),
                         ),
                       ],
                     )
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
 
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(border:Border.all(width: 1.2,color: Colors.grey.shade300,),borderRadius: BorderRadius.circular(5),color: Colors.white),
-                    padding: EdgeInsetsDirectional.all(20),
+                    padding: const EdgeInsetsDirectional.all(20),
                     //color: Colors.white,
                     height: 200,
                     width: 200,
@@ -102,22 +100,22 @@ class _RepresentationState extends State<StatRepresentation> {
                       gaugeWidth: 12,
                       activeGaugeColor: Colors.lightBlue,
                       speed: 167,
-                      duration: Duration(seconds: 1),
+                      duration: const Duration(seconds: 1),
                       unitOfMeasurement: "F",
-                      unitOfMeasurementTextStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,height: -10,color: Colors.grey,),
-                      speedTextStyle: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,height: 2,color: Colors.lightBlueAccent),
+                      unitOfMeasurementTextStyle: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,height: -10,color: Colors.grey,),
+                      speedTextStyle: const TextStyle(fontSize: 25,fontWeight: FontWeight.bold,height: 2,color: Colors.lightBlueAccent),
                       innerCirclePadding: 7,
                       subDivisionCircleColors: Colors.white,
                       divisionCircleColors: Colors.white,
                       //inactiveGaugeColor: Colors.white,
-                      minMaxTextStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,height: -8,color: Colors.grey),
+                      minMaxTextStyle: const TextStyle(fontSize: 15,fontWeight: FontWeight.bold,height: -8,color: Colors.grey),
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
               ],
             ),
-            SizedBox(height: 3,width: double.infinity),
+            const SizedBox(height: 3,width: double.infinity),
             Container(
               //alignment: AlignmentDirectional(-0.65,0),
               child: Expanded(
@@ -125,44 +123,44 @@ class _RepresentationState extends State<StatRepresentation> {
                   padding: EdgeInsets.zero,
                   children: <Widget>[
                     ListTile(
-                      contentPadding: EdgeInsets.only(left: 30.0, right: 30.0),
+                      contentPadding: const EdgeInsets.only(left: 30.0, right: 30.0),
                       leading: Text("Hours",style: TextStyle(fontSize: 17,color: Colors.grey.shade600)),
-                      trailing: Text("12570 Hours",style: TextStyle(fontSize: 17,color: Colors.black)),
+                      trailing: const Text("12570 Hours",style: TextStyle(fontSize: 17,color: Colors.black)),
                     ),
                     ListTile(
-                      contentPadding: EdgeInsets.only(left: 30.0, right: 30.0),
+                      contentPadding: const EdgeInsets.only(left: 30.0, right: 30.0),
                       leading: Text("Hours Left To Service",style: TextStyle(fontSize: 17,color: Colors.grey.shade600)),
-                      trailing: Text("2430 Hours",style: TextStyle(fontSize: 17,color: Colors.black)),
+                      trailing: const Text("2430 Hours",style: TextStyle(fontSize: 17,color: Colors.black)),
                     ),
                     ListTile(
-                      contentPadding: EdgeInsets.only(left: 30.0, right: 30.0),
+                      contentPadding: const EdgeInsets.only(left: 30.0, right: 30.0),
                       leading: Text("Voltage",style: TextStyle(fontSize: 17,color: Colors.grey.shade600)),
-                      trailing: Text("472Ac-482AC/665DC",style: TextStyle(fontSize: 17,color: Colors.black)),
+                      trailing: const Text("472Ac-482AC/665DC",style: TextStyle(fontSize: 17,color: Colors.black)),
                     ),
                     ListTile(
-                      contentPadding: EdgeInsets.only(left: 30.0, right: 30.0),
+                      contentPadding: const EdgeInsets.only(left: 30.0, right: 30.0),
                       leading: Text("Hours",style: TextStyle(fontSize: 17,color: Colors.grey.shade600)),
-                      trailing: Text("12570 Hours",style: TextStyle(fontSize: 17,color: Colors.black)),
+                      trailing: const Text("12570 Hours",style: TextStyle(fontSize: 17,color: Colors.black)),
                     ),
                     ListTile(
-                      contentPadding: EdgeInsets.only(left: 30.0, right: 30.0),
+                      contentPadding: const EdgeInsets.only(left: 30.0, right: 30.0),
                       leading: Text("Hours Left To Service",style: TextStyle(fontSize: 17,color: Colors.grey.shade600)),
-                      trailing: Text("2430 Hours",style: TextStyle(fontSize: 17,color: Colors.black)),
+                      trailing: const Text("2430 Hours",style: TextStyle(fontSize: 17,color: Colors.black)),
                     ),
                     ListTile(
-                      contentPadding: EdgeInsets.only(left: 30.0, right: 30.0),
+                      contentPadding: const EdgeInsets.only(left: 30.0, right: 30.0),
                       leading: Text("Voltage",style: TextStyle(fontSize: 17,color: Colors.grey.shade600)),
-                      trailing: Text("472Ac-482AC/665DC",style: TextStyle(fontSize: 17,color: Colors.black)),
+                      trailing: const Text("472Ac-482AC/665DC",style: TextStyle(fontSize: 17,color: Colors.black)),
                     ),
                     ListTile(
-                      contentPadding: EdgeInsets.only(left: 30.0, right: 30.0),
+                      contentPadding: const EdgeInsets.only(left: 30.0, right: 30.0),
                       leading: Text("Average Frequency",style: TextStyle(fontSize: 17,color: Colors.grey.shade600)),
-                      trailing: Text("12570 Hours",style: TextStyle(fontSize: 17,color: Colors.black)),
+                      trailing: const Text("12570 Hours",style: TextStyle(fontSize: 17,color: Colors.black)),
                     ),
                     ListTile(
-                      contentPadding: EdgeInsets.only(left: 30.0, right: 30.0),
+                      contentPadding: const EdgeInsets.only(left: 30.0, right: 30.0),
                       leading: Text("Voltage",style: TextStyle(fontSize: 17,color: Colors.grey.shade600)),
-                      trailing: Text("472Ac-482AC/665DC",style: TextStyle(fontSize: 17,color: Colors.black)),
+                      trailing: const Text("472Ac-482AC/665DC",style: TextStyle(fontSize: 17,color: Colors.black)),
                     ),
                   ],
                 ),
@@ -172,37 +170,37 @@ class _RepresentationState extends State<StatRepresentation> {
                 flex: 0,
                 child: Row(
                   children: [
-                    SizedBox(width: 13.5),
+                    const SizedBox(width: 13.5),
                     ElevatedButton(
-                      child: Text('MetaData',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black),),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey.shade300
                       ),
                       onPressed: () {
                         //setState((){})
                       },
+                      child: const Text('MetaData',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black),),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     ElevatedButton(
-                      child: Text('Live Data',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black),),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey.shade300
                       ),
                       onPressed: () {},
+                      child: const Text('Live Data',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black),),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     ElevatedButton(
-                      child: Text('Live Action',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black),),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey.shade300
                       ),
                       onPressed: () {},
+                      child: const Text('Live Action',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black),),
                     ),
-                    SizedBox(width: 10)
+                    const SizedBox(width: 10)
                   ],
                 )
             ),
-            SizedBox(height: 10,width: double.infinity)
+            const SizedBox(height: 10,width: double.infinity)
           ],
         ),
       ),

@@ -5,11 +5,13 @@ import 'views/home.dart';
 import 'views/SignUp_Screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +19,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       routes: {
-        '/login': (context) => login_Screen(),
-        '/signup': (context) => signUp_Screen(),
-        '/home': (context) => HomePage(),
+        '/login': (context) => const login_Screen(),
+        '/signup': (context) => const signUp_Screen(),
+        '/home': (context) => const HomePage(),
       },
       onGenerateRoute: (settings){
         if(settings.name == '/assets'){
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
             return AssetsPage(image: image);
           },);
         }
+        return null;
       },
     );
   }

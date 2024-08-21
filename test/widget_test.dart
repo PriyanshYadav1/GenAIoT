@@ -4,7 +4,7 @@ import 'package:genaiot/views/login_Screen.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(login_Screen());
+    await tester.pumpWidget(const login_Screen());
   });
 }
 // // This is a basic Flutter widget test.

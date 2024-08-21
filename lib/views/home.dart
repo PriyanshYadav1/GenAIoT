@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'hamburger_menu.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   HomePageState createState() => HomePageState();
 }
@@ -17,7 +18,7 @@ class HomePageState extends State<HomePage> {
             builder: (context) => Row(
               children: [
                 IconButton(
-                  icon: Icon(Icons.menu),
+                  icon: const Icon(Icons.menu),
                   onPressed: () {
                     Scaffold.of(context).openDrawer();
                   },
@@ -25,7 +26,7 @@ class HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          title: Text(
+          title: const Text(
             'Home',
             style: TextStyle(
               fontWeight: FontWeight.bold,

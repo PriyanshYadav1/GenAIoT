@@ -5,6 +5,8 @@ import 'package:genaiot/views/login_Screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class passkey_Screen extends StatefulWidget {
+  const passkey_Screen({super.key});
+
   @override
   State<passkey_Screen> createState() => _passkey_ScreenState();
 }
@@ -36,13 +38,13 @@ class _passkey_ScreenState extends State<passkey_Screen> {
               padding: const EdgeInsets.all(80),
               child: Center(
                 child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset('assets/images/logo-no-background.png'),
-                      SizedBox(
+                      const SizedBox(
                         height: 80,
                       ),
                       const Text(
@@ -82,7 +84,7 @@ class _passkey_ScreenState extends State<passkey_Screen> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomePage()));
+                                    builder: (context) => const HomePage()));
                           } else {
                             Fluttertoast.showToast(
                                 msg: "Invalid Passkey",
@@ -107,7 +109,7 @@ class _passkey_ScreenState extends State<passkey_Screen> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => login_Screen()));
+                                  builder: (context) => const login_Screen()));
                         },
                         child: const Text(
                           'Login with credentials',

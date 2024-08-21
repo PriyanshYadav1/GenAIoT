@@ -15,7 +15,7 @@ class AssetSearchDelegate extends SearchDelegate {
       Padding(
         padding: const EdgeInsets.only(right: 15.0),
         child: IconButton(
-          icon: Icon(Icons.clear),
+          icon: const Icon(Icons.clear),
           onPressed: () {
             query = '';
             showResults(context);
@@ -30,7 +30,7 @@ class AssetSearchDelegate extends SearchDelegate {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
       onPressed: () {
         close(context, null);
       },
@@ -52,7 +52,7 @@ class AssetSearchDelegate extends SearchDelegate {
           child: ListTile(
             leading: Icon(item.icon),
             title: Text(item.title),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 20,
             ),
@@ -78,7 +78,7 @@ class AssetSearchDelegate extends SearchDelegate {
           child: ListTile(
             leading: Icon(item.icon),
             title: Text(item.title),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 20,
             ),

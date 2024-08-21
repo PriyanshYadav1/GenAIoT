@@ -6,7 +6,7 @@ import 'package:genaiot/views/passkey_Screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class login_Screen extends StatefulWidget {
-  login_Screen({super.key});
+  const login_Screen({super.key});
 
   @override
   State<login_Screen> createState() => _login_ScreenState();
@@ -35,13 +35,13 @@ class _login_ScreenState extends State<login_Screen> {
               padding: const EdgeInsets.all(80),
               child: Center(
                 child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset('assets/images/logo-no-background.png'),
-                      SizedBox(
+                      const SizedBox(
                         height: 60,
                       ),
                       const Text(
@@ -99,7 +99,7 @@ class _login_ScreenState extends State<login_Screen> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomePage()));
+                                    builder: (context) => const HomePage()));
                           } else {
                             Fluttertoast.showToast(
                                 msg: 'Invalid Credentials',
@@ -122,7 +122,7 @@ class _login_ScreenState extends State<login_Screen> {
                       Container(
                           child: Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 27,
                           ),
                           TextButton(
@@ -130,14 +130,14 @@ class _login_ScreenState extends State<login_Screen> {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => passkey_Screen()));
+                                      builder: (context) => const passkey_Screen()));
                             },
                             child: const Text(
                               'Passkey Login',
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                           ),
                           TextButton(
@@ -145,7 +145,7 @@ class _login_ScreenState extends State<login_Screen> {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => signUp_Screen()));
+                                      builder: (context) => const signUp_Screen()));
                             },
                             child: const Text(
                               'Sign Up',

@@ -4,6 +4,8 @@ import 'package:genaiot/views/login_Screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class signUp_Screen extends StatefulWidget {
+  const signUp_Screen({super.key});
+
   @override
   State<signUp_Screen> createState() => _signUp_ScreenState();
 }
@@ -35,13 +37,13 @@ class _signUp_ScreenState extends State<signUp_Screen> {
               padding: const EdgeInsets.all(80),
               child: Center(
                 child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset('assets/images/logo-no-background.png'),
-                      SizedBox(
+                      const SizedBox(
                         height: 50,
                       ),
                       const Text(
@@ -140,7 +142,7 @@ class _signUp_ScreenState extends State<signUp_Screen> {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => login_Screen()));
+                                      builder: (context) => const login_Screen()));
                               Fluttertoast.showToast(
                                   msg: 'Registration Successful',
                                   toastLength: Toast.LENGTH_SHORT,
@@ -183,7 +185,7 @@ class _signUp_ScreenState extends State<signUp_Screen> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => login_Screen()));
+                                  builder: (context) => const login_Screen()));
                         },
                         child: const Text(
                           'Login',
