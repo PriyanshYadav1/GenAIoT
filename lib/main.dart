@@ -8,10 +8,8 @@ void main() {
   runApp(const MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +17,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       routes: {
-        '/login': (context) => const login_Screen(),
-        '/signup': (context) => const signUp_Screen(),
-        '/home': (context) => const HomePage(),
+        '/login': (context) => login_Screen(),
+        '/signup': (context) => signUp_Screen(),
+        '/home': (context) => HomePage(),
       },
-      onGenerateRoute: (settings){
-        if(settings.name == '/assets'){
+      onGenerateRoute: (settings) {
+        if (settings.name == '/assets') {
           final String image = settings.arguments as String;
-          return MaterialPageRoute(builder: (context){
-            return AssetsPage(image: image);
-          },);
+          return MaterialPageRoute(
+            builder: (context) {
+              return AssetsPage(image: image);
+            },
+          );
         }
         return null;
       },
