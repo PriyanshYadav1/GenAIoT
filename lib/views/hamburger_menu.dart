@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'app_list.dart';
 import 'home.dart';
-import 'assets.dart';
 import 'login_Screen.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -104,20 +103,20 @@ class AppDrawer extends StatelessWidget {
 
                         },
                       ),
-                      ListTile(
-                        contentPadding: const EdgeInsets.only(left: 30.0, right: 25.0),
-                        leading: const Icon(Icons.settings_outlined, color: Colors.white, size: 22),
-                        title: const Text('Assets', style: TextStyle(color: Colors.white, fontSize: 14)),
-                        trailing: const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white, size: 15),
-
-                        onTap: () {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => const AssetsPage( appName: 'appName',),), // image is passed as a parameter
-                                (Route<dynamic> route) => false,
-                          );
-                        }
-                      ),
+                      // ListTile(
+                      //   contentPadding: const EdgeInsets.only(left: 30.0, right: 25.0),
+                      //   leading: const Icon(Icons.settings_outlined, color: Colors.white, size: 22),
+                      //   title: const Text('Assets', style: TextStyle(color: Colors.white, fontSize: 14)),
+                      //   trailing: const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white, size: 15),
+                      //
+                      //   onTap: () {
+                      //     Navigator.pushAndRemoveUntil(
+                      //       context,
+                      //       MaterialPageRoute(builder: (context) => const AssetsPage( appName: 'appName',),), // image is passed as a parameter
+                      //           (Route<dynamic> route) => false,
+                      //     );
+                      //   }
+                      // ),
                       ListTile(
                         contentPadding: const EdgeInsets.only(left: 30.0, right: 25.0),
                         leading: const Icon(Icons.cloud_queue, color: Colors.white, size: 22),

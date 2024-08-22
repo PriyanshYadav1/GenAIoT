@@ -82,25 +82,36 @@ class _AppsGridState extends State<AppsGrid> {
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
-                        child: Image.network(
-                          app.imageUrl,
-                          fit: BoxFit.cover,
-                           height: 180,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width*0.7,
+                    height: MediaQuery.of(context).size.height*0.25,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(15.0),
+                          child: AspectRatio(
+                            aspectRatio: 16/13,
+                            child: Image.network(
+                              app.imageUrl,
+                              fit: BoxFit.cover,
+                             width: double.infinity,
+                             height: MediaQuery.of(context).size.height*0.25,
+                             //  height: 170,
+                            ),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          app.name,
-                          style: const TextStyle(fontSize: 16.0),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            app.name,
+                            style: const TextStyle(fontSize: 16.0),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               );
