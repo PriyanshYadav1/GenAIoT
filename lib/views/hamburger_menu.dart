@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'app_list.dart';
 import 'home.dart';
 import 'assets.dart';
 import 'login_Screen.dart';
@@ -80,6 +81,20 @@ class AppDrawer extends StatelessWidget {
                         },
                       ),
                       ListTile(
+                          contentPadding: const EdgeInsets.only(left: 30.0, right: 25.0),
+                          leading: const Icon(Icons.app_registration_rounded, color: Colors.white, size: 22),
+                          title: const Text('Apps', style: TextStyle(color: Colors.white, fontSize: 14)),
+                          trailing: const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white, size: 15),
+
+                          onTap: () {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) =>  const AppsGrid(),), // image is passed as a parameter
+                                  (Route<dynamic> route) => false,
+                            );
+                          }
+                      ),
+                      ListTile(
                         contentPadding: const EdgeInsets.only(left: 30.0, right: 25.0),
                         leading: const Icon(Icons.person_outline_rounded, color: Colors.white, size: 22),
                         title: const Text('My Profile', style: TextStyle(color: Colors.white, fontSize: 14)),
@@ -98,7 +113,7 @@ class AppDrawer extends StatelessWidget {
                         onTap: () {
                           Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (context) => AssetsPage(image:user.image),), // image is passed as a parameter
+                            MaterialPageRoute(builder: (context) => const AssetsPage( appName: 'appName',),), // image is passed as a parameter
                                 (Route<dynamic> route) => false,
                           );
                         }

@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 
-class Assets_ListItem {
+import '../views/assets.dart';
+
+class ListItem {
   final String title;
   final IconData icon;
+  final AssetStatus status;
 
-  Assets_ListItem({required this.title, required this.icon});
+  ListItem({required this.title, required this.icon, required this.status});
+
 }

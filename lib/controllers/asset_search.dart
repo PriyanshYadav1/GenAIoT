@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../views/assets.dart';
+import '../models/assets_model.dart';
+import '../views/scr_5_asset_stats_representation.dart';
 
 //SearchDelegate class to handle search functionality for assets
 class AssetSearchDelegate extends SearchDelegate {
   final List<ListItem> assets;
 
   AssetSearchDelegate({required this.assets});
+
 
   // Actions for the appbar,such as clearing the query
   @override
@@ -50,13 +53,18 @@ class AssetSearchDelegate extends SearchDelegate {
         final item = results[index];
         return Card(
           child: ListTile(
-            leading: Icon(item.icon),
+            leading: Icon(item.icon,color: _getIconColor(item.status),),
             title: Text(item.title),
             trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 20,
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => StatRepresentation(title: item.title ),), // image is passed as a parameter
+              );
+            },
           ),
         );
       },
@@ -76,19 +84,35 @@ class AssetSearchDelegate extends SearchDelegate {
         final item = suggestions[index];
         return Card(
           child: ListTile(
-            leading: Icon(item.icon),
+            leading: Icon(item.icon, color: _getIconColor(item.status),),
             title: Text(item.title),
             trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 20,
             ),
             onTap: () {
-              query = suggestions[index].title;
-              showResults(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => StatRepresentation(title: item.title ),), // image is passed as a parameter
+              );
             },
           ),
         );
       },
     );
   }
+  Color _getIconColor(AssetStatus status) {
+    switch (status) {
+      case AssetStatus.connected:
+        return Colors.green;
+      case AssetStatus.disconnected:
+        return Colors.red;
+      case AssetStatus.off:
+        return Colors.grey;
+      default:
+        return Colors.black;
+    }
+  }
 }
+
+
