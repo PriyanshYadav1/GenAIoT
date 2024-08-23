@@ -91,7 +91,7 @@ class _AppsGridState extends State<AppsGrid> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(15.0),
                           child: AspectRatio(
-                            aspectRatio: 16/13,
+                            aspectRatio: 16/12,
                             child: Image.network(
                               app.imageUrl,
                               fit: BoxFit.cover,
