@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 
-import 'assets.dart';
-
+import '../views/assets.dart';
+import '../models/assets_model.dart';
+import '../views/scr_5_asset_stats_representation.dart';
 
 //SearchDelegate class to handle search functionality for assets
 class AssetSearchDelegate extends SearchDelegate {
@@ -10,14 +10,15 @@ class AssetSearchDelegate extends SearchDelegate {
 
   AssetSearchDelegate({required this.assets});
 
- // Actions for the appbar,such as clearing the query
+
+  // Actions for the appbar,such as clearing the query
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
       Padding(
         padding: const EdgeInsets.only(right: 15.0),
         child: IconButton(
-          icon: Icon(Icons.clear),
+          icon: const Icon(Icons.clear),
           onPressed: () {
             query = '';
             showResults(context);
@@ -27,16 +28,18 @@ class AssetSearchDelegate extends SearchDelegate {
       ),
     ];
   }
+
 //Leading widget for the appbar, here it is a back button
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
       onPressed: () {
         close(context, null);
       },
     );
   }
+
 // Shows the search results based on the query(calls when users submit the query by pressing search button)
   @override
   Widget buildResults(BuildContext context) {
@@ -50,11 +53,17 @@ class AssetSearchDelegate extends SearchDelegate {
         final item = results[index];
         return Card(
           child: ListTile(
-            leading: Icon(item.icon),
+            leading: Icon(item.icon,color: _getIconColor(item.status),),
             title: Text(item.title),
-            trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,),
+            trailing: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 20,
+            ),
             onTap: () {
-
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => StatRepresentation(title: item.title ),), // image is passed as a parameter
+              );
             },
           ),
         );
@@ -75,16 +84,35 @@ class AssetSearchDelegate extends SearchDelegate {
         final item = suggestions[index];
         return Card(
           child: ListTile(
-            leading: Icon(item.icon),
+            leading: Icon(item.icon, color: _getIconColor(item.status),),
             title: Text(item.title),
-            trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,),
+            trailing: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 20,
+            ),
             onTap: () {
-              query = suggestions[index].title;
-              showResults(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => StatRepresentation(title: item.title ),), // image is passed as a parameter
+              );
             },
           ),
         );
       },
     );
   }
+  Color _getIconColor(AssetStatus status) {
+    switch (status) {
+      case AssetStatus.connected:
+        return Colors.green;
+      case AssetStatus.disconnected:
+        return Colors.red;
+      case AssetStatus.off:
+        return Colors.grey;
+      default:
+        return Colors.black;
+    }
+  }
 }
+
+
