@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:genaiot/views/globals.dart';
 import 'package:genaiot/views/home.dart';
 import 'package:genaiot/views/login_Screen.dart';
+import 'package:msal_auth/models/msal_exception.dart';
+import 'package:msal_auth/msal_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class passkey_Screen extends StatefulWidget {
@@ -14,11 +19,42 @@ class passkey_Screen extends StatefulWidget {
 class _passkey_ScreenState extends State<passkey_Screen> {
   //Controllers for fields
   final passKeyController = TextEditingController();
+  final _clientId = clientID;
+  final _tenantId = tenantId;
+  late final _authority =
+      'https://login.microsoftonline.com/$_tenantId/oauth2/v2.0/authorize';
+  final _scopes = <String>[
+    'https://graph.microsoft.com/user.read',
+    // Add other scopes here if required.
+  ];
 
   @override
   void initState() {
     super.initState();
     getValue();
+  }
+
+  Future<MsalAuth> getMsalAuth() async {
+    return MsalAuth.createPublicClientApplication(
+      clientId: _clientId,
+      scopes: _scopes,
+      androidConfig: AndroidConfig(
+        configFilePath: 'assets/msal_config.json',
+        tenantId: _tenantId,
+      ),
+      iosConfig: IosConfig(authority: _authority),
+    );
+  }
+
+  Future<void> logout() async {
+    try {
+      final msalAuth = await getMsalAuth();
+      await msalAuth.logout();
+    } on MsalException catch (e) {
+      log('Msal exception with error: ${e.errorMessage}');
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   @override
@@ -106,13 +142,16 @@ class _passkey_ScreenState extends State<passkey_Screen> {
                       ),
                       TextButton(
                         onPressed: () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.setString('Token', '');
+                          logout();
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const login_Screen()));
                         },
                         child: const Text(
-                          'Login with credentials',
+                          'Forgot Passkey?',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

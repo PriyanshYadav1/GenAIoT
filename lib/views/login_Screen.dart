@@ -1,8 +1,12 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:genaiot/views/SignUp_Screen.dart';
-import 'package:genaiot/views/home.dart';
+import 'package:genaiot/views/passkeyCreation_Screen.dart';
 import 'package:genaiot/views/passkey_Screen.dart';
+import 'package:msal_auth/models/android_config.dart';
+import 'package:msal_auth/models/ios_config.dart';
+import 'package:msal_auth/models/msal_exception.dart';
+import 'package:msal_auth/msal_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class login_Screen extends StatefulWidget {
@@ -17,6 +21,54 @@ class _login_ScreenState extends State<login_Screen> {
   final emailController = TextEditingController();
 
   final passwordController = TextEditingController();
+
+  // CREDENTIALS FOR AUTH
+  final _clientId = '6fd20d17-de8d-4a86-ade1-7646d14a60d4';
+  final _tenantId = 'c8401f36-1f3c-4dba-b027-b707446a396d';
+  late final _authority =
+      'https://login.microsoftonline.com/$_tenantId/oauth2/v2.0/authorize';
+  final _scopes = <String>[
+    'https://graph.microsoft.com/user.read',
+    // Add other scopes here if required.
+  ];
+
+  Future<MsalAuth> getMsalAuth() async {
+    return MsalAuth.createPublicClientApplication(
+      clientId: _clientId,
+      scopes: _scopes,
+      androidConfig: AndroidConfig(
+        configFilePath: 'assets/msal_config.json',
+        tenantId: _tenantId,
+      ),
+      iosConfig: IosConfig(authority: _authority),
+    );
+  }
+
+  Future<void> getToken() async {
+    try {
+      final msalAuth = await getMsalAuth();
+      final user = await msalAuth.acquireToken();
+
+      // final jsonData = user?.toJson();
+      final email = user?.username;
+      final name = user?.displayName;
+      final responseToken = user?.accessToken;
+      // TOKEN CREATION AND EXPIRY
+      // final responseTokenCreationTime = user?.tokenCreatedAt;
+      // final responseTokenExpirationTime = user?.tokenExpiresOn;
+
+      // log('Email: ${email}');
+      // log('Display Name: ${name}');
+      // log('Token: ${responseToken}');
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('Token', responseToken!);
+    } on MsalException catch (e) {
+      log('Msal exception with error: ${e.errorMessage}');
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,56 +105,23 @@ class _login_ScreenState extends State<login_Screen> {
                             fontSize: 30),
                       ),
                       const SizedBox(
-                        height: 60,
-                      ),
-                      TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: 'Email',
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        controller: emailController,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: 'Password',
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide:
-                                  const BorderSide(color: Colors.white)),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        controller: passwordController,
-                      ),
-                      const SizedBox(
                         height: 40,
                       ),
                       ElevatedButton(
                         onPressed: () async {
+                          getToken();
                           final prefs = await SharedPreferences.getInstance();
-                          var email = prefs.getString('email');
-                          var password = prefs.getString('password');
-                          if ((emailController.text == 'jack' &&
-                                  passwordController.text == '1234') ||
-                              emailController.text == email &&
-                                  passwordController.text == password) {
+                          var token = prefs.getString('Token');
+                          print('Token inside On pressed :${token}');
+                          if (token != null) {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const HomePage()));
+                                    builder: (context) =>
+                                        const passkeyCreation_Screen()));
                           } else {
                             Fluttertoast.showToast(
-                                msg: 'Invalid Credentials',
+                                msg: "Authentication Failed",
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.BOTTOM,
                                 timeInSecForIosWeb: 1,
@@ -121,34 +140,18 @@ class _login_ScreenState extends State<login_Screen> {
                       ),
                       Container(
                           child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const SizedBox(
-                            width: 27,
-                          ),
                           TextButton(
                             onPressed: () {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const passkey_Screen()));
+                                      builder: (context) =>
+                                          const passkey_Screen()));
                             },
                             child: const Text(
                               'Passkey Login',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const signUp_Screen()));
-                            },
-                            child: const Text(
-                              'Sign Up',
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
