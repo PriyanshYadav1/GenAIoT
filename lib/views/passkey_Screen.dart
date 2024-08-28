@@ -2,12 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:genaiot/views/globals.dart';
 import 'package:genaiot/views/home.dart';
 import 'package:genaiot/views/login_Screen.dart';
-import 'package:msal_auth/models/msal_exception.dart';
 import 'package:msal_auth/msal_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'globals.dart' as globals;
 
 class passkey_Screen extends StatefulWidget {
   const passkey_Screen({super.key});
@@ -19,14 +18,10 @@ class passkey_Screen extends StatefulWidget {
 class _passkey_ScreenState extends State<passkey_Screen> {
   //Controllers for fields
   final passKeyController = TextEditingController();
-  final _clientId = clientID;
-  final _tenantId = tenantId;
-  late final _authority =
-      'https://login.microsoftonline.com/$_tenantId/oauth2/v2.0/authorize';
-  final _scopes = <String>[
-    'https://graph.microsoft.com/user.read',
-    // Add other scopes here if required.
-  ];
+  final _clientId = globals.clientID;
+  final _tenantId = globals.tenantId;
+  late final _authority = globals.authority;
+  final _scopes = globals.scopes;
 
   @override
   void initState() {
