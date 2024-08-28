@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:genaiot/views/passkeyCreation_Screen.dart';
 import 'package:genaiot/views/passkey_Screen.dart';
-import 'package:msal_auth/models/android_config.dart';
-import 'package:msal_auth/models/ios_config.dart';
-import 'package:msal_auth/models/msal_exception.dart';
 import 'package:msal_auth/msal_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'globals.dart' as globals;
 
 class login_Screen extends StatefulWidget {
   const login_Screen({super.key});
@@ -22,25 +20,24 @@ class _login_ScreenState extends State<login_Screen> {
 
   final passwordController = TextEditingController();
 
-  // CREDENTIALS FOR AUTH
-  final _clientId = '6fd20d17-de8d-4a86-ade1-7646d14a60d4';
-  final _tenantId = 'c8401f36-1f3c-4dba-b027-b707446a396d';
-  late final _authority =
-      'https://login.microsoftonline.com/$_tenantId/oauth2/v2.0/authorize';
-  final _scopes = <String>[
-    'https://graph.microsoft.com/user.read',
-    // Add other scopes here if required.
-  ];
+  // // CREDENTIALS FOR AUTH
+  // final _clientId = '6fd20d17-de8d-4a86-ade1-7646d14a60d4';
+  // final _tenantId = 'c8401f36-1f3c-4dba-b027-b707446a396d';
+  // late final _authority =
+  //     'https://login.microsoftonline.com/$_tenantId/oauth2/v2.0/authorize';
+  // final _scopes = <String>[
+  //   'https://graph.microsoft.com/user.read',
+  // ];
 
   Future<MsalAuth> getMsalAuth() async {
     return MsalAuth.createPublicClientApplication(
-      clientId: _clientId,
-      scopes: _scopes,
+      clientId: globals.clientID,
+      scopes: globals.scopes,
       androidConfig: AndroidConfig(
         configFilePath: 'assets/msal_config.json',
-        tenantId: _tenantId,
+        tenantId: globals.tenantId,
       ),
-      iosConfig: IosConfig(authority: _authority),
+      iosConfig: IosConfig(authority: globals.authority),
     );
   }
 
@@ -50,8 +47,8 @@ class _login_ScreenState extends State<login_Screen> {
       final user = await msalAuth.acquireToken();
 
       // final jsonData = user?.toJson();
-      final email = user?.username;
-      final name = user?.displayName;
+      globals.UserEmail = user!.username;
+      globals.UserName = user!.displayName;
       final responseToken = user?.accessToken;
       // TOKEN CREATION AND EXPIRY
       // final responseTokenCreationTime = user?.tokenCreatedAt;
@@ -109,11 +106,10 @@ class _login_ScreenState extends State<login_Screen> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          getToken();
+                          await getToken();
                           final prefs = await SharedPreferences.getInstance();
                           var token = prefs.getString('Token');
-                          print('Token inside On pressed :${token}');
-                          if (token != null) {
+                          if (token != null && token != "") {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
