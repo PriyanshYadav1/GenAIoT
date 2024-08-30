@@ -8,6 +8,7 @@ class HomePage extends StatefulWidget {
   HomePageState createState() => HomePageState();
 }
 
+
 class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
@@ -43,3 +44,30 @@ class HomePageState extends State<HomePage> {
         ]));
   }
 }
+
+//
+// class HomePageState extends State<HomePage> {
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     // Open the drawer when the widget is first built
+//     WidgetsBinding.instance.addPostFrameCallback((_) {
+//       Scaffold.of(context).openDrawer();
+//     });
+//   }
+//
+//
+//   @override
+//   Widget build(BuildContext context) {
+//
+//     // final apps = widget.apps;
+//
+//     return MaterialApp(
+//       home: Scaffold(
+//           body: AppDrawer()
+//
+//       ),
+//     );
+//   }
+// }
