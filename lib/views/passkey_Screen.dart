@@ -6,6 +6,7 @@ import 'package:genaiot/views/home.dart';
 import 'package:genaiot/views/login_Screen.dart';
 import 'package:msal_auth/msal_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../utils/api_calling.dart';
 import 'globals.dart' as globals;
 
 class passkey_Screen extends StatefulWidget {
@@ -126,6 +127,9 @@ class _passkey_ScreenState extends State<passkey_Screen> {
                                 textColor: Colors.white,
                                 fontSize: 16.0);
                           }
+                          var data = await get("/token/api/get_token");
+                          prefs.setString(
+                              "access-token", data?["access_token"]);
                         },
                         child: const Text(
                           'Login',
