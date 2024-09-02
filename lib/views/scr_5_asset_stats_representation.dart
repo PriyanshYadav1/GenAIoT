@@ -467,24 +467,42 @@ class _StatRepresentationState extends State<StatRepresentation> {
         backgroundColor: Colors.white,
         title: Text(widget.title),
       ),
-      body: Column(
-        children: [
+       body: Column(
+         children: [
+           // Navigation Buttons
+           Expanded(
+             child: _buildSelectedView(),
+           ),
+           Row(
+             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+             children: [
+               _buildNavButton('Metadata', 0),
+               _buildNavButton('Live Data', 1),
+               _buildNavButton('Live Events', 2),
+             ],
+           ),
+         ],
+       ),
+
+
+      // Column(
+      //   children: [
           // Navigation Buttons
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildNavButton('Metadata', 0),
-                _buildNavButton('Live Data', 1),
-                _buildNavButton('Live Events', 2),
-              ],
-            ),
-          ),
-          Expanded(
-            child: _buildSelectedView(),
-          ),
-        ],
-      ),
+      //     Container(
+      //       child: Row(
+      //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //         children: [
+      //           _buildNavButton('Metadata', 0),
+      //           _buildNavButton('Live Data', 1),
+      //           _buildNavButton('Live Events', 2),
+      //         ],
+      //       ),
+      //     ),
+      //     Expanded(
+      //       child: _buildSelectedView(),
+      //     ),
+      //   ],
+      // ),
     );
   }
 
@@ -500,7 +518,7 @@ class _StatRepresentationState extends State<StatRepresentation> {
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(17.0),
+            borderRadius: BorderRadius.circular(200.0),
           ),
         ),
         child: Text(label),
@@ -550,36 +568,39 @@ class _StatRepresentationState extends State<StatRepresentation> {
                 children: [
                   Expanded(
                     child: gaugeData.widgetType == "gauge"
-                        ? KdGaugeView(
-                      minSpeed: gaugeData.minSpeed,
-                      maxSpeed: gaugeData.maxSpeed,
-                      speed: gaugeData.speed,
-                      unitOfMeasurement: gaugeData.unitOfMeasurement,
-                      animate: true,
-                      gaugeWidth: 12,
-                      activeGaugeColor: Colors.lightBlue,
-                      unitOfMeasurementTextStyle: const TextStyle(
-                        fontSize: 20,
-                        height: -20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
-                      ),
-                      duration: const Duration(seconds: 1),
-                      speedTextStyle: const TextStyle(
-                        fontSize: 25,
-                        height: 2,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.lightBlueAccent,
-                      ),
-                      innerCirclePadding: 8,
-                      subDivisionCircleColors: Colors.white,
-                      divisionCircleColors: Colors.white,
-                      minMaxTextStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
-                      ),
-                    )
+                        ? Container(
+                      height: 270,width: 270,
+                          child: KdGaugeView(
+                            minSpeed: gaugeData.minSpeed,
+                            maxSpeed: gaugeData.maxSpeed,
+                            speed: gaugeData.speed,
+                            unitOfMeasurement: gaugeData.unitOfMeasurement,
+                            animate: true,
+                            gaugeWidth: 15,
+                            activeGaugeColor: Colors.lightBlue,
+                            unitOfMeasurementTextStyle: const TextStyle(
+                                fontSize: 20,
+                                height: -20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey
+                            ),
+                            duration: const Duration(seconds: 1),
+                            speedTextStyle: const TextStyle(
+                              fontSize: 25,
+                              height: 2,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.lightBlueAccent,
+                            ),
+                            innerCirclePadding: 11,
+                            subDivisionCircleColors: Colors.white,
+                            divisionCircleColors: Colors.white,
+                            minMaxTextStyle: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey
+                            ),
+                          ),
+                        )
                         : Container(
 
                       child: Column(
@@ -611,15 +632,9 @@ class _StatRepresentationState extends State<StatRepresentation> {
                               color: Colors.blue,
                             ),
                           ),
-
                         ],
                       ),
-
-
-
                     ),
-
-
                   ),
                   if (gaugeData.widgetType == "gauge") ...[
                     const SizedBox(height: 10),
@@ -658,6 +673,7 @@ class _StatRepresentationState extends State<StatRepresentation> {
     return Center(child: Text('Live Events View'));
   }
 }
+
 
 class GaugeData {
   final double minSpeed;
