@@ -5,6 +5,7 @@ import 'package:genaiot/views/passkeyCreation_Screen.dart';
 import 'package:genaiot/views/passkey_Screen.dart';
 import 'package:msal_auth/msal_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../utils/api_calling.dart';
 import 'globals.dart' as globals;
 
 class login_Screen extends StatefulWidget {
@@ -59,7 +60,10 @@ class _login_ScreenState extends State<login_Screen> {
       // log('Token: ${responseToken}');
 
       final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('Name', user!.displayName);
+      await prefs.setString('Email', user!.username);
       await prefs.setString('Token', responseToken!);
+      print(responseToken);
     } on MsalException catch (e) {
       log('Msal exception with error: ${e.errorMessage}');
     } catch (e) {
@@ -125,6 +129,9 @@ class _login_ScreenState extends State<login_Screen> {
                                 textColor: Colors.white,
                                 fontSize: 16.0);
                           }
+                          var data = await get("/token/api/get_token");
+                          prefs.setString(
+                              "access-token", data?["access_token"]);
                         },
                         child: const Text(
                           'Login',

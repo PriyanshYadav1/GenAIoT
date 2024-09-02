@@ -12,20 +12,43 @@ class AppsGrid extends StatefulWidget {
 
 class _AppsGridState extends State<AppsGrid> {
   final List<App> apps = [
-    App(name: "Bulldozer", imageUrl: "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
-    App(name: "Police Car Monitoring System", imageUrl: "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
-    App(name: "Home Security Monitoring", imageUrl: "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
-    App(name: "Pump Monitoring System", imageUrl: "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"), App(name: "Bulldozer", imageUrl: "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
-    App(name: "Police Car Monitoring System Police Car Monitoring System", imageUrl: "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
-    App(name: "Home Security Monitoring", imageUrl: "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
-    App(name: "Pump Monitoring System", imageUrl: "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
+    App(
+        name: "Bulldozer",
+        imageUrl:
+            "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
+    App(
+        name: "Police Car Monitoring System",
+        imageUrl:
+            "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
+    App(
+        name: "Home Security Monitoring",
+        imageUrl:
+            "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
+    App(
+        name: "Pump Monitoring System",
+        imageUrl:
+            "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
+    App(
+        name: "Bulldozer",
+        imageUrl:
+            "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
+    App(
+        name: "Police Car Monitoring System Police Car Monitoring System",
+        imageUrl:
+            "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
+    App(
+        name: "Home Security Monitoring",
+        imageUrl:
+            "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
+    App(
+        name: "Pump Monitoring System",
+        imageUrl:
+            "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
     // ... other apps
   ];
 
-
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -53,7 +76,8 @@ class _AppsGridState extends State<AppsGrid> {
               ],
             ),
           ),
-          title: const Text('Apps'), centerTitle: true,
+          title: const Text('Apps'),
+          centerTitle: true,
         ),
         drawer: AppDrawer(),
         body: Padding(
@@ -72,32 +96,33 @@ class _AppsGridState extends State<AppsGrid> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AssetsPage(appName: app.name,),
+                      builder: (context) => AssetsPage(
+                        appName: app.name,
+                      ),
                     ),
                   );
                 },
                 child: Card(
                   elevation: 30.0,
-
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                   ),
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width*0.7,
-                    height: MediaQuery.of(context).size.height*0.25,
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    height: MediaQuery.of(context).size.height * 0.25,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(15.0),
                           child: AspectRatio(
-                            aspectRatio: 16/12,
+                            aspectRatio: 16 / 12,
                             child: Image.network(
                               app.imageUrl,
                               fit: BoxFit.cover,
-                             width: double.infinity,
-                             height: MediaQuery.of(context).size.height*0.25,
-                             //  height: 170,
+                              width: double.infinity,
+                              height: MediaQuery.of(context).size.height * 0.25,
+                              //  height: 170,
                             ),
                           ),
                         ),

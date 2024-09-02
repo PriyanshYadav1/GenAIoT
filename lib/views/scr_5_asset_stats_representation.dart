@@ -24,7 +24,7 @@ class StatRepresentation extends StatefulWidget {
 class _RepresentationState extends State<StatRepresentation> {
   @override
   Widget build(BuildContext context) {
-    bool _isPressed = false;
+    bool isPressed = false;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -34,11 +34,11 @@ class _RepresentationState extends State<StatRepresentation> {
         child: Column(
           children: [
             const SizedBox(width: double.infinity, height: 20),
-            Row(
+            const Row(
               children: <Widget>[
-                const SizedBox(width: 20),
-                const SizedBox(width: 20),
-                const SizedBox(width: 20),
+                SizedBox(width: 20),
+                SizedBox(width: 20),
+                SizedBox(width: 20),
               ],
             ),
             const SizedBox(height: 3, width: double.infinity),
@@ -111,7 +111,7 @@ class _RepresentationState extends State<StatRepresentation> {
                         ),
                       ],
                     )),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Expanded(
@@ -177,7 +177,7 @@ class _RepresentationState extends State<StatRepresentation> {
                         ),
                       ],
                     )),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     ListTile(
@@ -326,14 +326,14 @@ class _RepresentationState extends State<StatRepresentation> {
                     const SizedBox(width: 13.5),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: _isPressed
+                        backgroundColor: isPressed
                             ? Colors.grey.shade500
                             : Colors.grey.shade300,
-                        elevation: _isPressed ? 8 : 2,
+                        elevation: isPressed ? 8 : 2,
                       ),
                       onPressed: () {
                         setState(() {
-                          _isPressed = !_isPressed; // Toggle the pressed state
+                          isPressed = !isPressed; // Toggle the pressed state
                         });
                         // Your onPressed action goes here
                       },
