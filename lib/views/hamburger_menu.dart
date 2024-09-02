@@ -12,7 +12,7 @@ class AppDrawer extends StatelessWidget {
   final User user = User(
       username: 'UserName',
       email: 'username@gmail.com',
-      image: 'assets/images/userProfileImage.png');
+      image: 'assets/images/defaultProfileImage.png');
   final _clientId = clientID;
   final _tenantId = tenantId;
   late final _authority =
