@@ -1,12 +1,19 @@
-import 'package:flutter/cupertino.dart';
+class Asset {
+  final String id;
+  final String appShortCode;
+  final String displayName;
 
-import '../views/assets.dart';
+  Asset({
+    required this.id,
+    required this.appShortCode,
+    required this.displayName,
+  });
 
-class ListItem {
-  final String title;
-  final IconData icon;
-  final AssetStatus status;
-
-  ListItem({required this.title, required this.icon, required this.status});
-
+  factory Asset.fromJson(Map<String, dynamic> json) {
+    return Asset(
+      id: json['id'],
+      appShortCode: json['app_short_code'],
+      displayName: json['display_name'],
+    );
+  }
 }
