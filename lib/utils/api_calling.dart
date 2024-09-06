@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -15,13 +18,14 @@ Future<dynamic> get(url) async {
     "temp_header_name": "xlr8-apim",
    "app_short_code": appShortCode,
   };
+  print("dasdadasdada 4" + "Bearer "+access_token);
 
   try {
     var request = http.Request('GET', Uri.parse(baseUrl + url));
 
     request.headers.addAll(headers);
     print("URL===========" + baseUrl+url);
-    print("dasdadasdada 12");
+    print("dasdadasdada 12"+headers.toString());
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
@@ -31,13 +35,23 @@ Future<dynamic> get(url) async {
 
       print("dasdadasdad=====30a"+jsonResponse.toString());
 
-      return jsonResponse;
+     // return jsonResponse;
+      return {'success': true, 'data': jsonResponse};
     } else {
+      // Show toast with error message
+
       print("dasdadasdada34" + response.statusCode.toString());
       print("dasdadasdada35" + response.reasonPhrase.toString());
+      return {'success': false, 'message': '${response.reasonPhrase}'};
+
     }
   } catch (e) {
     // Handle any errors that occur during the request
     print("An error occurred: $e");
+    return {'success': false, 'message': 'An error occurred: $e'};
+
+
+
   }
 }
+

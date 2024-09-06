@@ -204,8 +204,8 @@ class _AssetsPageState extends State<AssetsPage> {
   List<ListItem> filteredAssets = [];
   String currentAppName = '';
   bool isLoading = true;
-  String errorMessage = '';
-
+  // String errorMessage = '';
+  bool errorOccurred = false;
 
   @override
   void initState() {
@@ -220,65 +220,77 @@ class _AssetsPageState extends State<AssetsPage> {
   Future<void> _fetchAssets(String appShortCode) async {
     setState(() {
       isLoading = true; // Start loading
-      errorMessage = 'null';
+      //errorMessage = ''; // Clear previous error messages
+       errorOccurred = false;
     });
 
     final url = '/api/assets';
     print('Fetching assets from $url');
 
-    try {
-      final responseBody = await get(url);
-      print('Response Body: $responseBody');
 
-      if (responseBody != null) {
-        List<dynamic> data = responseBody is List ? responseBody : [];
+    final response = await get(url);
+    print("Received data: $response");
 
-        print("Data Type: ${data.runtimeType}"); // Should be List<dynamic>
-        print("Data Content: $data"); // Print the contents of 'data'
-        print("Data in toString: ${data.toString()}"); // Print data as string
+    if (response['success']) {
+      final responseData = response['data'];
+
+
+      if (responseData != null && responseData.isNotEmpty) {
+        List<dynamic> data = responseData is List ? responseData : [];
 
         final assets = data.map((json) {
-
           return ListItem.fromJson(json is Map<String, dynamic> ? json : {}, appShortCode);
         }).toList();
 
         setState(() {
           allAssets = assets;
           filteredAssets = assets;
-          isLoading = false; // End loading
+          isLoading = false;
         });
       } else {
         setState(() {
           isLoading = false;
-          errorMessage = 'No data received from server.'; // Handle empty response
+          errorOccurred = true;
         });
+        _showErrorDialog('No data received!');
       }
-    } catch (e) {
+    } else {
       setState(() {
         isLoading = false;
-        errorMessage = 'Error during HTTP request: $e'; // Handle any errors
+        errorOccurred = true;
       });
+      _showErrorDialog(response['message'] ?? 'An unknown error occurred.');
+
     }
   }
 
-
-
-
-  // void _showError(String message) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) => AlertDialog(
-  //       title: const Text('Error'),
-  //       content: Text(message),
-  //       actions: [
-  //         TextButton(
-  //           child: const Text('OK'),
-  //           onPressed: () => Navigator.of(context).pop(),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  void _showErrorDialog(String message) {
+    // Ensure that the dialog is shown after the widget build is complete
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.mounted) { // Check if the context is still valid
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return SizedBox(
+              child: AlertDialog(
+                elevation: 10,
+                title: Text('Error',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey[900]),),
+                content: Text(message),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the dialog
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      }
+    });
+  }
 
   Color _getIconColor(String status) {
     switch (status.toLowerCase()) {
@@ -329,21 +341,23 @@ class _AssetsPageState extends State<AssetsPage> {
           ],
         ),
         // drawer: AppDrawer(),
-        body: isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : errorMessage != null
-            ? Center(
-              child: SizedBox(
-
-                width: MediaQuery.of(context).size.width * 0.5,
-                height: MediaQuery.of(context).size.height * 0.2,
-
-                child: Card(
-                           elevation: 10,
-                child: Center(child: Text(errorMessage!, style: TextStyle(color: Colors.red), textAlign: TextAlign.center,))),
-              ),
-            )
-            : ListView.builder(
+        body:
+        // isLoading
+        //     ? const Center(child: CircularProgressIndicator())
+            // : errorMessage != null
+            // ? Center(
+            //   child: SizedBox(
+            //
+            //     width: MediaQuery.of(context).size.width * 0.5,
+            //     height: MediaQuery.of(context).size.height * 0.2,
+            //
+            //     child: Card(
+            //                elevation: 10,
+            //     child: Center(child: Text(errorMessage!, style: TextStyle(color: Colors.red), textAlign: TextAlign.center,))),
+            //   ),
+            // )
+           // :
+        ListView.builder(
           itemCount: filteredAssets.length,
           itemBuilder: (context, index) {
             final item = filteredAssets[index];
@@ -442,6 +456,7 @@ class AssetSearchDelegate extends SearchDelegate {
       },
     );
   }
+
 
 //color based on status
   Color _getIconColor(String status) {

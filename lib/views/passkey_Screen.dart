@@ -127,9 +127,14 @@ class _passkey_ScreenState extends State<passkey_Screen> {
                                 textColor: Colors.white,
                                 fontSize: 16.0);
                           }
+
+                          print("/token/api/get_token");
                           var data = await get("/token/api/get_token");
+                          print(data?["data"]["access_token"]+"toStringtoString");
+
+
                           prefs.setString(
-                              "access-token", data?["access_token"]);
+                              "access-token", data?["data"]["access_token"]);
                         },
                         child: const Text(
                           'Login',

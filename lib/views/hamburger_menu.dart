@@ -49,10 +49,20 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Extract the first and middle names from the full name
+    final names = globals.UserName.split(' ');
+    final firstName = names.isNotEmpty ? names.first : '';
+    final middleName = names.length > 1 ? names[1] : '';
+
+    // Combine first and middle names
+    final displayName = '$firstName $middleName';
+
+
     return Drawer(
       child: Stack(
         children: [
           Container(
+           // width: 400,
             color: Colors.blue,
             child: Column(
               children: <Widget>[
@@ -74,18 +84,31 @@ class AppDrawer extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              globals.UserName,
+                              displayName,
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 18,
+                                fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text(
-                              globals.UserEmail,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
+                            // Text(
+                            //   globals.UserEmail,
+                            //   style: const TextStyle(
+                            //     color: Colors.white,
+                            //     fontSize: 12,
+                            //   ),
+                            // ),
+                            Container(
+                              width: 170,
+                              child: Text(
+                                globals.UserEmail,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                ),
+                                overflow: TextOverflow.fade,
+                                maxLines: 1,
+
                               ),
                             ),
                           ],

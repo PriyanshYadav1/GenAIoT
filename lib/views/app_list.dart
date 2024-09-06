@@ -171,7 +171,7 @@ class _AppsGridState extends State<AppsGrid> {
   App? selectedApp;
   bool isLoading = false;
   String? errorMessage;
-
+  bool errorOccurred = false;
 
 
   @override
@@ -184,22 +184,23 @@ class _AppsGridState extends State<AppsGrid> {
   Future<void> fetchApps() async {
     setState(() {
       isLoading = true;
-      errorMessage = null;
+      errorOccurred = false; // Reset error flag
     });
 
     final url = '/api/applications';
-    print(url+"dsahdjsahdkjsa");
-    try {
-      final data = await get(url);
-      print("Received data: $data");
+    print(url + "dsahdjsahdkjsa");
 
-      if (data != null) {
-        List<dynamic> responseData = data is List ? data : [];
+    final response = await get(url);
+    print("Received data: $response");
+
+    if (response['success']) {
+      final responseData = response['data'];
+
+      if (responseData != null) {
+        List<dynamic> data = responseData is List ? responseData : [];
         setState(() {
-          apps = responseData.map((json) {
-            return App.fromJson(
-                json is Map<String, dynamic> ? json : {}
-            );
+          apps = data.map((json) {
+            return App.fromJson(json is Map<String, dynamic> ? json : {});
           }).toList();
           selectedApp = apps.isNotEmpty ? apps[0] : null;
           isLoading = false;
@@ -207,16 +208,85 @@ class _AppsGridState extends State<AppsGrid> {
       } else {
         setState(() {
           isLoading = false;
-          errorMessage = 'No data received from server.';
+          errorOccurred = true;
         });
+        _showErrorDialog('No data received!');
       }
-    } catch (e) {
+    } else {
       setState(() {
         isLoading = false;
-        errorMessage = 'Error during HTTP request: $e';
+        errorOccurred = true;
       });
+      _showErrorDialog(response['message'] ?? 'An unknown error occurred.');
+
     }
   }
+
+  void _showErrorDialog(String message) {
+    // Ensure that the dialog is shown after the widget build is complete
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.mounted) { // Check if the context is still valid
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return SizedBox(
+              child: AlertDialog(
+                elevation: 10,
+                title: Text('Error',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey[900]),),
+                content: Text(message),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the dialog
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      }
+    });
+  }
+
+  //
+  // Future<void> fetchApps() async {
+  //   setState(() {
+  //     isLoading = true;
+  //     errorMessage = null;
+  //   });
+  //
+  //   final url = '/api/applications';
+  //   print(url+"dsahdjsahdkjsa");
+  //   try {
+  //     final data = await get(url);
+  //     print("Received data: $data");
+  //
+  //     if (data != null) {
+  //       List<dynamic> responseData = data is List ? data : [];
+  //       setState(() {
+  //         apps = responseData.map((json) {
+  //           return App.fromJson(
+  //               json is Map<String, dynamic> ? json : {}
+  //           );
+  //         }).toList();
+  //         selectedApp = apps.isNotEmpty ? apps[0] : null;
+  //         isLoading = false;
+  //       });
+  //     } else {
+  //       setState(() {
+  //         isLoading = false;
+  //         errorMessage = 'No data received from server.';
+  //       });
+  //     }
+  //   } catch (e) {
+  //     setState(() {
+  //       isLoading = false;
+  //       errorMessage = 'Error during HTTP request: $e';
+  //     });
+  //   }
+  // }
 
 
   // void _onAppSelected(App app) {
@@ -247,9 +317,11 @@ class _AppsGridState extends State<AppsGrid> {
           title: const Text('Apps'), centerTitle: true,
         ),
         drawer: AppDrawer(),
-        body: apps.isEmpty ?
-        const Center(child: CircularProgressIndicator())
-            : Padding(
+        body:
+        // apps.isEmpty ?
+        // const Center(child: CircularProgressIndicator())
+        //     :
+        Padding(
           padding: const EdgeInsets.all(8.0),
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
