@@ -139,9 +139,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/app_model.dart';
 import '../utils/api_calling.dart';
-import 'dart:convert';
-import 'dart:typed_data';
-import 'package:flutter/material.dart';
 import 'hamburger_menu.dart';
 import 'ImageViewer.dart';
 import 'assets.dart';
@@ -190,10 +187,10 @@ class _AppsGridState extends State<AppsGrid> {
       errorOccurred = false; // Reset error flag
     });
 
-    final url = '/api/applications';
-    print(url + "dsahdjsahdkjsa");
+    const url = '/api/applications';
+    print("${url}dsahdjsahdkjsa");
 
-    final url1 = '/api/get_app_icon';
+    const url1 = '/api/get_app_icon';
     final response = await get(url);
 
 
@@ -254,7 +251,7 @@ class _AppsGridState extends State<AppsGrid> {
                 content: Text(message),
                 actions: <Widget>[
                   TextButton(
-                    child: Text('OK'),
+                    child: const Text('OK'),
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the dialog
                     },
@@ -332,7 +329,7 @@ class _AppsGridState extends State<AppsGrid> {
                   ],
                 ),
           ),
-          title: const Text('Apps'), centerTitle: true,
+          title: const Text('Apps', style: TextStyle(fontWeight: FontWeight.bold),), centerTitle: true,
         ),
         drawer: AppDrawer(),
         body:
@@ -364,10 +361,13 @@ class _AppsGridState extends State<AppsGrid> {
                   await prefs.setString("appShortCode", app.shortCode);
                 },
                 child: Card(
-                  elevation: 30.0,
-
+                  elevation: 50.0,
+                  shadowColor: Colors.black.withOpacity(1.0),
+                  margin: const EdgeInsets.all(5.0), // Margin around the card
+                  clipBehavior: Clip.antiAlias,
+                  semanticContainer: true,
                   shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
                   ),
                   child: SizedBox(
                     width: MediaQuery
@@ -382,13 +382,28 @@ class _AppsGridState extends State<AppsGrid> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(15.0),
-                          child: AspectRatio(
-                            aspectRatio: 16 / 12,
-                            child: Base64Image(
-                              apiUrl: '/api/get_app_icon',
-                              filePath: app.iconUri,
+                          borderRadius: BorderRadius.circular(20.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white.withOpacity(0.6),
+                            spreadRadius: 5,
+                           // blurRadius: 10,
+                           // offset: Offset(0, 5), // Shadow position
+                          ),
+                        ],
+                      ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(30.0),
+                            child: AspectRatio(
+                              aspectRatio: 18 / 12,
+                              child: Base64Image(
+                                apiUrl: '/api/get_app_icon',
+                                filePath: app.iconUri,
+                              ),
                             ),
+                          ),
                             // Image.network(
                             //   app.iconUri,
                             //   fit: BoxFit.cover,
@@ -408,13 +423,16 @@ class _AppsGridState extends State<AppsGrid> {
                             // ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            app.displayName,
-                            style: const TextStyle(fontSize: 16.0),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                        Container(
+
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              app.displayName,
+                              style: const TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
                           ),
                         ),
                       ],

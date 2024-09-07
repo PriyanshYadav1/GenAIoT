@@ -224,7 +224,7 @@ class _AssetsPageState extends State<AssetsPage> {
        errorOccurred = false;
     });
 
-    final url = '/api/assets';
+    const url = '/api/assets';
     print('Fetching assets from $url');
 
 
@@ -278,7 +278,7 @@ class _AssetsPageState extends State<AssetsPage> {
                 content: Text(message),
                 actions: <Widget>[
                   TextButton(
-                    child: Text('OK'),
+                    child: const Text('OK'),
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the dialog
                     },
@@ -292,19 +292,33 @@ class _AssetsPageState extends State<AssetsPage> {
     });
   }
 
-  Color _getIconColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'connected':
-        return Colors.green;
-      case 'disconnected':
-        return Colors.red;
-      case 'off':
-        return Colors.grey;
+  // Color _getIconColor(String status) {
+  //   switch (status.toLowerCase()) {
+  //     case 'connected':
+  //       return Colors.green;
+  //     case 'disconnected':
+  //       return Colors.red;
+  //     case 'off':
+  //       return Colors.grey;
+  //     default:
+  //       return Colors.black; // Default color for unknown status
+  //   }
+  // }
+
+  // In the _getIconColor method, a static status is assigned based on the index of the item. This method cycles through three colors to simulate different statuses.
+  Color _getIconColor(int index) {
+    // Static logic to assign status colors based on the index
+    switch (index % 3) {
+      case 0:
+        return Colors.green; // Simulate "connected"
+      case 1:
+        return Colors.red; // Simulate "disconnected"
+      case 2:
+        return Color(0xFF808080); // Simulate "off"
       default:
-        return Colors.black; // Default color for unknown status
+        return Colors.black; // Default color
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -367,7 +381,7 @@ class _AssetsPageState extends State<AssetsPage> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: ListTile(
-                leading: Icon(item.icon, color: _getIconColor(item.status)),
+                leading: Icon(item.icon, color: _getIconColor(index)),
                 title: Text(item.title),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () {
@@ -423,7 +437,7 @@ class AssetSearchDelegate extends SearchDelegate {
       itemBuilder: (context, index) {
         final item = results[index];
         return ListTile(
-          leading: Icon(item.icon, color: _getIconColor(item.status)),
+          leading: Icon(item.icon, color: _getIconColor(index)),
           title: Text(item.title),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
@@ -445,7 +459,7 @@ class AssetSearchDelegate extends SearchDelegate {
       itemBuilder: (context, index) {
         final item = suggestions[index];
         return ListTile(
-          leading: Icon(item.icon, color: _getIconColor(item.status)),
+          leading: Icon(item.icon, color: _getIconColor(index)),
           title: Text(item.title),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
@@ -458,33 +472,48 @@ class AssetSearchDelegate extends SearchDelegate {
   }
 
 
-//color based on status
-  Color _getIconColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'connected':
-        return Colors.green;
-      case 'disconnected':
-        return Colors.red;
-      case 'off':
-        return Colors.grey;
+  // In the _getIconColor method, a static status is assigned based on the index of the item. This method cycles through three colors to simulate different statuses.
+  Color _getIconColor(int index) {
+    // Static logic to assign status colors based on the index
+    switch (index % 3) {
+      case 0:
+        return Colors.green; // Simulate "connected"
+      case 1:
+        return Colors.red; // Simulate "disconnected"
+      case 2:
+        return Color(0xFF808080); // Simulate "off"
       default:
-        return Colors.black; // Default color for unknown status
+        return Colors.black; // Default color
     }
   }
+
+// //color based on status
+//   Color _getIconColor(String status) {
+//     switch (status.toLowerCase()) {
+//       case 'connected':
+//         return Colors.green;
+//       case 'disconnected':
+//         return Colors.red;
+//       case 'off':
+//         return Colors.grey;
+//       default:
+//         return Colors.black; // Default color for unknown status
+//     }
+//   }
 }
 
 class ListItem {
   final String title;
   final IconData icon;
-  final String status;
+  final String index;
 
-  ListItem({required this.title, required this.icon, required this.status});
+  ListItem({required this.title, required this.icon, required this.index});
 
   factory ListItem.fromJson(Map<String, dynamic> json, String appShortCode) {
     return ListItem(
       title: json['display_name'] as String,
       icon: AssetIcons.getIcon(appShortCode), // Set icon based on appShortCode
-      status: json['status'] as String? ?? 'unknown', // Default to 'unknown' if status is missing
+      index: json['index'] as String? ?? 'unknown', // Default to 'unknown' if status is missing
     );
   }
 }

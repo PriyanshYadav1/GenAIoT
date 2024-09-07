@@ -1,6 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:typed_data';
@@ -9,40 +6,40 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<dynamic> get(url) async {
   final prefs = await SharedPreferences.getInstance();
-  print("dasdadasdada 4" + "Bearer ");
+  print("dasdadasdada 4" "Bearer ");
   var baseUrl = "https://xlr8-apim.azure-api.net";
-  var access_token = await prefs.getString('access-token') ?? "";
-  var appShortCode = await prefs.getString('appShortCode') ?? "";
+  var accessToken = prefs.getString('access-token') ?? "";
+  var appShortCode = prefs.getString('appShortCode') ?? "";
 
   var headers = {
-    "Authorization": "Bearer " + access_token,
+    "Authorization": "Bearer $accessToken",
     "temp_header_name": "xlr8-apim",
    "app_short_code": appShortCode,
   };
-  print("dasdadasdada 4" + "Bearer "+access_token);
+  print("dasdadasdada 4Bearer $accessToken");
 
   try {
     var request = http.Request('GET', Uri.parse(baseUrl + url));
 
     request.headers.addAll(headers);
-    print("URL===========" + baseUrl+url);
-    print("dasdadasdada 12"+headers.toString());
+    print("URL===========$baseUrl"+url);
+    print("dasdadasdada 12$headers");
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      print("dasdadasdadaaaaaaa" + response.statusCode.toString());
+      print("dasdadasdadaaaaaaa${response.statusCode}");
       var apiResp = await response.stream.bytesToString();
       var jsonResponse = jsonDecode(apiResp);
 
-      print("dasdadasdad=====30a"+jsonResponse.toString());
+      print("dasdadasdad=====30a$jsonResponse");
 
      // return jsonResponse;
       return {'success': true, 'data': jsonResponse};
     } else {
       // Show toast with error message
 
-      print("dasdadasdada34" + response.statusCode.toString());
-      print("dasdadasdada35" + response.reasonPhrase.toString());
+      print("dasdadasdada34${response.statusCode}");
+      print("dasdadasdada35${response.reasonPhrase}");
       return {'success': false, 'message': '${response.reasonPhrase}'};
 
     }
@@ -63,26 +60,26 @@ Future<dynamic> get(url) async {
 
 Future<dynamic> getData(url,valdata) async {
   final prefs = await SharedPreferences.getInstance();
-  print("dasdadasdada 4" + "Bearer ");
+  print("dasdadasdada 4" "Bearer ");
   final client = http.Client();
 
   var baseUrl = "https://xlr8-apim.azure-api.net";
-  var access_token = await prefs.getString('access-token') ?? "";
-  var appShortCode = await prefs.getString('appShortCode') ?? "";
+  var accessToken = prefs.getString('access-token') ?? "";
+  var appShortCode = prefs.getString('appShortCode') ?? "";
 
   var headers = {
-    "Authorization": "Bearer " + access_token,
+    "Authorization": "Bearer $accessToken",
     "temp_header_name": "xlr8-apim",
     "app_short_code": appShortCode,
     'responseType': 'arraybuffer',
     "app_icon_uri":valdata.toString()
   };
-  print("dasdadasdada 4" + "Bearer "+access_token);
+  print("dasdadasdada 4Bearer $accessToken");
 
   try {
     // var request = http.Request('GET', Uri.parse(baseUrl + url));
     final response = await http.get(Uri.parse(baseUrl + url), headers: {
-      "Authorization": "Bearer " + access_token,
+      "Authorization": "Bearer $accessToken",
       "temp_header_name": "xlr8-apim",
       "app_short_code": appShortCode,
       'responseType': 'arraybuffer',
