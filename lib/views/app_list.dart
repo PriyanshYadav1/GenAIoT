@@ -139,8 +139,11 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/app_model.dart';
 import '../utils/api_calling.dart';
+import 'dart:convert';
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'hamburger_menu.dart';
-
+import 'ImageViewer.dart';
 import 'assets.dart';
 
 
@@ -190,8 +193,23 @@ class _AppsGridState extends State<AppsGrid> {
     final url = '/api/applications';
     print(url + "dsahdjsahdkjsa");
 
+    final url1 = '/api/get_app_icon';
     final response = await get(url);
-    print("Received data: $response");
+
+
+    final response22 = await getData(url1,"app-icons/JLL-SBM.png");
+
+
+    print("response22"+response22);
+
+
+    // newHeaders: {"app_icon_uri":"app-icons/JLL-SBM.png"}
+
+
+
+
+
+    print("Received data: $response22");
 
     if (response['success']) {
       final responseData = response['data'];
@@ -367,23 +385,27 @@ class _AppsGridState extends State<AppsGrid> {
                           borderRadius: BorderRadius.circular(15.0),
                           child: AspectRatio(
                             aspectRatio: 16 / 12,
-                            child: Image.network(
-                              app.iconUri,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              height: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .height * 0.25,
-                              errorBuilder: (context, error, stackTrace) {
-                                // Placeholder image if the network image fails
-                                return Image.network(
-                                  'https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png',
-                                  fit: BoxFit.cover,);
-
-                              },
-                              //  height: 170,
+                            child: Base64Image(
+                              apiUrl: '/api/get_app_icon',
+                              filePath: app.iconUri,
                             ),
+                            // Image.network(
+                            //   app.iconUri,
+                            //   fit: BoxFit.cover,
+                            //   width: double.infinity,
+                            //   height: MediaQuery
+                            //       .of(context)
+                            //       .size
+                            //       .height * 0.25,
+                            //   errorBuilder: (context, error, stackTrace) {
+                            //     // Placeholder image if the network image fails
+                            //     return Image.network(
+                            //       'https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png',
+                            //       fit: BoxFit.cover,);
+                            //
+                            //   },
+                            //   //  height: 170,
+                            // ),
                           ),
                         ),
                         Padding(
@@ -408,4 +430,3 @@ class _AppsGridState extends State<AppsGrid> {
   }
 
 }
-

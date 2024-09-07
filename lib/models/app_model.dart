@@ -25,4 +25,6 @@ class App {
       iconUri: json['icon_uri']?? 'assets/images/iot.png',
     );
   }
+
+
 }
