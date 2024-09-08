@@ -199,13 +199,6 @@ class _AppsGridState extends State<AppsGrid> {
 
     print("response22"+response22);
 
-
-    // newHeaders: {"app_icon_uri":"app-icons/JLL-SBM.png"}
-
-
-
-
-
     print("Received data: $response22");
 
     if (response['success']) {
@@ -384,6 +377,14 @@ class _AppsGridState extends State<AppsGrid> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20.0),
                     child: Container(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.2,
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.15,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -424,7 +425,7 @@ class _AppsGridState extends State<AppsGrid> {
                           ),
                         ),
                         Container(
-
+                          alignment: Alignment.center,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
