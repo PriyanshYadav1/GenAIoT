@@ -387,6 +387,8 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:genaiot/models/live_data.dart';
+import 'package:genaiot/utils/api_calling.dart';
 import 'package:kdgaugeview/kdgaugeview.dart';
 import 'dart:convert'; // Required for jsonDecode
 
@@ -403,6 +405,7 @@ class _StatRepresentationState extends State<StatRepresentation> {
   List<GaugeData> gaugeDataList = [];
   bool isLoading = true;
   int _selectedIndex = 1;
+  List<dynamic> widgetsListing = [];
 
   @override
   void initState() {
@@ -410,7 +413,67 @@ class _StatRepresentationState extends State<StatRepresentation> {
     initializeGaugeData();
   }
 
-  void initializeGaugeData() {
+
+
+
+
+  Future<void> initializeGaugeData () async {
+    
+    
+    var edge_telemetry_model = await get("/api/edge_telemetry_model/CNGCOM");
+    var live_data = await get("/api/live_data/562223bc-25fb-4057-a08a-74c02f1c5326");
+    var widgets = await get("/api/widgets/CNGCOM");
+
+
+    // print(edge_telemetry_model["data"].toString()+"edge_telemetry_model datadatadata");
+    // print(live_data["data"].toString()+"widgets datadatadata");
+    // print("widgets datadatadata"+widgets["data"][0]["id"].toString());
+
+    for (int i = 0; i < live_data["data"].length; i++) {
+      print(live_data["data"][i].toString());
+    }
+
+    // if (widgets["data"] is List) {
+    //   // Map the JSON data to a list of WidgetData objects
+    //   List<WidgetData> widgets = widgets["data"]
+    //       .map<WidgetData>((json) => WidgetData.fromJson(json))
+    //       .toList();
+    //
+    //   // Use the parsed list of WidgetData objects
+    //   for (var widget in widgets) {
+    //     print('Widget ID: ${widget.id}');
+    //     print('Widget Code: ${widget.widgetCode}');
+    //     print('Property JSON Key: ${widget.widgetParameters.propertyJsonKey}');
+    //     print('Purpose: ${widget.purpose}');
+    //     print('---');
+    //   }
+    // } else {
+    //   print('Unexpected JSON format');
+    // }
+
+    // print("===================="+data.toString());
+
+
+    // final assets = data.map((json) {
+    //   return Asset.fromJson(json is Map<String, dynamic> ? json : {});
+    // }).toList();
+    //
+    // print(assets.first.purpose+"assets.first.purpose");
+
+    //
+    // List<LiveData> apps = [];
+    // apps = widgets["data"].map((json) {
+    //   print(LiveData.fromJson(json).appShortCode+"appShortCodeappShortCodeappShortCode");
+    // }).toList();
+
+
+    // print(apps.toString()+"dsadsadsa");
+
+    print("=============${LiveData.fromJson(live_data["data"][0]).appShortCode}");
+
+
+
+
     gaugeDataList = [
       GaugeData(
         minSpeed: 0,
@@ -418,7 +481,7 @@ class _StatRepresentationState extends State<StatRepresentation> {
         speed: 100,
         unitOfMeasurement: "°C",
         timestamp: DateTime.fromMillisecondsSinceEpoch(1724230979 * 1000),
-        displayName: "Temperature",
+        displayName: "Temperature change",
         widgetType: "gauge",
       ),
       GaugeData(
@@ -467,27 +530,27 @@ class _StatRepresentationState extends State<StatRepresentation> {
         backgroundColor: Colors.white,
         title: Text(widget.title),
       ),
-       body: Column(
-         children: [
-           // Navigation Buttons
-           Expanded(
-             child: _buildSelectedView(),
-           ),
-           Row(
-             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-             children: [
-               _buildNavButton('Metadata', 0),
-               _buildNavButton('Live Data', 1),
-               _buildNavButton('Live Events', 2),
-             ],
-           ),
-         ],
-       ),
+      body: Column(
+        children: [
+          // Navigation Buttons
+          Expanded(
+            child: _buildSelectedView(),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildNavButton('Metadata', 0),
+              _buildNavButton('Live Data', 1),
+              _buildNavButton('Live Events', 2),
+            ],
+          ),
+        ],
+      ),
 
 
       // Column(
       //   children: [
-          // Navigation Buttons
+      // Navigation Buttons
       //     Container(
       //       child: Row(
       //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -549,117 +612,12 @@ class _StatRepresentationState extends State<StatRepresentation> {
         crossAxisSpacing: 10.0,
         mainAxisSpacing: 10.0,
       ),
-      itemCount: gaugeDataList.length,
+      itemCount: widgetsListing.length,
       itemBuilder: (context, index) {
-        final gaugeData = gaugeDataList[index];
+        final gaugeData = widgetsListing[index];
 
-        return Card(
-          elevation: 55,
-          margin: const EdgeInsets.only(left: 25.0, right: 25.0, top: 5),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.white,
-              ),
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: gaugeData.widgetType == "gauge"
-                        ? Container(
-                      height: 270,width: 270,
-                          child: KdGaugeView(
-                            minSpeed: gaugeData.minSpeed,
-                            maxSpeed: gaugeData.maxSpeed,
-                            speed: gaugeData.speed,
-                            unitOfMeasurement: gaugeData.unitOfMeasurement,
-                            animate: true,
-                            gaugeWidth: 15,
-                            activeGaugeColor: Colors.lightBlue,
-                            unitOfMeasurementTextStyle: const TextStyle(
-                                fontSize: 20,
-                                height: -20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey
-                            ),
-                            duration: const Duration(seconds: 1),
-                            speedTextStyle: const TextStyle(
-                              fontSize: 25,
-                              height: 2,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.lightBlueAccent,
-                            ),
-                            innerCirclePadding: 11,
-                            subDivisionCircleColors: Colors.white,
-                            divisionCircleColors: Colors.white,
-                            minMaxTextStyle: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey
-                            ),
-                          ),
-                        )
-                        : Container(
-
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            gaugeData.displayName,
-                            style: TextStyle(
-                              height: -9,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          Text(
-                            '(${gaugeData.unitOfMeasurement})',
-                            style: TextStyle(
-                              fontSize: 16,
-                              height: -8,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                          SizedBox(height: 16.0),
-                          Text(
-                              gaugeData.speed.toString(),
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  if (gaugeData.widgetType == "gauge") ...[
-                    const SizedBox(height: 10),
-                    Text(
-                      gaugeData.displayName,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        height: -3,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                  const SizedBox(height: 10),
-                  Text(
-                    'Date: ${gaugeData.getFormattedDate()}',
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                      height: -1,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+        return Text(
+          "dsadsadas"
         );
       },
     );

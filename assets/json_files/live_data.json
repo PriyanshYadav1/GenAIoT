@@ -1,0 +1,24 @@
+{
+  "live_data": [
+    {
+      "data_type" : "Temperature",
+      "unit_of_measurement" : "°C",
+      "minimum_value" : "0",
+      "maximum_value" : "100",
+      "actual_value" : "69",
+      "ts": "09:37:06 AM",
+      "dt": "2024-09-04",
+      "widget_type" : "label"
+    },
+    {
+      "data_type" : "Temperature",
+      "unit_of_measurement" : "°C",
+      "minimum_value" : "0",
+      "maximum_value" : "100",
+      "actual_value" : "69",
+      "ts": "09:37:06 AM",
+      "dt": "2024-09-04",
+      "widget_type" : "gauge"
+    }
+  ]
+}
