@@ -156,22 +156,27 @@
 
 
 
+import 'dart:ffi';
+
 class LiveData {
-  final String appShortCode;
-  final String assetID;
+  final String app_short_code;
+  final String asset_id;
   final String date;
+  final Double ts;
 
   LiveData({
-    required this.appShortCode,
-    required this.assetID,
+    required this.app_short_code,
+    required this.asset_id,
     required this.date,
+    required this.ts,
   });
 
   factory LiveData.fromJson(Map<String, dynamic> json) {
     return LiveData(
-      appShortCode: json['app_short_code'],
-      assetID: json['asset_id'],
-      date: json['date'],
+      app_short_code: json['app_short_code'] ?? "",
+      asset_id: json['asset_id'] ?? "",
+      date: json['date'] ?? "",
+      ts: json['ts'] ?? 0.0,
     );
   }
 

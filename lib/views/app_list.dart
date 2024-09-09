@@ -134,10 +134,14 @@
 
 
 
+import 'dart:convert';
+
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/app_model.dart';
+import '../utils/DatabaseHelper.dart';
 import '../utils/api_calling.dart';
 import 'hamburger_menu.dart';
 import 'ImageViewer.dart';
@@ -342,16 +346,31 @@ class _AppsGridState extends State<AppsGrid> {
               final app = apps[index];
               return GestureDetector(
                 onTap: () async {
+
+                  // here we have to store app_shortCode in SharedPreferences and get it in api_calling.dart page globally.
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setString("appShortCode", app.shortCode);
+                  await saveApiToDb("/api/widgets/CNGCOM","widgets");
+                  await saveApiToDb("/api/edge_telemetry_model/CNGCOM","edge_telemetry_model");
+
+
+                  Fluttertoast.showToast(
+                      msg: app.shortCode,
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.black12,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => AssetsPage(appShortCode: app.shortCode,),
-                     // builder: (context) => AssetsPage(),
+                      // builder: (context) => AssetsPage(),
                     ),
                   );
-                  // here we have to store app_shortCode in SharedPreferences and get it in api_calling.dart page globally.
-                  final prefs = await SharedPreferences.getInstance();
-                  await prefs.setString("appShortCode", app.shortCode);
+
                 },
                 child: Card(
                   elevation: 50.0,
@@ -446,6 +465,28 @@ class _AppsGridState extends State<AppsGrid> {
         ),
       ),
     );
+  }
+
+}
+
+Future<void> saveApiToDb(url,key) async {
+
+  var apiAllData = await get(url);
+  final uniqueKey = key;
+  final exampleData = {
+    DatabaseHelper.columnUniqueKey: uniqueKey,
+    DatabaseHelper.columnData: jsonEncode(apiAllData["data"]),
+  };
+
+  final existingData = await DatabaseHelper.instance.queryAllRows();
+  bool exists = existingData.any((row) => row[DatabaseHelper.columnUniqueKey] == uniqueKey);
+
+  if (exists) {
+    // Update the existing record
+    await DatabaseHelper.instance.update(uniqueKey, exampleData);
+  } else {
+    // Insert new record
+    await DatabaseHelper.instance.insert(exampleData);
   }
 
 }
