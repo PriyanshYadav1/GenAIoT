@@ -36,11 +36,7 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
   List<dynamic> liveEventsData = [];
   bool isUtc = false;
 
-  // void _toggleTelemetry() {
-  //   setState(() {
-  //     _telemetry = !_telemetry; // Toggle the boolean value
-  //   });
-  // }
+
 
   @override
   void initState() {
@@ -61,17 +57,14 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
         isLoading = true;
       });
 
-//       var liveTData = await get("/api/assets/562223bc-25fb-4057-a08a-74c02f1c5326/latesttelemetry");
-// print("LATEST TELEMETRYYYYYYYYYYYYYYYYYYYy"+liveTData);
-
 
       var liveData = await get("/api/assets/562223bc-25fb-4057-a08a-74c02f1c5326/latesttelemetry");
       print("live Data==================${liveData}");
-      // if (liveData == null || liveData["data"] == null || (liveData["data"] as List).isEmpty) {
-      //         // No data from server
-      //         _handleNoData();
-      //         return;
-      //       }
+      if (liveData == null || liveData["data"] == null || (liveData["data"] as List).isEmpty) {
+              // No data from server
+              _handleNoData();
+              return;
+            }
       if (liveData != null && liveData["data"] != null) {
         List<dynamic> data = liveData["data"];
 
@@ -258,7 +251,7 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
             formattedDate = '${difference.inMinutes} minutes ago';   }
           else {
             formattedDate = 'just now';   }
-          final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+          final dateFormat = DateFormat('yyyy-MM-dd            HH:mm:ss');
           final fullformattedDate = dateFormat.format(dateTime);
           final Map<String, dynamic> itemData = item['data'] as Map<String, dynamic>? ?? {};
 
@@ -276,7 +269,8 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
                   "tss":timestamp,
                   'devId': devId,
                   'name': metric.key,
-                  'value': metric.value.toString(),
+                  //'value': metric.value.toString(),
+                  'value': entry.value["ecode"].toString(),
                   'ts': formattedDate,
                   'fullts':fullformattedDate,
                   'property_display_name': dataAll["event_message"],
@@ -299,8 +293,7 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
           }
         }
 
-
-        // transformedData.sort((a, b) => b['tss'].compareTo(a['tss']));
+        transformedData.sort((a, b) => b['tss'].compareTo(a['tss']));
 
 
         setState(() {
@@ -324,25 +317,25 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
 
 
 
-  // void _handleNoData() {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text('Error'),
-  //         content: Text('No data received from the server.'),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: Text('OK'),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
+  void _handleNoData() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text('No data received from the server.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void _handleError(Exception e) {
 
@@ -390,23 +383,7 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
           Expanded(
             child: _buildSelectedView(),
           ),
-          // if(_telemetry)
-          //   Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //     children: [
-          //       _buildNavButton('Recent', 0, "call"),
-          //       _buildNavButton('Latest', 1, "call"),
-          //     ],
-          //   )
-          // ,
-          //  Row(
-          //    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //    children: [
-          //      _buildNavButton('Metadata', 0,"call"),
-          //      _buildNavButton('Telemetry', 1,"button"),
-          //      _buildNavButton('Live Events', 2,"call"),
-          //    ],
-          //  ),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
