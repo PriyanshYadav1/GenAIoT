@@ -34,6 +34,7 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
   List<dynamic> recentTelemetryData = [];
   List<dynamic> latestTelemetryData = [];
   List<dynamic> liveEventsData = [];
+  bool isUtc = false;
 
   // void _toggleTelemetry() {
   //   setState(() {
@@ -162,7 +163,7 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
 
         for (var item in data) {
           final double timestamp = (item['ts'] as num?)?.toDouble() ?? 0.0;
-          final dateTime = DateTime.fromMillisecondsSinceEpoch((timestamp * 1000).toInt(), isUtc: true);
+          final dateTime = DateTime.fromMillisecondsSinceEpoch((timestamp * 1000).toInt(), isUtc: isUtc);
           final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
           final formattedDate = dateFormat.format(dateTime);
           final Map<String, dynamic> itemData = item['data'] as Map<String, dynamic>? ?? {};
@@ -242,7 +243,7 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
 
         for (var item in data) {
           final double timestamp = (item['ts'] as num?)?.toDouble() ?? 0.0;
-          final dateTime = DateTime.fromMillisecondsSinceEpoch((timestamp * 1000).toInt(), isUtc: true);
+          final dateTime = DateTime.fromMillisecondsSinceEpoch((timestamp * 1000).toInt(), isUtc: isUtc);
           final currentTime = DateTime.now().toUtc();
           final difference = currentTime.difference(dateTime);
 
