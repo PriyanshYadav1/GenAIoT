@@ -183,11 +183,12 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:genaiot/views/scr_5_asset_stats_representation.dart';
+// import 'package:genaiot/views/scr_5_asset_stats_representation.dart';
 // import 'package:http/http.dart' as http;
 // import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/api_calling.dart';
+import 'liveEventsScreen.dart';
 
 class AssetsPage extends StatefulWidget {
   final String appShortCode;
@@ -252,7 +253,7 @@ class _AssetsPageState extends State<AssetsPage> {
           isLoading = false;
           errorOccurred = true;
         });
-        _showErrorDialog('No data received!');
+        _showErrorDialog('No data received from the server!');
       }
     } else {
       setState(() {
@@ -356,8 +357,8 @@ class _AssetsPageState extends State<AssetsPage> {
         ),
         // drawer: AppDrawer(),
         body:
-        // isLoading
-        //     ? const Center(child: CircularProgressIndicator())
+        isLoading
+            ? const Center(child: CircularProgressIndicator())
             // : errorMessage != null
             // ? Center(
             //   child: SizedBox(
@@ -371,7 +372,7 @@ class _AssetsPageState extends State<AssetsPage> {
             //   ),
             // )
            // :
-        ListView.builder(
+       : ListView.builder(
           itemCount: filteredAssets.length,
           itemBuilder: (context, index) {
             final item = filteredAssets[index];
@@ -385,7 +386,7 @@ class _AssetsPageState extends State<AssetsPage> {
                 title: Text(item.title),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> StatRepresentation(title: item.title),),);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> LiveEventsScreen(title: item.title),),);
                  // navigating to a detail page
                 },
               ),

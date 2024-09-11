@@ -207,7 +207,7 @@ class _AppsGridState extends State<AppsGrid> {
 
     if (response['success']) {
       final responseData = response['data'];
-
+  print(" Response        +$responseData");
       if (responseData != null) {
         List<dynamic> data = responseData is List ? responseData : [];
         setState(() {
@@ -222,7 +222,7 @@ class _AppsGridState extends State<AppsGrid> {
           isLoading = false;
           errorOccurred = true;
         });
-        _showErrorDialog('No data received!');
+        _showErrorDialog(response['message'] ??'No data received from the server!');
       }
     } else {
       setState(() {
@@ -351,6 +351,7 @@ class _AppsGridState extends State<AppsGrid> {
                   final prefs = await SharedPreferences.getInstance();
                   await prefs.setString("appShortCode", app.shortCode);
                   await saveApiToDb("/api/widgets/CNGCOM","widgets");
+                  await saveApiToDb("/api/edge_event_model/CNGCOM","edge_event_model");
                   await saveApiToDb("/api/edge_telemetry_model/CNGCOM","edge_telemetry_model");
 
 
