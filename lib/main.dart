@@ -3,6 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:genaiot/views/login_Screen.dart';
 import 'package:genaiot/views/passkey_Screen.dart';
 import 'package:genaiot/views/home.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 void main() async {
   WidgetsFlutterBinding
@@ -30,6 +32,17 @@ class MyApp extends StatelessWidget {
         '/passkey': (context) => const passkey_Screen(),
         '/home': (context) => const HomePage(),
       },
+      theme: ThemeData(
+        // Apply the Inter font to the entire app
+        textTheme: GoogleFonts.interTextTheme(
+          Theme.of(context).textTheme.apply(
+            bodyColor: Colors.black,
+            displayColor: Colors.black,
+          ),
+        ),
+        //primarySwatch: Colors.blue,
+
+      ),
     );
   }
 }

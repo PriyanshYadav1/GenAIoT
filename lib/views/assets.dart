@@ -183,6 +183,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 // import 'package:genaiot/views/scr_5_asset_stats_representation.dart';
 // import 'package:http/http.dart' as http;
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -325,7 +326,14 @@ class _AssetsPageState extends State<AssetsPage> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text(currentAppName.isEmpty ? 'Assets' : currentAppName),
+          title:
+          //Text(currentAppName.isEmpty ? 'Assets' : currentAppName),
+          Text(
+            currentAppName.isEmpty ? 'Assets' : currentAppName,
+            style: GoogleFonts.inter(
+              textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
           centerTitle: true,
           leading: Padding(
             padding: const EdgeInsets.only(left: 15.0),
