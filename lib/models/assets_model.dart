@@ -17,7 +17,7 @@ class Asset {
 
   factory Asset.fromJson(Map<String, dynamic> json) {
     return Asset(
-      id: json['id'],
+      id: json['id'] as String,
       appShortCode: json['app_short_code'],
       displayName: json['display_name'],
      // status: json['status'] ?? 'unknown',

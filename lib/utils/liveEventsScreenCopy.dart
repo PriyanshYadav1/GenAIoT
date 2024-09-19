@@ -13,7 +13,6 @@ import 'package:google_fonts/google_fonts.dart';
 // import 'package:kdgaugeview/kdgaugeview.dart';
 // import 'package:intl/intl.dart';
 import 'package:intl/intl.dart';
-//import 'package:fl_chart/fl_chart.dart';
 
 // import 'liveEvents.dart';
 import '../utils/DatabaseHelper.dart';
@@ -475,18 +474,6 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
 
 
 
-  // Widget _buildSelectedView() {
-  //   switch (_selectedIndex) {
-  //     case 0:
-  //       return _buildTelemetryView(latestTelemetryData);
-  //     case 1:
-  //       return _buildRecTelemetryView();
-  //     case 2:
-  //       return _buildLiveEventsView(liveEventsData);
-  //     default:
-  //       return Center(child: Text('Select a View'));
-  //   }
-  // }
 
   Widget _buildTelemetryView(List<dynamic> telemetryData) {
     return isLoading
@@ -570,19 +557,6 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
   }
 
 
-
-
-
-  // List<FlSpot> getDataPoints(List<dynamic> rawData) {
-  //   return rawData.map<FlSpot>((data) {
-  //     return FlSpot(data["x"].toDouble(), data["y"].toDouble());
-  //   }).toList();
-  // }
-  //
-  // String formateData(String dataType, dynamic value) {
-  //   // Format the data based on type
-  //   return "$value $dataType";
-  // }
 
 
 
