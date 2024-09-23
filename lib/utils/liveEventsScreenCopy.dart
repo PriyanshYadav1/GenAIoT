@@ -17,16 +17,16 @@ import 'package:intl/intl.dart';
 // import 'liveEvents.dart';
 import '../utils/DatabaseHelper.dart';
 
-class LiveEventsScreen extends StatefulWidget {
+class LiveEventsScreenCopy extends StatefulWidget {
   final String title;
   final String assetId;
-  const LiveEventsScreen({super.key, required this.title, required this.assetId});
+  const LiveEventsScreenCopy({super.key, required this.title, required this.assetId});
 
   @override
   _LiveEventsScreenState createState() => _LiveEventsScreenState();
 }
 
-class _LiveEventsScreenState extends State<LiveEventsScreen> {
+class _LiveEventsScreenState extends State<LiveEventsScreenCopy> {
   bool isLoading = true;
   int _selectedIndex = 0;
  // bool _telemetry = false;
