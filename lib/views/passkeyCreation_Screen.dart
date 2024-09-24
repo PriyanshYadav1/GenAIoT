@@ -35,7 +35,8 @@ class _passkeyCreation_ScreenState extends State<passkeyCreation_Screen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset('assets/images/logo-no-background.png'),
+                      //Image.asset('assets/images/logo-no-background.png'),
+                      Image.asset('assets/images/logo.png'),
                       const SizedBox(
                         height: 50,
                       ),

@@ -8,15 +8,35 @@ import 'globals.dart';
 import 'home.dart';
 import 'login_Screen.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
+  AppDrawer({super.key});
+
+  @override
+  State<AppDrawer> createState() => _AppDrawerState();
+}
+
+
+class _AppDrawerState extends State<AppDrawer> {
+
+  @override
+  void initState() {
+    super.initState();
+    getUsername();
+    getEmail();
+  }
+
   final User user = User(
       username: 'UserName',
       email: 'username@gmail.com',
       image: 'assets/images/defaultProfileImage.png');
+
   final _clientId = clientID;
+
   final _tenantId = tenantId;
+
   late final _authority =
       'https://login.microsoftonline.com/$_tenantId/oauth2/v2.0/authorize';
+
   final _scopes = <String>[
     'https://graph.microsoft.com/user.read',
     // Add other scopes here if required.
@@ -45,7 +65,17 @@ class AppDrawer extends StatelessWidget {
     }
   }
 
-  AppDrawer({super.key});
+  Future<String> getUsername () async {
+    final prefs  = await SharedPreferences.getInstance();
+    globals.UserName = prefs.getString('Name')!;
+    return globals.UserName.toString();
+  }
+
+  Future<String> getEmail () async {
+    final prefs  = await SharedPreferences.getInstance();
+    globals.UserEmail = prefs.getString('Email')!;
+    return globals.UserEmail.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +114,8 @@ class AppDrawer extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              displayName,
+                             displayName,
+                            // getUsername() as String,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -102,6 +133,7 @@ class AppDrawer extends StatelessWidget {
                               width: 170,
                               child: Text(
                                 globals.UserEmail,
+                               // getEmail() as String,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 11,

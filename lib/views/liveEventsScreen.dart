@@ -725,14 +725,14 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
           return range / labelCount;
         }
        // final double xInterval = getDynamicInterval(0, dataPoints.length.toDouble(), 5); // 5 labels on x-axis
-        final double yInterval = getDynamicInterval(getDataMin(dataPoints), getDataMax(dataPoints), 2); // 6 labels on y-axis
+        final double yInterval = getDynamicInterval(getDataMin(dataPoints), getDataMax(dataPoints), 1); // 6 labels on y-axis
 
 
         double dataMin = getDataMin(dataPoints);
         double dataMax = getDataMax(dataPoints);
         double yRange = dataMax - dataMin;
-        double lowerLimit = dataMin - (yRange * 0.6);
-        double upperLimit = dataMax + (yRange * 0.6);
+        double lowerLimit = dataMin - (yRange * 0.8);
+        double upperLimit = dataMax + (yRange * 0.8);
 
         return Card(
           color: Colors.white,

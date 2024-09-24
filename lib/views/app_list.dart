@@ -199,6 +199,7 @@ class _AppsGridState extends State<AppsGrid> {
     final isPortrait = size.width < size.height;
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           leadingWidth: 100,
