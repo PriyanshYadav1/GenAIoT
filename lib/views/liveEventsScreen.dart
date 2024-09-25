@@ -309,36 +309,46 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
             final metrics = entry.value as Map<String, dynamic>;
 
             for (var metric in metrics.entries) {
+
+
+              print(entry.value["eseverity"].toString()+"entry.value[entry.value[");
               var dataAll = await getValueByPropertyJsonKeydata("live",edgeTelemetryModelData, entry.value["ecode"].toString(), "event_code",widgetModelData,"");
               print(dataAll.toString()+"(dataAll.toString()");
 
              // print("EVENTTTTTT MESSAGE :"+dataAll.event_message);
+              transformedData.add({
+                "tss":timestamp,
+                'devId': devId,
+                'name': metric.key,
+                'ack':entry.value["ack_status"].toString(),
 
-              if(dataAll!=null){
-                transformedData.add({
-                  "tss":timestamp,
-                  'devId': devId,
-                  'name': metric.key,
-                  //'value': metric.value.toString(),
-                  'value': entry.value["ecode"].toString(),
-                  'ts': formattedDate,
-                  'fullts':fullformattedDate,
-                  'property_display_name': dataAll["event_message"],
-                  'property_unit': dataAll["event_severity"],
-                });
-              }else{
-                transformedData.add({
-                  "tss":timestamp,
-                  'devId': devId,
-                  'name': metric.key,
-                 // 'value': metric.value.toString(),
-                  'value': entry.value["ecode"].toString(),
-                  'ts': formattedDate,
-                  'fullts':fullformattedDate,
-                  'property_display_name': "N/A",
-                  'property_unit': "",
-                });
-              }
+                //'value': metric.value.toString(),
+                'value': entry.value["ecode"].toString(),
+                'eservity': entry.value["eservity"].toString(),
+                'emessage': entry.value["emessage"].toString(),
+                'ts': formattedDate,
+                'fullts':fullformattedDate,
+                'property_display_name': entry.value["emessage"]!=null ? entry.value["emessage"].toString() : dataAll != null ? dataAll["event_message"] : "N/A",
+                'property_unit': entry.value["eseverity"]!=null ? entry.value["eseverity"].toString() : dataAll != null ? dataAll["event_severity"] : "N/A"
+              });
+
+              // if(dataAll!=null){
+              //
+              // }else{
+              //   transformedData.add({
+              //     "tss":timestamp,
+              //     'devId': devId,
+              //     'name': metric.key,
+              //    // 'value': metric.value.toString(),
+              //     'value': entry.value["ecode"].toString(),
+              //     'eservity': entry.value["eservity"].toString(),
+              //     'emessage': entry.value["emessage"].toString(),
+              //     'ts': formattedDate,
+              //     'fullts':fullformattedDate,
+              //     'property_display_name': "N/A",
+              //     'property_unit': "",
+              //   });
+              // }
 
             }
           }
@@ -1292,7 +1302,7 @@ Widget _buildTicketCard(BuildContext context, Map<String, dynamic> data) {
             ),
           ]else if(data["property_unit"]=="Info")...[
             Icon(
-              Icons.info_outlined,color: Colors.blue,
+              Icons.info,color: Colors.blue,
               size: 24,
             )
           ]else if(data["property_unit"]=="Critical")...[
@@ -1305,7 +1315,14 @@ Widget _buildTicketCard(BuildContext context, Map<String, dynamic> data) {
               Icons.warning_outlined,color: Colors.red,
               size: 24,
             )
+          ]else if(data["property_unit"]=="Information")...[
+            Icon(
+              Icons.info,color: Colors.blue,
+              size: 24,
+            )
           ]
+
+
           // else
           //   Icon(
           //       Icons.warning_outlined,color: Colors.amber,
@@ -1324,7 +1341,18 @@ Widget _buildTicketCard(BuildContext context, Map<String, dynamic> data) {
             style: TextStyle( fontSize: 15),
           ),
           Spacer(),
-          Icon(Icons.thumb_up, size: 24),
+          if(data["ack"]=="yes")...[
+            Icon(
+              Icons.thumb_up,color: Colors.blue,
+              size: 24,
+            ),
+          ]else if(data["ack"]=="no")...[
+            Icon(
+              Icons.thumb_up,color: Colors.grey,
+              size: 24,
+            )
+          ]
+         // Icon(Icons.thumb_up, size: 24),
         ],
       ),
       trailing: SizedBox.shrink(),
@@ -1336,12 +1364,14 @@ Widget _buildTicketCard(BuildContext context, Map<String, dynamic> data) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
+
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       _buildRichTextRow("Time:", data['fullts'] ?? 'N/A'),
-                      _buildRichTextRow("Message:", data['property_display_name'] ?? 'N/A'),
+                       _buildRichTextRow("Message:", data['property_display_name'] ?? 'N/A'),
+                     // _buildRichTextRow("Message:", data['ack'] ?? 'N/A'),
                       _buildRichTextRow("Child Device:", data['devId'] ?? 'N/A'),
                       _buildRichTextRow("Actions:", data['t'] ?? 'N/A'),
                     ],

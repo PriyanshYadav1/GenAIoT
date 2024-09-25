@@ -21,8 +21,15 @@ class _AppDrawerState extends State<AppDrawer> {
   @override
   void initState() {
     super.initState();
-    getUsername();
-    getEmail();
+    // getUsername();
+    // getEmail();
+    loadUserData();
+  }
+
+  Future<void> loadUserData() async {
+    await getUsername();
+    await getEmail();
+    setState(() {});
   }
 
   final User user = User(
@@ -67,19 +74,21 @@ class _AppDrawerState extends State<AppDrawer> {
 
   Future<String> getUsername () async {
     final prefs  = await SharedPreferences.getInstance();
-    globals.UserName = prefs.getString('Name')!;
+    globals.UserName = prefs.getString('Name') ?? 'User Name';
     return globals.UserName.toString();
   }
 
   Future<String> getEmail () async {
     final prefs  = await SharedPreferences.getInstance();
-    globals.UserEmail = prefs.getString('Email')!;
+    globals.UserEmail = prefs.getString('Email')?? 'useremail@gmail.com';
     return globals.UserEmail.toString();
   }
 
   @override
   Widget build(BuildContext context) {
+
     // Extract the first and middle names from the full name
+
     final names = globals.UserName.split(' ');
     final firstName = names.isNotEmpty ? names.first : '';
     final middleName = names.length > 1 ? names[1] : '';
