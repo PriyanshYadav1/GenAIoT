@@ -1,10 +1,4 @@
-
-
-
-
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:genaiot/models/live_data.dart';
 import 'package:genaiot/utils/api_calling.dart';
@@ -13,7 +7,6 @@ import 'package:genaiot/utils/api_calling.dart';
 // import 'package:intl/intl.dart';
 import 'package:intl/intl.dart';
 
-// import 'liveEvents.dart';
 import '../utils/DatabaseHelper.dart';
 
 class LiveEventsScreen extends StatefulWidget {
@@ -75,7 +68,7 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
 
         for (var item in data) {
           final double timestamp = (item['ts'] as num?)?.toDouble() ?? 0.0;
-          final dateTime = DateTime.fromMillisecondsSinceEpoch((timestamp * 1000).toInt(), isUtc: true);
+          final dateTime = DateTime.fromMillisecondsSinceEpoch((timestamp * 1000).toInt(), isUtc: isUtc);
           final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
           final formattedDate = dateFormat.format(dateTime);
           final Map<String, dynamic> itemData = item['data'] as Map<String, dynamic>? ?? {};
@@ -209,12 +202,6 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
 
 
 
-
-
-
-
-
-
   Future<void> liveEvents() async {
     try {
       setState(() {
@@ -223,6 +210,7 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
 
       var liveData = await get("/api/live_event/562223bc-25fb-4057-a08a-74c02f1c5326");
        print("live Data==================${liveData}");
+
 
       if (liveData != null && liveData["data"] != null) {
         List<dynamic> data = liveData["data"];
@@ -511,6 +499,7 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
             ),
           ),
         );
+
       },
     );
   }
@@ -558,9 +547,6 @@ dynamic getValueByPropertyJsonKey(List<dynamic> widget_data, String propertyJson
   }
   return null; // Return null if the key is not found
 }
-
-
-
 
 
 class GaugeData {
@@ -615,8 +601,9 @@ Widget _buildTicketList(List<dynamic> data) {
 
 Widget _buildTicketCard(BuildContext context, Map<String, dynamic> data) {
   return Card(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-    elevation: 4,
+    color: Colors.white,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9.0)),
+    elevation: 6,
     child: ExpansionTile(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -686,68 +673,6 @@ Widget _buildTicketCard(BuildContext context, Map<String, dynamic> data) {
   );
 }
 
-// Widget getIconForPropertyUnit(String propertyUnit) {
-//   final iconMap = {
-//     'Warning': Icons.warning_outlined,
-//     'Info': Icons.info_outlined,
-//     'Danger': Icons.warning_outlined,
-//     'Error': Icons.warning_outlined,
-//   };
-//
-//   final colorMap = {
-//     'Warning': Colors.amber,
-//     'Info': Colors.blue,
-//     'Danger': Colors.red,
-//     'Error': Colors.red,
-//   };
-//
-//
-//   final icon = iconMap[propertyUnit] ?? Icons.help_outline;
-//   final color = colorMap[propertyUnit] ?? Colors.grey; // Fallback color if propertyUnit is unknown
-//
-//   return Icon(icon, color: color, size: 24);
-// }
-
-
-// Widget _buildRichTextRow(String label, String value) {
-//   return Padding(
-//     padding: const EdgeInsets.only(bottom: 5.0, left: 10.0),
-//     child: Center(
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.center, // Center row horizontally
-//         children: [
-//           // Label
-//           SizedBox(
-//             width: 120, // Adjust the width for alignment
-//             child: Align(
-//               alignment: Alignment.centerLeft,
-//               child: Text(
-//                 label,
-//                 style: TextStyle(fontSize: 13, color: Colors.black),
-//                 textAlign: TextAlign.right, // Align text to the right within the box
-//               ),
-//             ),
-//           ),
-//           SizedBox(width: 10), // Space between label and value
-//           // Value
-//           Expanded(
-//             child: Align(
-//               alignment: Alignment.centerLeft,
-//               child: Text(
-//                 value,
-//                 style: TextStyle(fontSize: 13, color: Colors.black),
-//               //  overflow: TextOverflow.ellipsis, // Handle overflow if needed
-//                 textAlign: TextAlign.left, // Align text to the left within the box
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//
-//     ),
-//   );
-// }
-
 
 Widget _buildRichTextRow(String label, String value) {
   return Padding(
@@ -783,7 +708,6 @@ Widget _buildRichTextRow(String label, String value) {
     ),
   );
 }
-
 
 
 

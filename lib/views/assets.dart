@@ -180,8 +180,6 @@
 //   }
 // }
 
-
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // import 'package:genaiot/views/scr_5_asset_stats_representation.dart';
@@ -386,8 +384,9 @@ class _AssetsPageState extends State<AssetsPage> {
             final item = filteredAssets[index];
             return Card(
               elevation: 10.0,
+              color: Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(9),
               ),
               child: ListTile(
                 leading: Icon(item.icon, color: _getIconColor(index)),

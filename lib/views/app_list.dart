@@ -346,7 +346,6 @@ class _AppsGridState extends State<AppsGrid> {
               final app = apps[index];
               return GestureDetector(
                 onTap: () async {
-
                   // here we have to store app_shortCode in SharedPreferences and get it in api_calling.dart page globally.
                   final prefs = await SharedPreferences.getInstance();
                   await prefs.setString("appShortCode", app.shortCode);

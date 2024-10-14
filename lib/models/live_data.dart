@@ -179,17 +179,4 @@ class LiveData {
       ts: json['ts'] ?? 0.0,
     );
   }
-
-// Map<String, dynamic> toJson() {
-//   return {
-//     'id': id,
-//     'title': title,
-//     'status': status,
-//     'createdBy': createdBy,
-//     'createdOn': createdOn,
-//     'category': category,
-//     'allottedOn': allottedOn,
-//     'assignedTo': assignedTo,
-//   };
-//}
 }

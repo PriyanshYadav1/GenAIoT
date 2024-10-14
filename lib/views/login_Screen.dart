@@ -54,7 +54,6 @@ class _login_ScreenState extends State<login_Screen> {
       // TOKEN CREATION AND EXPIRY
       // final responseTokenCreationTime = user?.tokenCreatedAt;
       // final responseTokenExpirationTime = user?.tokenExpiresOn;
-
       // log('Email: ${email}');
       // log('Display Name: ${name}');
       // log('Token: ${responseToken}');
