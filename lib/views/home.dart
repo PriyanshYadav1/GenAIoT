@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'hamburger_menu.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,6 +11,18 @@ class HomePage extends StatefulWidget {
 
 
 class HomePageState extends State<HomePage> {
+
+
+  Future<String> getUsername () async {
+    final prefs  = await SharedPreferences.getInstance();
+    return await prefs.getString("usernamePrefs").toString();
+  }
+
+  Future<String> getEmail () async {
+    final prefs  = await SharedPreferences.getInstance();
+    return await prefs.getString("UaeremailPrefs").toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

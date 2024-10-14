@@ -58,7 +58,12 @@ class _login_ScreenState extends State<login_Screen> {
       // log('Display Name: ${name}');
       // log('Token: ${responseToken}');
 
+      // SHARED PREFRENCES HERE (SETSTRING TYPE)
       final prefs = await SharedPreferences.getInstance();
+      // await prefs.setString("usernamePrefs", globals.UserEmail);
+      // await prefs.setString("UaeremailPrefs", globals.UserName);
+
+
       await prefs.setString('Name', user!.displayName);
       await prefs.setString('Email', user!.username);
       await prefs.setString('Token', responseToken!);
@@ -92,7 +97,9 @@ class _login_ScreenState extends State<login_Screen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset('assets/images/logo-no-background.png'),
+                      //Image.asset('assets/images/logo-no-background.png'),
+                      Image.asset('assets/images/logo.png'),
+
                       const SizedBox(
                         height: 60,
                       ),

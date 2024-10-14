@@ -1,132 +1,4 @@
-// import 'package:flutter/material.dart';
-// import 'hamburger_menu.dart';
-// import '../models/app_model.dart';
-// import 'assets.dart';
-//
-// class AppsGrid extends StatefulWidget {
-//   const AppsGrid({super.key});
-//
-//   @override
-//   State<AppsGrid> createState() => _AppsGridState();
-// }
-//
-// class _AppsGridState extends State<AppsGrid> {
-//   final List<App> apps = [
-//     App(name: "Compressor Monitoring System", imageUrl: "https://cdn.pixabay.com/photo/2019/11/28/16/04/pump-4659468_640.jpg"),
-//     App(name: "Police Car Monitoring System", imageUrl: "https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png"),
-//     App(name: "Industrial Blenders", imageUrl: "https://cdn.pixabay.com/photo/2023/07/17/18/33/ai-generated-8133280_640.png"),
-//     App(name: "Bulldozer", imageUrl: "https://cdn.pixabay.com/photo/2017/04/02/09/08/bulldozer-2195329_1280.jpg"),
-//     App(name: "Pond Water Quality Monitoring", imageUrl: "https://cdn.pixabay.com/photo/2015/03/26/18/44/space-center-693251_640.jpg"),
-//     App(name: "Swimming Pool Monitoring", imageUrl: "https://cdn.pixabay.com/photo/2015/07/10/15/01/water-839313_640.jpg"),
-//     App(name: "Pressure Washer Monitoring", imageUrl: "https://cdn.pixabay.com/photo/2018/01/26/15/59/pressure-gauge-3109005_640.jpg"),
-//     App(name: "Utilities", imageUrl: "https://cdn.pixabay.com/photo/2015/01/21/11/13/power-606592_640.jpg"),
-//   App(name: "Pump Monitoring System", imageUrl: "https://cdn.pixabay.com/photo/2014/04/07/04/46/pump-318331_640.jpg"),
-//   App(name: "Smart Building Management", imageUrl: "https://cdn.pixabay.com/photo/2022/05/22/17/22/building-7214070_1280.jpg"),
-//   App(name: "Predictive Maintenance", imageUrl: "https://cdn.pixabay.com/photo/2015/07/11/14/53/plumbing-840835_640.jpg"),
-//
-//   App(name: "Home Security Monitoring", imageUrl: "https://cdn.pixabay.com/photo/2022/06/17/09/50/cctv-surveillance-camera-7267551_640.jpg")
-//   ];
-//
-//
-//   @override
-//   Widget build(BuildContext context) {
-//
-//     return MaterialApp(
-//       home: Scaffold(
-//         appBar: AppBar(
-//           leadingWidth: 100,
-//           leading: Builder(
-//             builder: (context) => Row(
-//               children: [
-//                 IconButton(
-//                   icon: const Icon(Icons.menu),
-//                   onPressed: () {
-//                     Scaffold.of(context).openDrawer();
-//                   },
-//                 ),
-//                 // const Expanded(
-//                 //   child: Padding(
-//                 //     padding: EdgeInsets.only(left: 8.0),
-//                 //     child: CircleAvatar(
-//                 //       radius: 100,
-//                 //       backgroundImage: NetworkImage(
-//                 //         'https://example.com/profile_image.jpg',
-//                 //       ),
-//                 //     ),
-//                 //   ),
-//                 // ),
-//               ],
-//             ),
-//           ),
-//           title: const Text('Apps'), centerTitle: true,
-//         ),
-//         drawer: AppDrawer(),
-//         body: Padding(
-//           padding: const EdgeInsets.all(8.0),
-//           child: GridView.builder(
-//             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//               crossAxisCount: 2,
-//               crossAxisSpacing: 5.0,
-//               mainAxisSpacing: 5.0,
-//             ),
-//             itemCount: apps.length,
-//             itemBuilder: (context, index) {
-//               final app = apps[index];
-//               return GestureDetector(
-//                 onTap: () {
-//                   Navigator.push(
-//                     context,
-//                     MaterialPageRoute(
-//                       builder: (context) => AssetsPage(appName: app.name,),
-//                     ),
-//                   );
-//                 },
-//                 child: Card(
-//                   elevation: 30.0,
-//
-//                   shape: const RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
-//                   ),
-//                   child: SizedBox(
-//                     width: MediaQuery.of(context).size.width*0.7,
-//                     height: MediaQuery.of(context).size.height*0.25,
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.stretch,
-//                       children: [
-//                         ClipRRect(
-//                           borderRadius: BorderRadius.circular(15.0),
-//                           child: AspectRatio(
-//                             aspectRatio: 16/12,
-//                             child: Image.network(
-//                               app.imageUrl,
-//                               fit: BoxFit.cover,
-//                              width: double.infinity,
-//                              height: MediaQuery.of(context).size.height*0.25,
-//                              //  height: 170,
-//                             ),
-//                           ),
-//                         ),
-//                         Padding(
-//                           padding: const EdgeInsets.all(8.0),
-//                           child: Text(
-//                             app.name,
-//                             style: const TextStyle(fontSize: 16.0),
-//                             overflow: TextOverflow.ellipsis,
-//                             maxLines: 1,
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               );
-//             },
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+
 
 
 
@@ -140,6 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 import '../models/app_model.dart';
 import '../utils/DatabaseHelper.dart';
 import '../utils/api_calling.dart';
@@ -176,16 +49,20 @@ class _AppsGridState extends State<AppsGrid> {
   bool isLoading = false;
   String? errorMessage;
   bool errorOccurred = false;
-
+  bool activityLoader = false;
+  bool isFetching = false;
 
   @override
   void initState() {
     super.initState();
     fetchApps();
+
   }
 
 
   Future<void> fetchApps() async {
+
+
     setState(() {
       isLoading = true;
       errorOccurred = false; // Reset error flag
@@ -207,7 +84,8 @@ class _AppsGridState extends State<AppsGrid> {
 
     if (response['success']) {
       final responseData = response['data'];
-  print(" Response        +$responseData");
+
+    print("Response + $responseData");
       if (responseData != null) {
         List<dynamic> data = responseData is List ? responseData : [];
         setState(() {
@@ -222,16 +100,67 @@ class _AppsGridState extends State<AppsGrid> {
           isLoading = false;
           errorOccurred = true;
         });
-        _showErrorDialog(response['message'] ??'No data received from the server!');
+        _showErrorDialog('No data received from the server!');
       }
     } else {
       setState(() {
         isLoading = false;
         errorOccurred = true;
       });
-      _showErrorDialog(response['message'] ?? 'An unknown error occurred.');
+      _showErrorDialog('An unknown error occurred.');
 
     }
+  }
+
+  Future<void> fetchAssetModels(String appShortCode) async {
+
+
+    await clearTable("api_data");
+    try {
+      final response = await get('/api/asset_models');
+
+      if (response['success']) {
+        final responseData =await response['data'];
+        if (responseData != null && responseData is List) {
+
+          for (var asset in responseData) {
+            if (asset is Map<String, dynamic> && asset.containsKey('short_code')) {
+              final shortCode = await asset['short_code'];
+              print('Short Code: ${asset['short_code']}');
+              await fetchAssetss(shortCode);
+
+            }
+          }}
+      }
+      else {
+        print('Failed to load asset models');
+      }
+    } catch (e) {
+      print('Error fetching asset models:');
+    }
+  }
+
+  Future<void> fetchAssetss(String shortCode) async {
+
+    var url2 = await '/api/data_model/'+shortCode;
+    var url3 = await '/api/widgets/'+shortCode;
+
+
+    print('Fetching assets from $url2');
+
+    final response = await get(url2);
+    print("Received data assets from URL2: $response");
+
+    final response1 = await get(url3);
+    print("Received data assets from URL3: $response1");
+
+
+
+    await saveApiToDb(url2,"data_model"+shortCode);
+
+    await saveApiToDb(url3,"widget"+shortCode);
+
+
   }
 
   void _showErrorDialog(String message) {
@@ -262,54 +191,15 @@ class _AppsGridState extends State<AppsGrid> {
     });
   }
 
-  //
-  // Future<void> fetchApps() async {
-  //   setState(() {
-  //     isLoading = true;
-  //     errorMessage = null;
-  //   });
-  //
-  //   final url = '/api/applications';
-  //   print(url+"dsahdjsahdkjsa");
-  //   try {
-  //     final data = await get(url);
-  //     print("Received data: $data");
-  //
-  //     if (data != null) {
-  //       List<dynamic> responseData = data is List ? data : [];
-  //       setState(() {
-  //         apps = responseData.map((json) {
-  //           return App.fromJson(
-  //               json is Map<String, dynamic> ? json : {}
-  //           );
-  //         }).toList();
-  //         selectedApp = apps.isNotEmpty ? apps[0] : null;
-  //         isLoading = false;
-  //       });
-  //     } else {
-  //       setState(() {
-  //         isLoading = false;
-  //         errorMessage = 'No data received from server.';
-  //       });
-  //     }
-  //   } catch (e) {
-  //     setState(() {
-  //       isLoading = false;
-  //       errorMessage = 'Error during HTTP request: $e';
-  //     });
-  //   }
-  // }
 
-
-  // void _onAppSelected(App app) {
-  //   setState(() {
-  //     selectedApp = app;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final isPortrait = size.width < size.height;
+
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           leadingWidth: 100,
@@ -333,6 +223,8 @@ class _AppsGridState extends State<AppsGrid> {
         // apps.isEmpty ?
         // const Center(child: CircularProgressIndicator())
         //     :
+        
+       // activityLoader ?
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: GridView.builder(
@@ -346,12 +238,31 @@ class _AppsGridState extends State<AppsGrid> {
               final app = apps[index];
               return GestureDetector(
                 onTap: () async {
-                  // here we have to store app_shortCode in SharedPreferences and get it in api_calling.dart page globally.
+                  if (isFetching) {
+                    // Show a temporary message or a loading indicator when already fetching
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Loading in progress..."),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                    return; // Exit early if already fetching
+                  }
+
+                  // Proceed with the fetching logic
+                  setState(() {
+                    isFetching = true;
+                    activityLoader = true;
+                  });
+
                   final prefs = await SharedPreferences.getInstance();
                   await prefs.setString("appShortCode", app.shortCode);
-                  await saveApiToDb("/api/widgets/CNGCOM","widgets");
-                  await saveApiToDb("/api/edge_event_model/CNGCOM","edge_event_model");
-                  await saveApiToDb("/api/edge_telemetry_model/CNGCOM","edge_telemetry_model");
+                  await fetchAssetModels(app.shortCode);
+                  // here we have to store app_shortCode in SharedPreferences and get it in api_calling.dart page globally.
+
+                  // await saveApiToDb("/api/widgets/CNGCOM","widgets");
+                  // await saveApiToDb("/api/edge_event_model/CNGCOM","edge_event_model");
+                  // await saveApiToDb("/api/edge_telemetry_model/CNGCOM","edge_telemetry_model");
 
 
                   Fluttertoast.showToast(
@@ -363,52 +274,48 @@ class _AppsGridState extends State<AppsGrid> {
                       textColor: Colors.white,
                       fontSize: 16.0);
 
-                  Navigator.push(
+                  Navigator.push (
                     context,
                     MaterialPageRoute(
                       builder: (context) => AssetsPage(appShortCode: app.shortCode,),
                       // builder: (context) => AssetsPage(),
                     ),
                   );
+                  setState(() {
+                    activityLoader = false;
+                    isFetching = false;
+                  });
 
                 },
                 child: Card(
-                  elevation: 50.0,
-                  shadowColor: Colors.black.withOpacity(1.0),
-                  margin: const EdgeInsets.all(5.0), // Margin around the card
+                  elevation: 4.0,
+                 // shadowColor: Colors.black.withOpacity(1.0),
+                  margin: const EdgeInsets.all(5.0),
                   clipBehavior: Clip.antiAlias,
                   semanticContainer: true,
                   shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   ),
                   child: SizedBox(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.7,
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.25,
+                    width: size.width * 0.7,
+                    height: size.height * 0.45,
+
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(20.0),
+                          borderRadius: BorderRadius.circular(8.0),
                     child: Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.2,
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.15,
+                      width: double.infinity,
+                      height: isPortrait
+                          ? size.height * 0.16
+                          : size.height * 0.8,
+
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
                             color: Colors.white.withOpacity(0.6),
-                            spreadRadius: 5,
+                           // spreadRadius: 5,
                            // blurRadius: 10,
                            // offset: Offset(0, 5), // Shadow position
                           ),
@@ -417,7 +324,8 @@ class _AppsGridState extends State<AppsGrid> {
                           child: Padding(
                             padding: const EdgeInsets.all(30.0),
                             child: AspectRatio(
-                              aspectRatio: 18 / 12,
+                              //aspectRatio: 16 / 9,
+                               aspectRatio: 18 / 12,
                               child: Base64Image(
                                 apiUrl: '/api/get_app_icon',
                                 filePath: app.iconUri,
@@ -456,17 +364,27 @@ class _AppsGridState extends State<AppsGrid> {
                           ),
                         ),
                       ],
-                    //   sdfgh
                     ),
                   ),
                 ),
               );
             },
           ),
-        ),
+        )
+        //       :Container(
+        //   child: Text("dfdfsdfdsfdsd"),
+        // ),
       ),
     );
   }
+
+}
+
+Future<void> clearTable(String s) async {
+  final Database db = await DatabaseHelper.instance.database;
+
+  // Execute the DELETE statement
+  await db.delete(s);
 
 }
 
@@ -482,11 +400,14 @@ Future<void> saveApiToDb(url,key) async {
   final existingData = await DatabaseHelper.instance.queryAllRows();
   bool exists = existingData.any((row) => row[DatabaseHelper.columnUniqueKey] == uniqueKey);
 
+  print("dsajdlksadljksajdlkasldsa398");
   if (exists) {
+    print("dsajdlksadljksajdlkasldsa399");
     // Update the existing record
     await DatabaseHelper.instance.update(uniqueKey, exampleData);
   } else {
     // Insert new record
+    print("dsajdlksadljksajdlkasldsa404");
     await DatabaseHelper.instance.insert(exampleData);
   }
 

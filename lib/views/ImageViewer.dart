@@ -26,6 +26,9 @@ class Base64Image extends StatelessWidget {
     return FutureBuilder<Uint8List>(
       future: _fetchImageBytes(),
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
+
+
+        print("Connnnnnnnn"+ConnectionState.values.toString());
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {

@@ -4,7 +4,6 @@
 
 
 import 'dart:convert';
-// import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:genaiot/models/live_data.dart';
@@ -14,21 +13,20 @@ import 'package:google_fonts/google_fonts.dart';
 // import 'package:kdgaugeview/kdgaugeview.dart';
 // import 'package:intl/intl.dart';
 import 'package:intl/intl.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 // import 'liveEvents.dart';
 import '../utils/DatabaseHelper.dart';
 
-class LiveEventsScreen extends StatefulWidget {
+class LiveEventsScreenCopy extends StatefulWidget {
   final String title;
   final String assetId;
-  const LiveEventsScreen({super.key, required this.title, required this.assetId});
+  const LiveEventsScreenCopy({super.key, required this.title, required this.assetId});
 
   @override
   _LiveEventsScreenState createState() => _LiveEventsScreenState();
 }
 
-class _LiveEventsScreenState extends State<LiveEventsScreen> {
+class _LiveEventsScreenState extends State<LiveEventsScreenCopy> {
   bool isLoading = true;
   int _selectedIndex = 0;
  // bool _telemetry = false;
@@ -38,7 +36,6 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
   List<dynamic> latestTelemetryData = [];
   List<dynamic> liveEventsData = [];
   bool isUtc = false;
-  Map<String, List<FlSpot>> graphData = {};
 
 
 
@@ -148,7 +145,9 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
         isLoading = true;
       });
 
-
+      // var liveData = await get("/api/assets/562223bc-25fb-4057-a08a-74c02f1c5326/recenttelemetry");
+      //
+      // print("RECENT TELEMETRYYYYYYYYYYYYYYYYYYYy"+liveData);
 
       var liveData = await get("/api/assets/${widget.assetId}/recenttelemetry");
       print("live Data==================${liveData}");
@@ -157,9 +156,11 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
       if (liveData != null && liveData["data"] != null) {
         List<dynamic> data = liveData["data"];
 
+        // Fetch the edge telemetry model data from SQLite
+        // List<dynamic> edgeTelemetryModelData = await getFromSqlliteList("edge_telemetry_model");
 
         List<Map<String, dynamic>> transformedData = [];
-        Map<String, List<double>> groupedData = {};
+
         for (var item in data) {
 
           var edgeTelemetryModelData = await getFromSqllite("telemetry_model","data_model"+item['asset_model_short_code']);
@@ -177,75 +178,41 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
 
             for (var metric in metrics.entries) {
               var dataAll = await getValueByPropertyJsonKey("telemetry_model",edgeTelemetryModelData, metric.key.toString(), "property_json_key",widgetModelData,"Recent Telemetry");
-
+// print("DATA   ALLL"+dataAll..toString());
               if(dataAll!=null){
                 transformedData.add({
                   'devId': devId,
                   'name': metric.key,
-                  'value': dataAll["property_data_type"] == "float" ? double.parse(metric.value.toString()).toStringAsFixed(2) : metric.value.toString(),
-                  //'value': metric.value.toString(),
+                  'value': metric.value.toString(),
                   'ts': formattedDate,
-                  'timestamp': dateTime,
                   'property_display_name': dataAll["property_display_name"],
                   'property_unit': dataAll["property_unit"],
                   'property_data_type': dataAll["property_data_type"],
                 });
-                // Collect data points by display name
-                String displayName = dataAll["property_display_name"];
-                double value;
-
-                // Check data type
-                if (metric.value is num) {
-                  value = (metric.value as num).toDouble();
-                } else if (metric.value is String) {
-                  String stringValue = metric.value.toString().trim();
-                  if (stringValue.isEmpty || stringValue == "N/A" || stringValue == "null") {
-                    continue; // Skip this entry
-                  }
-                  try {
-                    value = double.parse(stringValue);
-                  } catch (e) {
-                    continue;
-                  }
-                } else if (metric.value is bool) {
-                  continue;
-                } else {
-                  continue;
-                }
-
-
-                // Initialize list if it doesn't exist
-                if (!groupedData.containsKey(displayName)) {
-                  groupedData[displayName] = [];
-                }
-                groupedData[displayName]!.add(value);
               }
-
-
-
+              // else{
+              //   transformedData.add({
+              //     'devId': devId,
+              //     'name': metric.key,
+              //     'value': metric.value.toString(),
+              //     'ts': formattedDate,
+              //     'property_display_name': "",
+              //     'property_unit': "",
+              //   });
+              // }
             }
           }
         }
-        // Sort transformedData by timestamp (oldest to most recent)
-        transformedData.sort((a, b) => a['timestamp'].compareTo(b['timestamp']));
-
-
-        // transformedData.sort((a, b) => double.parse(a['value']).compareTo(double.parse(b['value'])));
 
         setState(() {
           recentTelemetryData = transformedData;
-          this.graphData = _prepareGraphData(transformedData);
-
         });
 
         print("transformedData: $transformedData");
-        print("groupedData: $groupedData");
       }
-    } catch (e, stackTrace) {
-      print('Error fetching recent telemetry: $e');
-      print('Stack trace: $stackTrace');
+    } catch (e) {
       print('Error fetching recent telemetry');
-      _handleError(Exception(e),stackTrace);
+      _handleError(Exception(e));
     } finally {
       setState(() {
         isLoading = false;
@@ -273,7 +240,11 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
       if (liveData != null && liveData["data"] != null) {
         List<dynamic> data = liveData["data"];
 
+        // Fetch the edge telemetry model data from SQLite
 
+       // List<dynamic> edgeTelemetryModelData = await getFromSqlliteList("edge_event_model");
+
+       // print("LivEEEEEEEEEEEEEEEEEEEEEE DATTTTTAAAA"+edgeTelemetryModelData.toString());
 
         List<Map<String, dynamic>> transformedData = [];
 
@@ -309,46 +280,36 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
             final metrics = entry.value as Map<String, dynamic>;
 
             for (var metric in metrics.entries) {
-
-
-              print(entry.value["eseverity"].toString()+"entry.value[entry.value[");
               var dataAll = await getValueByPropertyJsonKeydata("live",edgeTelemetryModelData, entry.value["ecode"].toString(), "event_code",widgetModelData,"");
               print(dataAll.toString()+"(dataAll.toString()");
 
              // print("EVENTTTTTT MESSAGE :"+dataAll.event_message);
-              transformedData.add({
-                "tss":timestamp,
-                'devId': devId,
-                'name': metric.key,
-                'ack':entry.value["ack_status"].toString(),
 
-                //'value': metric.value.toString(),
-                'value': entry.value["ecode"].toString(),
-                'eservity': entry.value["eservity"].toString(),
-                'emessage': entry.value["emessage"].toString(),
-                'ts': formattedDate,
-                'fullts':fullformattedDate,
-                'property_display_name': entry.value["emessage"]!=null ? entry.value["emessage"].toString() : dataAll != null ? dataAll["event_message"] : "N/A",
-                'property_unit': entry.value["eseverity"]!=null ? entry.value["eseverity"].toString() : dataAll != null ? dataAll["event_severity"] : "N/A"
-              });
-
-              // if(dataAll!=null){
-              //
-              // }else{
-              //   transformedData.add({
-              //     "tss":timestamp,
-              //     'devId': devId,
-              //     'name': metric.key,
-              //    // 'value': metric.value.toString(),
-              //     'value': entry.value["ecode"].toString(),
-              //     'eservity': entry.value["eservity"].toString(),
-              //     'emessage': entry.value["emessage"].toString(),
-              //     'ts': formattedDate,
-              //     'fullts':fullformattedDate,
-              //     'property_display_name': "N/A",
-              //     'property_unit': "",
-              //   });
-              // }
+              if(dataAll!=null){
+                transformedData.add({
+                  "tss":timestamp,
+                  'devId': devId,
+                  'name': metric.key,
+                  //'value': metric.value.toString(),
+                  'value': entry.value["ecode"].toString(),
+                  'ts': formattedDate,
+                  'fullts':fullformattedDate,
+                  'property_display_name': dataAll["event_message"],
+                  'property_unit': dataAll["event_severity"],
+                });
+              }else{
+                transformedData.add({
+                  "tss":timestamp,
+                  'devId': devId,
+                  'name': metric.key,
+                 // 'value': metric.value.toString(),
+                  'value': entry.value["ecode"].toString(),
+                  'ts': formattedDate,
+                  'fullts':fullformattedDate,
+                  'property_display_name': "N/A",
+                  'property_unit': "",
+                });
+              }
 
             }
           }
@@ -363,9 +324,9 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
 
         print("transformedData: $transformedData");
       }
-    } catch (e,stackTrace) {
+    } catch (e) {
       print('Error fetching recent telemetry: $e');
-      _handleError(Exception(e),stackTrace);
+      _handleError(Exception(e));
     } finally {
       setState(() {
         isLoading = false;
@@ -398,7 +359,7 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
     );
   }
 
-  void _handleError(Exception e, StackTrace stackTrace) {
+  void _handleError(Exception e) {
 
 
 
@@ -408,7 +369,7 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Error'),
-          content: Text('An error occurred while fetching data ${e} ${stackTrace}'),
+          content: Text('An error occurred while fetching data ${e}'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -499,13 +460,11 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
   }
 
   Widget _buildSelectedView() {
-    final Map<String, List<FlSpot>> graphData = _prepareGraphData(recentTelemetryData);
     switch (_selectedIndex) {
       case 0:
         return _buildTelemetryView(latestTelemetryData);
       case 1:
-        //return _buildRecentTelemetryView(recentTelemetryData);
-        return _buildRecentTelemetryView(graphData);
+        return _buildTelemetryView(recentTelemetryData);
       case 2:
         return _buildLiveEventsView(liveEventsData);
       default:
@@ -515,18 +474,6 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
 
 
 
-  // Widget _buildSelectedView() {
-  //   switch (_selectedIndex) {
-  //     case 0:
-  //       return _buildTelemetryView(latestTelemetryData);
-  //     case 1:
-  //       return _buildRecTelemetryView();
-  //     case 2:
-  //       return _buildLiveEventsView(liveEventsData);
-  //     default:
-  //       return Center(child: Text('Select a View'));
-  //   }
-  // }
 
   Widget _buildTelemetryView(List<dynamic> telemetryData) {
     return isLoading
@@ -614,457 +561,6 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
 
 
 
-  Map<String, List<FlSpot>> _prepareGraphData(List<dynamic> telemetryData) {
-    Map<String, List<FlSpot>> graphData = {};
-    Map<String, List<String>> xLabels = {};
-
-   // telemetryData.sort((a, b) => DateTime.parse(a['ts']).compareTo(DateTime.parse(b['ts'])));
-    telemetryData.sort((a, b) => a['timestamp'].compareTo(b['timestamp']));
-
-    // Iterate through telemetryData and group by property_display_name
-    for (var item in telemetryData) {
-      String displayName = item["property_display_name"];
-
-      double dataFinalVal= 0.0;
-
-
-     // double value = double.tryParse(item["value"]) ?? 0.0; // Safely parse the value
-
-      if(item["property_data_type"]=="float"){
-        dataFinalVal=double.parse(item["value"]);
-      }
-      if(item["property_data_type"]=="integer"){
-        dataFinalVal=double.parse(item["value"]);
-      }
-      // print(displayName+item.toString()+"displayNamedisplayNamedisplayName");
-      // Check if the value is boolean and skip it if it is
-      // if (item["value"] is bool) {
-      //   continue; // Skip boolean values
-      // }
-
-
-      // double value = 0;
-      // if (item["value"] is num) {
-      //   value = (item["value"] as num).toDouble();
-      // } else if (item["value"] is String) {
-      //   String stringValue = item["value"].toString().trim();
-      //   if (stringValue.isEmpty || stringValue == "N/A" || stringValue == "null") {
-      //     continue;
-      //   }
-      //   try {
-      //     value = double.parse(stringValue);
-      //   } catch (e) {
-      //     continue;
-      //   }
-      // } else {
-      //   continue;
-      // }
-
-      if (!graphData.containsKey(displayName)) {
-        graphData[displayName] = [];
-        xLabels[displayName] = [];
-      }
-
-      // Add the FlSpot for this value (using its index or a timestamp as x)
-
-      if(item["property_data_type"]=="float" || item["property_data_type"]=="integer") {
-        int index = graphData[displayName]!
-            .length; // Use the length as the x-axis
-        graphData[displayName]!.add(FlSpot(index.toDouble(), dataFinalVal as double));
-      }else{
-        graphData[displayName]!.add(FlSpot(0, 0));
-      }
-      // Format the timestamp for the x-axis label
-      String xLabel = DateFormat('yyyy-MM-dd HH:mm:ss').format(item['timestamp']);
-      xLabels[displayName]!.add(xLabel);
-    }
-
-    return graphData;
-  }
-
-  Widget _buildRecentTelemetryView(Map<String, List<FlSpot>> graphData) {
-    return GridView.builder(
-      padding: const EdgeInsets.all(8.0),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 1,
-        crossAxisSpacing: 7.0,
-        mainAxisSpacing: 7.0,
-      ),
-      itemCount: graphData.keys.length,
-      itemBuilder: (context, index) {
-
-        final displayName = graphData.keys.elementAt(index);
-        final dataPoints = graphData[displayName]!;
-
-
-
-        String data_type = "property_data_type";
-        String Unit = "Units";
-        String latestTimestamp = "";
-        String value = "";
-
-
-        // Loop through recentTelemetryData to find the latest timestamp
-        for (var telemetry in recentTelemetryData) {
-          if (telemetry["property_display_name"] == displayName) {
-            Unit = telemetry["property_unit"] ?? Unit;
-            latestTimestamp = telemetry["ts"] ?? latestTimestamp;
-            data_type = telemetry["property_data_type"];
-            value = telemetry["value"];
-          }
-        }
-
-
-
-
-        final gaugeData = {
-          "property_display_name": displayName,
-          'property_data_type' : data_type,
-          'value' : value,
-          "data_points": dataPoints,
-          "ts": latestTimestamp.isNotEmpty ? latestTimestamp : DateTime.now().toString(),
-          "property_unit": Unit,
-
-          // Use the latest unit
-        };
-        double getDynamicInterval(double min, double max, int labelCount) {
-          if (labelCount <= 0 || max <= min) {
-            return 1;
-          }
-          double range = max - min;
-          return range / labelCount;
-        }
-       // final double xInterval = getDynamicInterval(0, dataPoints.length.toDouble(), 5); // 5 labels on x-axis
-        final double yInterval = getDynamicInterval(getDataMin(dataPoints), getDataMax(dataPoints), 1); // 6 labels on y-axis
-
-
-        double dataMin = getDataMin(dataPoints);
-        double dataMax = getDataMax(dataPoints);
-        double yRange = dataMax - dataMin;
-        double lowerLimit = dataMin - (yRange * 0.8);
-        double upperLimit = dataMax + (yRange * 0.8);
-
-        return Card(
-          color: Colors.white,
-          elevation: 4,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          displayName, // Use display name here
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                          ),
-                        ),
-                        SizedBox(height: 2,),
-                        Text(
-                          '(${gaugeData["property_unit"]})',
-                          style: TextStyle(
-                            color: Colors.grey[400],
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: SizedBox(
-                        height: 400,
-                        child: LineChart(
-                          LineChartData(
-                            minY: lowerLimit,
-                            maxY: upperLimit,
-                            borderData: FlBorderData(show: true),
-                            titlesData: FlTitlesData(
-                              bottomTitles: AxisTitles(
-                                sideTitles: SideTitles(showTitles: false),
-                              ),
-                              topTitles: AxisTitles(
-                                sideTitles: SideTitles(showTitles: false),
-                              ),
-                              rightTitles: AxisTitles(
-                                sideTitles: SideTitles(showTitles: false),
-                              ),
-                              leftTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                  showTitles: true,
-                                  interval: yInterval,
-                                  reservedSize: 40,
-                                  // minIncluded: true,
-                                  getTitlesWidget: (value, meta) {
-                                    // String label = value.toInt().toString(); // Or any abbreviation logic
-                                    // return Text(label.length > 3 ? label.substring(0, 3) : label);
-
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                      child: Text(value.toInt().toStringAsFixed(0)),
-                                    );
-
-                                    // int index = value.toInt(); // Get the index from the value
-                                    // if (index % 2 == 0) {
-                                    //   return Padding(
-                                    //     padding: const EdgeInsets.symmetric(vertical: 4.0),
-                                    //     child: Text(index.toString()), // Customize the label text if needed
-                                    //   );
-                                    // }
-                                    // return Container();
-                                  },
-                                ),
-                              ),
-                            ),
-                            lineBarsData: [
-                              LineChartBarData(
-                                spots: dataPoints,
-                                isCurved: true,
-                                dotData: FlDotData(show: true),
-                                belowBarData: BarAreaData(show: false),
-                                color: Colors.blue,
-                                barWidth: 1,
-                                aboveBarData: BarAreaData(show: false),
-                              ),
-                            ],
-                            
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15,),
-                  Column(
-                    children: [
-                      Text(
-                        gaugeData["property_data_type"] == "integer"
-                            ? (dataPoints.isNotEmpty ? dataPoints.last.y.toStringAsFixed(0) : 'N/A')
-                            : gaugeData["property_data_type"] == "float"
-                            ? (dataPoints.isNotEmpty ? dataPoints.last.y.toString() : 'N/A')
-                            : gaugeData["property_data_type"] == "enum"
-                            ? formateData(gaugeData["property_data_type"], gaugeData["value"])
-                            : gaugeData["property_data_type"] == "boolean"
-                            ? formateData(gaugeData["property_data_type"], gaugeData["value"])
-                            : gaugeData["property_data_type"]!=null ? "jh" :"",
-
-
-                        // gaugeData["property_data_type"] == "float" || gaugeData["property_data_type"] == "integer"
-                        //     ? (dataPoints.isNotEmpty ? dataPoints.last.y.toString() : 'N/A')
-                        //     :dataPoints.last.y.toString(),
-
-
-                        //gaugeData["property_data_type"] == "float" || gaugeData["property_data_type"] == "integer" ? dataPoints.isNotEmpty ? dataPoints.last.y.toString() : 'N/A' : "dasdsa",
-                        style: TextStyle(
-                          fontSize: 35,
-                          color: Colors.grey[600],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8,),
-                  Column(
-                    children: [
-                      Text(
-                       gaugeData["ts"].toString(),
-
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: Colors.grey[500],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-
-  List<FlSpot> getDataPoints(List<dynamic> dataPoints) {
-    return List.generate(
-      dataPoints.length,
-          (index) => FlSpot(index.toDouble(), dataPoints[index].toDouble()),
-    );
-  }
-
-// Function to find the minimum value from the data points
-  double getDataMin(List<FlSpot> dataPoints) {
-    return dataPoints.map((e) => e.y).reduce((a, b) => a < b ? a : b);
-  }
-
-// Function to find the maximum value from the data points
-  double getDataMax(List<FlSpot> dataPoints) {
-    return dataPoints.map((e) => e.y).reduce((a, b) => a > b ? a : b);
-  }
-
-
-
-
-  // Widget _buildRecentTelemetryView(List<dynamic> telemetryData) {
-  //   return GridView.builder(
-  //     padding: const EdgeInsets.all(8.0),
-  //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-  //       crossAxisCount: 1,
-  //       crossAxisSpacing: 7.0,
-  //       mainAxisSpacing: 7.0,
-  //     ),
-  //     //itemCount: hardcodedTelemetryData.length,
-  //     itemCount: telemetryData.length,
-  //     itemBuilder: (context, index) {
-  //      // final gaugeData = hardcodedTelemetryData[index];
-  //       final gaugeData = telemetryData[index];
-  //
-  //       // Get data points from hardcoded data
-  //       final dataPointsList = gaugeData["data_points"] as List<dynamic>? ?? [];
-  //       final List<FlSpot> dataPoints = dataPointsList.isNotEmpty
-  //           ? getDataPoints(dataPointsList)
-  //           : [];
-  //
-  //       return Card(
-  //         color: Colors.white,
-  //         elevation: 4,
-  //         child: Center(
-  //           child: Padding(
-  //             padding: const EdgeInsets.all(20.0),
-  //             child: Column(
-  //               children: [
-  //                 Center(
-  //                   child: Column(
-  //                     mainAxisAlignment: MainAxisAlignment.center,
-  //                     children: [
-  //                       Text(
-  //                         gaugeData["property_display_name"],
-  //                         textAlign: TextAlign.center,
-  //                         style: TextStyle(
-  //                           fontWeight: FontWeight.bold,
-  //                           fontSize: 17,
-  //                         ),
-  //                       ),
-  //                       SizedBox(height: 2,),
-  //                       Text(
-  //                         '(${gaugeData["property_unit"]})',
-  //                         style: TextStyle(
-  //                           color: Colors.grey[400],
-  //                           fontSize: 15,
-  //                           fontWeight: FontWeight.bold,
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //                 SizedBox(height: 10,),
-  //                // Spacer(),
-  //                 Expanded(
-  //                   child: Padding(
-  //                     padding: const EdgeInsets.only(right: 10.0),
-  //                     child: SizedBox(
-  //                       height: 400,
-  //                       child: LineChart(
-  //                         LineChartData(
-  //                           borderData: FlBorderData(show: true),
-  //                           titlesData: FlTitlesData(
-  //                             bottomTitles: AxisTitles(
-  //                               sideTitles: SideTitles(
-  //                                 showTitles: false,
-  //                               ),
-  //                             ),
-  //                             topTitles: AxisTitles(
-  //                               sideTitles: SideTitles(
-  //                                 showTitles: false,
-  //                               ),
-  //                             ),
-  //                             rightTitles: AxisTitles(
-  //                               sideTitles: SideTitles(
-  //                                 showTitles: false,
-  //                               ),
-  //                             ),
-  //                             leftTitles: AxisTitles(
-  //                               sideTitles: SideTitles(
-  //                                 showTitles: true,
-  //                                 reservedSize: 40, // Adjust size for left titles
-  //                                 getTitlesWidget: (value, meta) {
-  //                                   return Text(value.toString());
-  //                                 },
-  //                               ),
-  //                             ),
-  //                           ),
-  //                           lineBarsData: [
-  //                             LineChartBarData(
-  //                               spots: dataPoints,
-  //                               isCurved: true,
-  //                               dotData: FlDotData(show: true),
-  //                               belowBarData: BarAreaData(show: false),
-  //                               color: Colors.blue,
-  //                               // Add extra spacing
-  //                               barWidth: 1,
-  //                               aboveBarData: BarAreaData(show: false),
-  //                             ),
-  //                           ],
-  //                           //gridData: FlGridData(show: true),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 SizedBox(height: 15,),
-  //                // Spacer(),
-  //                 Column(
-  //                   children: [
-  //                     Text(
-  //                       formatData( gaugeData["value"]),
-  //                       style: TextStyle(
-  //                         fontSize: 35,
-  //                         color: Colors.grey[600],
-  //                         fontWeight: FontWeight.bold,
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 //Spacer(),
-  //                 SizedBox(height: 8,),
-  //                 Column(
-  //                   children: [
-  //                     Text(
-  //                       gaugeData["ts"].toString(),
-  //                       style: TextStyle(
-  //                         fontWeight: FontWeight.bold,
-  //                         fontSize: 15,
-  //                         color: Colors.grey[500],
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
-
-
-
-  String formatData( dynamic value) {
-    return '$value';
-  }
-
-
 
 
   Widget _buildLiveEventsView(List<dynamic> liveEventsData) {
@@ -1076,19 +572,14 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> {
 }
 
 String formateData(gaugeData, gaugeData2) {
-
-
   if(gaugeData=="float"){
-
     return double.parse(gaugeData2).toStringAsFixed(2);
   }else  if(gaugeData=="integer"){
     return int.parse(gaugeData2).toStringAsFixed(0);
   }else  if(gaugeData=="enum"){
-
-    print("gaugeData2"+gaugeData2);
-    return gaugeData2.toString();
+    return gaugeData2;
   }else  if(gaugeData=="boolean"){
-    return gaugeData2==true ? "True" : "False";
+    return gaugeData2;
   }
   return "";
 }
@@ -1302,7 +793,7 @@ Widget _buildTicketCard(BuildContext context, Map<String, dynamic> data) {
             ),
           ]else if(data["property_unit"]=="Info")...[
             Icon(
-              Icons.info,color: Colors.blue,
+              Icons.info_outlined,color: Colors.blue,
               size: 24,
             )
           ]else if(data["property_unit"]=="Critical")...[
@@ -1315,14 +806,7 @@ Widget _buildTicketCard(BuildContext context, Map<String, dynamic> data) {
               Icons.warning_outlined,color: Colors.red,
               size: 24,
             )
-          ]else if(data["property_unit"]=="Information")...[
-            Icon(
-              Icons.info,color: Colors.blue,
-              size: 24,
-            )
           ]
-
-
           // else
           //   Icon(
           //       Icons.warning_outlined,color: Colors.amber,
@@ -1341,18 +825,7 @@ Widget _buildTicketCard(BuildContext context, Map<String, dynamic> data) {
             style: TextStyle( fontSize: 15),
           ),
           Spacer(),
-          if(data["ack"]=="yes")...[
-            Icon(
-              Icons.thumb_up,color: Colors.blue,
-              size: 24,
-            ),
-          ]else if(data["ack"]=="no")...[
-            Icon(
-              Icons.thumb_up,color: Colors.grey,
-              size: 24,
-            )
-          ]
-         // Icon(Icons.thumb_up, size: 24),
+          Icon(Icons.thumb_up, size: 24),
         ],
       ),
       trailing: SizedBox.shrink(),
@@ -1364,14 +837,12 @@ Widget _buildTicketCard(BuildContext context, Map<String, dynamic> data) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       _buildRichTextRow("Time:", data['fullts'] ?? 'N/A'),
-                       _buildRichTextRow("Message:", data['property_display_name'] ?? 'N/A'),
-                     // _buildRichTextRow("Message:", data['ack'] ?? 'N/A'),
+                      _buildRichTextRow("Message:", data['property_display_name'] ?? 'N/A'),
                       _buildRichTextRow("Child Device:", data['devId'] ?? 'N/A'),
                       _buildRichTextRow("Actions:", data['t'] ?? 'N/A'),
                     ],

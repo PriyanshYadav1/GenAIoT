@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 
 class DatabaseHelper {
   static final _databaseName = "dev_database.db";
-  static final _databaseVersion = 3;
+  static final _databaseVersion = 4 ;
 
   static final table = 'api_data';
   static final columnId = '_id';

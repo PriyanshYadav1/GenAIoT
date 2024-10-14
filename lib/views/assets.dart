@@ -1,184 +1,5 @@
-//
-// import 'package:flutter/material.dart';
-// import '../models/assets_model.dart';
-// import 'scr_5_asset_stats_representation.dart';
-// import '../controllers/asset_search.dart';
-// // import 'hamburger_menu.dart';
-//
-// enum AssetStatus { connected, disconnected, off }
-//
-// class AssetsPage extends StatefulWidget {
-//
-//   final String appName;
-//   const AssetsPage({super.key, required this.appName});
-//
-//
-//   @override
-//   _AssetsPageState createState() => _AssetsPageState();
-// }
-//
-// class _AssetsPageState extends State<AssetsPage> {
-//
-// // List of assets to be displayed in the list
-//   List<ListItem> assets = [
-//     ListItem(title: 'Police Car Monitoring System 1', icon: Icons.directions_car, status: AssetStatus.connected),
-//     ListItem(title: 'Police Car Monitoring System 2', icon: Icons.directions_car, status: AssetStatus.disconnected),
-//     ListItem(title: 'Police Car Monitoring System 3', icon: Icons.directions_car, status: AssetStatus.off),
-//     ListItem(title: 'Police Car Monitoring System 4', icon: Icons.directions_car, status: AssetStatus.connected),
-//     // ListItem(title: 'Bulldozer Asset 1', icon: Icons.directions_subway, status: AssetStatus.connected),
-//     // ListItem(title: 'Bulldozer Asset 2', icon: Icons.directions_subway, status: AssetStatus.disconnected),
-//     // ListItem(title: 'Bulldozer Asset 3', icon: Icons.directions_subway, status: AssetStatus.off),
-//     // ListItem(title: 'Bulldozer Asset 4', icon: Icons.directions_subway, status: AssetStatus.connected),
-//     // ListItem(title: 'Home Security Monitoring 1', icon: Icons.home, status: AssetStatus.connected),
-//     // ListItem(title: 'Home Security Monitoring 2', icon: Icons.home, status: AssetStatus.disconnected),
-//     ListItem(title: 'Police Car Monitoring System 5', icon: Icons.directions_car, status: AssetStatus.off),
-//     ListItem(title: 'Police Car Monitoring System 6', icon: Icons.directions_car, status: AssetStatus.connected),
-//     ListItem(title: 'Police Car Monitoring System 7', icon: Icons.directions_car, status: AssetStatus.connected),
-//     ListItem(title: 'Police Car Monitoring System 8', icon: Icons.directions_car,status: AssetStatus.disconnected),
-//     ListItem(title: 'Police Car Monitoring System 9', icon: Icons.directions_car,status: AssetStatus.connected),
-//     ListItem(title: 'Police Car Monitoring System 10', icon: Icons.directions_car,status: AssetStatus.off),
-//
-//
-//     ListItem(title: 'Industrial Blenders 1', icon: Icons.blender, status: AssetStatus.connected),
-//     ListItem(title: 'Industrial Blenders 2', icon: Icons.blender, status: AssetStatus.disconnected),
-//     ListItem(title: 'Industrial Blenders 3', icon: Icons.blender, status: AssetStatus.connected),
-//     ListItem(title: 'Industrial Blenders 4', icon: Icons.blender, status: AssetStatus.off),
-//     ListItem(title: 'Industrial Blenders 5', icon: Icons.blender, status: AssetStatus.connected),
-//     ListItem(title: 'Industrial Blenders 6', icon: Icons.blender, status: AssetStatus.off),
-//     ListItem(title: 'Industrial Blenders 7', icon: Icons.blender, status: AssetStatus.connected),
-//     ListItem(title: 'Industrial Blenders 8', icon: Icons.blender, status: AssetStatus.disconnected),
-//     ListItem(title: 'Industrial Blenders 9', icon: Icons.blender, status: AssetStatus.connected),
-//     ListItem(title: 'Industrial Blenders 10', icon: Icons.blender, status: AssetStatus.connected),
-//
-//
-//     ListItem(title: 'Compressor Monitoring System 1', icon: Icons.compress, status: AssetStatus.off),
-//     ListItem(title: 'Compressor Monitoring System 2', icon: Icons.compress, status: AssetStatus.disconnected),
-//     ListItem(title: 'Compressor Monitoring System 3', icon: Icons.compress, status: AssetStatus.connected),
-//     ListItem(title: 'Compressor Monitoring System 4', icon: Icons.compress, status: AssetStatus.disconnected),
-//     ListItem(title: 'Compressor Monitoring System 5', icon: Icons.compress, status: AssetStatus.connected),
-//     ListItem(title: 'Compressor Monitoring System 6', icon: Icons.compress, status: AssetStatus.connected),
-//     ListItem(title: 'Compressor Monitoring System 7', icon: Icons.compress, status: AssetStatus.off),
-//     ListItem(title: 'Compressor Monitoring System 8', icon: Icons.compress, status: AssetStatus.connected),
-//     ListItem(title: 'Compressor Monitoring System 9', icon: Icons.compress, status: AssetStatus.disconnected),
-//     ListItem(title: 'Compressor Monitoring System 10', icon: Icons.compress, status: AssetStatus.connected),
-//
-//     // ListItem(title: 'Pond Water Quality Monitoring 1', icon: Icons.directions_car, status: AssetStatus.off),
-//     // ListItem(title: 'Pond Water Quality Monitoring 2', icon: Icons.directions_car, status: AssetStatus.connected),
-//     // ListItem(title: 'Swimming Pool Monitoring 1', icon: Icons.directions_car,status: AssetStatus.connected),
-//     // ListItem(title: 'Swimming Pool Monitoring 2', icon: Icons.directions_car,status: AssetStatus.connected),
-//     // ListItem(title: 'Pressure Washer Monitoring 1', icon: Icons.home, status: AssetStatus.connected),
-//     // ListItem(title: 'Pressure Washer Monitoring 2', icon: Icons.home, status: AssetStatus.disconnected),
-//     // ListItem(title: 'Utilities 1', icon: Icons.directions_car, status: AssetStatus.off),
-//     // ListItem(title: 'Utilities 2', icon: Icons.directions_car, status: AssetStatus.connected),
-//     // ListItem(title: 'Pump Monitoring System 1', icon: Icons.directions_car,status: AssetStatus.connected),
-//     // ListItem(title: 'Pump Monitoring System 2', icon: Icons.directions_car,status: AssetStatus.connected),
-//   ];
-//
-//   List<ListItem> filteredAssets = [];
-//
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     _filterAssets(widget.appName);
-//   }
-//
-//   void _filterAssets(String appName) {
-//     setState(() {
-//       filteredAssets = assets .where((asset) {
-//         return asset.title.toLowerCase().contains(appName.toLowerCase());
-//       }).toList();
-//       filteredAssets ??= [];
-//     });
-//   }
-//
-//   Color _getIconColor(AssetStatus status) {
-//     switch (status) {
-//       case AssetStatus.connected:
-//         return Colors.green;
-//       case AssetStatus.disconnected:
-//         return Colors.red;
-//       case AssetStatus.off:
-//         return Colors.grey;
-//       default:
-//         return Colors.black;
-//     }
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         // leadingWidth: 100,
-//         // leading: Builder(
-//         //   builder: (context) => Row(
-//         //     children: [
-//         //       IconButton(
-//         //         icon: const Icon(Icons.menu),
-//         //         onPressed: () {
-//         //           Scaffold.of(context).openDrawer();
-//         //         },
-//         //       ),
-//         //       Expanded(
-//         //         child: Padding(
-//         //           padding: const EdgeInsets.only(left: 8.0),
-//         //           child: CircleAvatar(
-//         //             radius: 100,
-//         //             backgroundImage: AssetImage(widget.image),
-//         //           ),
-//         //         ),
-//         //       ),
-//         //     ],
-//         //   ),
-//         // ),
-//         title: Text(widget.appName,
-//           style: const TextStyle(fontWeight: FontWeight.bold),),
-//
-//         centerTitle: true,
-//         actions: [
-//           Padding(
-//             padding: const EdgeInsets.only(right: 5.0),
-//             child: IconButton(
-//               icon: const Icon(Icons.search),
-//               onPressed: () {
-//                 showSearch(
-//                   context: context,
-//                   delegate: AssetSearchDelegate(assets: filteredAssets),
-//                 );
-//               },
-//             ),
-//           ),
-//         ],
-//       ),
-//       // drawer: AppDrawer(),
-//       body:
-//       ListView.builder(
-//         itemCount: filteredAssets.length,
-//         itemBuilder: (context, index) {
-//           final item = filteredAssets[index];
-//           return
-//             Card(
-//               elevation: 10.0,
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(8),
-//               ),
-//               child: ListTile(
-//               leading: Icon(item.icon, color: _getIconColor(item.status)),
-//               title: Text(item.title),
-//               trailing: const Icon(Icons.arrow_forward_ios_rounded,size: 20,),
-//                   onTap: () {
-//                     Navigator.push(
-//                       context,
-//                       MaterialPageRoute(builder: (context) => StatRepresentation(title: item.title ),), // image is passed as a parameter
-//                     );
-//                   }
-//                         ),
-//             );
-//         },
-//       ),
-//     );
-//   }
-// }
+
+// import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -187,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/api_calling.dart';
+// import 'app_list.dart';
 import 'liveEventsScreen.dart';
 
 class AssetsPage extends StatefulWidget {
@@ -219,17 +41,21 @@ class _AssetsPageState extends State<AssetsPage> {
 
   Future<void> _fetchAssets(String appShortCode) async {
     setState(() {
-      isLoading = true; // Start loading
-      //errorMessage = ''; // Clear previous error messages
+      isLoading = true;
        errorOccurred = false;
     });
 
     const url = '/api/assets';
-    print('Fetching assets from $url');
+
+   // const url = '/api/asset_models';
+
+
+    print('Fetching assets : $url');
 
 
     final response = await get(url);
-    print("Received data: $response");
+    print("Received assets: $response");
+
 
     if (response['success']) {
       final responseData = response['data'];
@@ -238,9 +64,20 @@ class _AssetsPageState extends State<AssetsPage> {
       if (responseData != null && responseData.isNotEmpty) {
         List<dynamic> data = responseData is List ? responseData : [];
 
-        final assets = data.map((json) {
+         final assets = data.map((json) {
           return ListItem.fromJson(json is Map<String, dynamic> ? json : {}, appShortCode);
         }).toList();
+
+
+        // if (responseData != null && responseData is List) {
+        //
+        //   for (var asset in responseData) {
+        //     if (asset is Map<String, dynamic> && asset.containsKey('short_code')) {
+        //       final shortCode = asset['short_code'];
+        //       print('Short Code: ${asset['short_code']}');
+        //       fetchAssetss(shortCode);
+        //     }
+        //   }}
 
         setState(() {
           allAssets = assets;
@@ -259,10 +96,13 @@ class _AssetsPageState extends State<AssetsPage> {
         isLoading = false;
         errorOccurred = true;
       });
-      _showErrorDialog(response['message'] ?? 'An unknown error occurred.');
+      _showErrorDialog( 'An unknown error occurred.');
 
     }
   }
+
+
+
 
   void _showErrorDialog(String message) {
     // Ensure that the dialog is shown after the widget build is complete
@@ -322,6 +162,7 @@ class _AssetsPageState extends State<AssetsPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title:
@@ -383,17 +224,18 @@ class _AssetsPageState extends State<AssetsPage> {
           itemBuilder: (context, index) {
             final item = filteredAssets[index];
             return Card(
-              elevation: 10.0,
               color: Colors.white,
+              elevation: 4.0,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(9),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: ListTile(
                 leading: Icon(item.icon, color: _getIconColor(index)),
                 title: Text(item.title),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> LiveEventsScreen(title: item.title),),);
+                  String assetId = item.id;
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> LiveEventsScreen(title: item.title,assetId: assetId),),);
                  // navigating to a detail page
                 },
               ),
@@ -514,11 +356,13 @@ class ListItem {
   final String title;
   final IconData icon;
   final String index;
+  final String id;
 
-  ListItem({required this.title, required this.icon, required this.index});
+  ListItem({required this.title, required this.icon, required this.index, required this.id});
 
   factory ListItem.fromJson(Map<String, dynamic> json, String appShortCode) {
     return ListItem(
+      id: json['id'] as String,
       title: json['display_name'] as String,
       icon: AssetIcons.getIcon(appShortCode), // Set icon based on appShortCode
       index: json['index'] as String? ?? 'unknown', // Default to 'unknown' if status is missing
@@ -530,33 +374,33 @@ class AssetIcons {
   static IconData getIcon(String appShortCode) {
     switch (appShortCode) {
       case 'VC-PCMS':
-        return Icons.local_police;
+        return Icons.circle;
       case 'GE-CMS':
-        return Icons.directions_car;
+        return Icons.circle;
       case 'JD-B':
-        return Icons.directions_railway;
+        return Icons.circle;
       case 'S-PWQM':
-        return Icons.water_outlined;
+        return Icons.circle;
       case 'R-SPM':
-        return Icons.water_damage_outlined;
+        return Icons.circle;
       case 'E-PWM':
-        return Icons.precision_manufacturing;
+        return Icons.circle;
       case 'BMI-U':
-        return Icons.build;
+        return Icons.circle;
       case 'BK-PMS':
-        return Icons.heat_pump_outlined;
+        return Icons.circle;
       case 'E-PWM':
-        return Icons.precision_manufacturing;
+        return Icons.circle;
       case 'JLL-SBM':
-        return Icons.home_work;
+        return Icons.circle;
       case 'GS-PIM':
-        return Icons.manage_accounts;
+        return Icons.circle;
       case 'SS-B':
-        return Icons.backup_table;
+        return Icons.circle;
       case 'L-SHM':
-        return Icons.camera_indoor_sharp;
+        return Icons.circle;
       default:
-        return Icons.help;
+        return Icons.circle;
     }
   }
 }
