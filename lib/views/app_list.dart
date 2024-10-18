@@ -201,7 +201,9 @@ class _AppsGridState extends State<AppsGrid> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.white,
           leadingWidth: 100,
           leading: Builder(
             builder: (context) =>
