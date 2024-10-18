@@ -11,6 +11,7 @@ import '../utils/api_calling.dart';
 import 'hamburger_menu.dart';
 import 'ImageViewer.dart';
 import 'assets.dart';
+import 'globals.dart' as globals;
 
 class AppsGrid extends StatefulWidget {
   const AppsGrid({super.key});
@@ -237,6 +238,7 @@ class _AppsGridState extends State<AppsGrid> {
 
                     final prefs = await SharedPreferences.getInstance();
                     await prefs.setString("appShortCode", app.shortCode);
+                    globals.appShortCode =app.shortCode;
                     await fetchAssetModels(app.shortCode);
                     // here we have to store app_shortCode in SharedPreferences and get it in api_calling.dart page globally.
 

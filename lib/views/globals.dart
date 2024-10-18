@@ -6,3 +6,4 @@ var authority =
 final scopes = <String>['https://graph.microsoft.com/user.read'];
 var UserEmail = "Useremail";
 var UserName = "Username";
+String? appShortCode;

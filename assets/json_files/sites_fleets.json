@@ -1,0 +1,11 @@
+[
+  {
+    "is_site": "true",
+    "sites": ["Westgate","Ghansoli","Austin Convention Center","Koregaon Park","Kaveri Pratham","Madhuban CHS","Orchid Elegance","Om Ganesh","Goregaon - Film Nagar","Vashi","Hyderabad - Film Nagar"],
+    "partCode": "ABC",
+    "OEM": "Siemens",
+    "status": "Failed",
+    "acknowledgement": "Failed to connect to IoT Hub",
+    "note" : "You May Need To Restart The Device"
+  }
+]
