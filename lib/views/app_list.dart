@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 import 'dart:convert';
 
 import 'package:fluttertoast/fluttertoast.dart';
@@ -28,7 +20,6 @@ class AppsGrid extends StatefulWidget {
   State<AppsGrid> createState() => _AppsGridState();
 }
 
-
 class MyHttpClient extends http.BaseClient {
   final http.Client _inner = http.Client();
 
@@ -42,8 +33,8 @@ class MyHttpClient extends http.BaseClient {
     _inner.close();
   }
 }
-class _AppsGridState extends State<AppsGrid> {
 
+class _AppsGridState extends State<AppsGrid> {
   List<App> apps = [];
   App? selectedApp;
   bool isLoading = false;
@@ -56,13 +47,9 @@ class _AppsGridState extends State<AppsGrid> {
   void initState() {
     super.initState();
     fetchApps();
-
   }
 
-
   Future<void> fetchApps() async {
-
-
     setState(() {
       isLoading = true;
       errorOccurred = false; // Reset error flag
@@ -184,8 +171,6 @@ class _AppsGridState extends State<AppsGrid> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -194,55 +179,6 @@ class _AppsGridState extends State<AppsGrid> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leadingWidth: 100,
-          leading: Builder(
-            builder: (context) =>
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.menu),
-                      onPressed: () {
-                        Scaffold.of(context).openDrawer();
-                      },
-                    ),
-                  ],
-                ),
-          ),
-          title: const Text('Apps', style: TextStyle(fontWeight: FontWeight.bold),), centerTitle: true,
-        ),
-        drawer: AppDrawer(),
-        body:
-        // apps.isEmpty ?
-        // const Center(child: CircularProgressIndicator())
-        //     :
-        
-       // activityLoader ?
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 5.0,
-              mainAxisSpacing: 5.0,
-            ),
-            itemCount: apps.length,
-            itemBuilder: (context, index) {
-              final app = apps[index];
-              return GestureDetector(
-                onTap: () async {
-                  if (isFetching) {
-                    // Show a temporary message or a loading indicator when already fetching
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("Loading in progress..."),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                    return; // Exit early if already fetching
-                  }
           appBar: AppBar(
             leadingWidth: 100,
             leading: Builder(
@@ -455,5 +391,4 @@ Future<void> saveApiToDb(url, key) async {
     print("dsajdlksadljksajdlkasldsa404");
     await DatabaseHelper.instance.insert(exampleData);
   }
-
 }
