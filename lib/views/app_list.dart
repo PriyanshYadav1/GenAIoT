@@ -47,9 +47,13 @@ class _AppsGridState extends State<AppsGrid> {
   void initState() {
     super.initState();
     fetchApps();
+
   }
 
+
   Future<void> fetchApps() async {
+
+
     setState(() {
       isLoading = true;
       errorOccurred = false; // Reset error flag
@@ -93,10 +97,13 @@ class _AppsGridState extends State<AppsGrid> {
         errorOccurred = true;
       });
       _showErrorDialog('An unknown error occurred.');
+
     }
   }
 
   Future<void> fetchAssetModels(String appShortCode) async {
+
+
     await clearTable("api_data");
     try {
       final response = await get('/api/asset_models');
@@ -179,56 +186,55 @@ class _AppsGridState extends State<AppsGrid> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          appBar: AppBar(
-            leadingWidth: 100,
-            leading: Builder(
-              builder: (context) => Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.menu),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                  ),
-                ],
-              ),
-            ),
-            title: const Text(
-              'Apps',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            centerTitle: true,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leadingWidth: 100,
+          leading: Builder(
+            builder: (context) =>
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.menu),
+                      onPressed: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                    ),
+                  ],
+                ),
           ),
-          drawer: AppDrawer(),
-          body:
-              // apps.isEmpty ?
-              // const Center(child: CircularProgressIndicator())
-              //     :
-
-              // activityLoader ?
-              Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 5.0,
-                mainAxisSpacing: 5.0,
-              ),
-              itemCount: apps.length,
-              itemBuilder: (context, index) {
-                final app = apps[index];
-                return GestureDetector(
-                  onTap: () async {
-                    if (isFetching) {
-                      // Show a temporary message or a loading indicator when already fetching
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Loading in progress..."),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                      return; // Exit early if already fetching
-                    }
+          title: const Text('Apps', style: TextStyle(fontWeight: FontWeight.bold),), centerTitle: true,
+        ),
+        drawer: AppDrawer(),
+        body:
+        // apps.isEmpty ?
+        // const Center(child: CircularProgressIndicator())
+        //     :
+        
+       // activityLoader ?
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 5.0,
+              mainAxisSpacing: 5.0,
+            ),
+            itemCount: apps.length,
+            itemBuilder: (context, index) {
+              final app = apps[index];
+              return GestureDetector(
+                onTap: () async {
+                  if (isFetching) {
+                    // Show a temporary message or a loading indicator when already fetching
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Loading in progress..."),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                    return; // Exit early if already fetching
+                  }
 
                     // Proceed with the fetching logic
                     setState(() {
@@ -255,111 +261,110 @@ class _AppsGridState extends State<AppsGrid> {
                         textColor: Colors.white,
                         fontSize: 16.0);
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AssetsPage(
-                          appShortCode: app.shortCode,
-                        ),
-                        // builder: (context) => AssetsPage(),
-                      ),
-                    );
-                    setState(() {
-                      activityLoader = false;
-                      isFetching = false;
-                    });
-                  },
-                  child: Card(
-                    elevation: 4.0,
-                    // shadowColor: Colors.black.withOpacity(1.0),
-                    margin: const EdgeInsets.all(5.0),
-                    clipBehavior: Clip.antiAlias,
-                    semanticContainer: true,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  Navigator.push (
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AssetsPage(appShortCode: app.shortCode,),
+                      // builder: (context) => AssetsPage(),
                     ),
-                    child: SizedBox(
-                      width: size.width * 0.7,
-                      height: size.height * 0.45,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Container(
-                              width: double.infinity,
-                              height: isPortrait
-                                  ? size.height * 0.16
-                                  : size.height * 0.8,
+                  );
+                  setState(() {
+                    activityLoader = false;
+                    isFetching = false;
+                  });
 
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.white.withOpacity(0.6),
-                                    // spreadRadius: 5,
-                                    // blurRadius: 10,
-                                    // offset: Offset(0, 5), // Shadow position
-                                  ),
-                                ],
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(30.0),
-                                child: AspectRatio(
-                                  //aspectRatio: 16 / 9,
-                                  aspectRatio: 18 / 12,
-                                  child: Base64Image(
-                                    apiUrl: '/api/get_app_icon',
-                                    filePath: app.iconUri,
-                                  ),
-                                ),
-                              ),
-                              // Image.network(
-                              //   app.iconUri,
-                              //   fit: BoxFit.cover,
-                              //   width: double.infinity,
-                              //   height: MediaQuery
-                              //       .of(context)
-                              //       .size
-                              //       .height * 0.25,
-                              //   errorBuilder: (context, error, stackTrace) {
-                              //     // Placeholder image if the network image fails
-                              //     return Image.network(
-                              //       'https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png',
-                              //       fit: BoxFit.cover,);
-                              //
-                              //   },
-                              //   //  height: 170,
-                              // ),
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                app.displayName,
-                                style: const TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ),
+                },
+                child: Card(
+                  elevation: 4.0,
+                 // shadowColor: Colors.black.withOpacity(1.0),
+                  margin: const EdgeInsets.all(5.0),
+                  clipBehavior: Clip.antiAlias,
+                  semanticContainer: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  ),
+                  child: SizedBox(
+                    width: size.width * 0.7,
+                    height: size.height * 0.45,
+
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                    child: Container(
+                      width: double.infinity,
+                      height: isPortrait
+                          ? size.height * 0.16
+                          : size.height * 0.8,
+
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white.withOpacity(0.6),
+                           // spreadRadius: 5,
+                           // blurRadius: 10,
+                           // offset: Offset(0, 5), // Shadow position
                           ),
                         ],
                       ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(30.0),
+                            child: AspectRatio(
+                              //aspectRatio: 16 / 9,
+                               aspectRatio: 18 / 12,
+                              child: Base64Image(
+                                apiUrl: '/api/get_app_icon',
+                                filePath: app.iconUri,
+                              ),
+                            ),
+                          ),
+                            // Image.network(
+                            //   app.iconUri,
+                            //   fit: BoxFit.cover,
+                            //   width: double.infinity,
+                            //   height: MediaQuery
+                            //       .of(context)
+                            //       .size
+                            //       .height * 0.25,
+                            //   errorBuilder: (context, error, stackTrace) {
+                            //     // Placeholder image if the network image fails
+                            //     return Image.network(
+                            //       'https://cdn.pixabay.com/photo/2024/03/01/14/10/ai-generated-8606642_1280.png',
+                            //       fit: BoxFit.cover,);
+                            //
+                            //   },
+                            //   //  height: 170,
+                            // ),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              app.displayName,
+                              style: const TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                );
-              },
-            ),
-          )
-          //       :Container(
-          //   child: Text("dfdfsdfdsfdsd"),
-          // ),
+                ),
+              );
+            },
           ),
+        )
+        //       :Container(
+        //   child: Text("dfdfsdfdsfdsd"),
+        // ),
+      ),
     );
   }
+
 }
 
 Future<void> clearTable(String s) async {
@@ -367,6 +372,7 @@ Future<void> clearTable(String s) async {
 
   // Execute the DELETE statement
   await db.delete(s);
+
 }
 
 Future<void> saveApiToDb(url, key) async {
@@ -391,4 +397,5 @@ Future<void> saveApiToDb(url, key) async {
     print("dsajdlksadljksajdlkasldsa404");
     await DatabaseHelper.instance.insert(exampleData);
   }
+
 }

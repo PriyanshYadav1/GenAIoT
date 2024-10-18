@@ -164,7 +164,9 @@ class _AssetsPageState extends State<AssetsPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.white,
           title:
           //Text(currentAppName.isEmpty ? 'Assets' : currentAppName),
           Text(
