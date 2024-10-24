@@ -4,7 +4,8 @@ class Asset {
   final String displayName;
  // final String status;
   final DateTime lastUpdated; // Example field for status inference
-  final int health; // Example field to determine if the asset is healthy
+  final int health;
+ final String assetModel;
 
   Asset({
     required this.id,
@@ -13,6 +14,7 @@ class Asset {
    // this.status = 'unknown',
     required this.lastUpdated,
     required this.health,
+    required this.assetModel,
   });
 
   factory Asset.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class Asset {
      // status: json['status'] ?? 'unknown',
       lastUpdated: DateTime.parse(json['last_updated']),
       health: json['health'] ?? 100, // Default to 100 if not present
+      assetModel: json['asset_model_short_code'],
     );
   }
 

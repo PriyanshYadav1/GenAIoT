@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../utils/api_calling.dart';
 // import 'app_list.dart';
+import 'assetsDrawer.dart';
 import 'liveEventsScreen.dart';
 
 class AssetsPage extends StatefulWidget {
@@ -82,6 +83,7 @@ class _AssetsPageState extends State<AssetsPage> {
         setState(() {
           allAssets = assets;
           filteredAssets = assets;
+          print("ASSETSSS"+filteredAssets.toString());
           isLoading = false;
         });
       } else {
@@ -159,6 +161,7 @@ class _AssetsPageState extends State<AssetsPage> {
         return Colors.black; // Default color
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -237,8 +240,9 @@ class _AssetsPageState extends State<AssetsPage> {
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () {
                   String assetId = item.id;
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> LiveEventsScreen(title: item.title,assetId: assetId),),);
-                 // navigating to a detail page
+                   Navigator.push(context, MaterialPageRoute(builder: (context)=> LiveEventsScreen(title: item.title,assetId: assetId,assetModel :item.assetModel),),);
+                //  Navigator.push(context, MaterialPageRoute(builder: (context)=> AssetDrawer(title: item.title,assetId: assetId,assetModel :item.assetModel,),),);
+
                 },
               ),
             );
@@ -359,8 +363,9 @@ class ListItem {
   final IconData icon;
   final String index;
   final String id;
+  final String assetModel;
 
-  ListItem({required this.title, required this.icon, required this.index, required this.id});
+  ListItem({required this.title, required this.icon, required this.index, required this.id, required this.assetModel});
 
   factory ListItem.fromJson(Map<String, dynamic> json, String appShortCode) {
     return ListItem(
@@ -368,6 +373,8 @@ class ListItem {
       title: json['display_name'] as String,
       icon: AssetIcons.getIcon(appShortCode), // Set icon based on appShortCode
       index: json['index'] as String? ?? 'unknown', // Default to 'unknown' if status is missing
+      assetModel: json['asset_model_short_code'] as String? ?? 'unknown',
+      // appShortCode: json['']
     );
   }
 }

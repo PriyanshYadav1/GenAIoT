@@ -1,3 +1,11 @@
+
+
+
+
+
+
+
+
 import 'dart:convert';
 
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,7 +19,7 @@ import '../utils/api_calling.dart';
 import 'hamburger_menu.dart';
 import 'ImageViewer.dart';
 import 'assets.dart';
-import 'globals.dart' as globals;
+
 
 class AppsGrid extends StatefulWidget {
   const AppsGrid({super.key});
@@ -19,6 +27,7 @@ class AppsGrid extends StatefulWidget {
   @override
   State<AppsGrid> createState() => _AppsGridState();
 }
+
 
 class MyHttpClient extends http.BaseClient {
   final http.Client _inner = http.Client();
@@ -33,8 +42,8 @@ class MyHttpClient extends http.BaseClient {
     _inner.close();
   }
 }
-
 class _AppsGridState extends State<AppsGrid> {
+
   List<App> apps = [];
   App? selectedApp;
   bool isLoading = false;
@@ -65,16 +74,18 @@ class _AppsGridState extends State<AppsGrid> {
     const url1 = '/api/get_app_icon';
     final response = await get(url);
 
-    final response22 = await getData(url1, "app-icons/JLL-SBM.png");
 
-    print("response22" + response22);
+    final response22 = await getData(url1,"app-icons/JLL-SBM.png");
+
+
+    print("response22"+response22);
 
     print("Received data: $response22");
 
     if (response['success']) {
       final responseData = response['data'];
 
-      print("Response + $responseData");
+    print("Response + $responseData");
       if (responseData != null) {
         List<dynamic> data = responseData is List ? responseData : [];
         setState(() {
@@ -109,18 +120,19 @@ class _AppsGridState extends State<AppsGrid> {
       final response = await get('/api/asset_models');
 
       if (response['success']) {
-        final responseData = await response['data'];
+        final responseData =await response['data'];
         if (responseData != null && responseData is List) {
+
           for (var asset in responseData) {
-            if (asset is Map<String, dynamic> &&
-                asset.containsKey('short_code')) {
+            if (asset is Map<String, dynamic> && asset.containsKey('short_code')) {
               final shortCode = await asset['short_code'];
               print('Short Code: ${asset['short_code']}');
               await fetchAssetss(shortCode);
+
             }
-          }
-        }
-      } else {
+          }}
+      }
+      else {
         print('Failed to load asset models');
       }
     } catch (e) {
@@ -129,8 +141,10 @@ class _AppsGridState extends State<AppsGrid> {
   }
 
   Future<void> fetchAssetss(String shortCode) async {
-    var url2 = await '/api/data_model/' + shortCode;
-    var url3 = await '/api/widgets/' + shortCode;
+
+    var url2 = await '/api/data_model/'+shortCode;
+    var url3 = await '/api/widgets/'+shortCode;
+
 
     print('Fetching assets from $url2');
 
@@ -140,27 +154,26 @@ class _AppsGridState extends State<AppsGrid> {
     final response1 = await get(url3);
     print("Received data assets from URL3: $response1");
 
-    await saveApiToDb(url2, "data_model" + shortCode);
 
-    await saveApiToDb(url3, "widget" + shortCode);
+
+    await saveApiToDb(url2,"data_model"+shortCode);
+
+    await saveApiToDb(url3,"widget"+shortCode);
+
+
   }
 
   void _showErrorDialog(String message) {
     // Ensure that the dialog is shown after the widget build is complete
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (context.mounted) {
-        // Check if the context is still valid
+      if (context.mounted) { // Check if the context is still valid
         showDialog(
           context: context,
           builder: (BuildContext context) {
             return SizedBox(
               child: AlertDialog(
                 elevation: 10,
-                title: Text(
-                  'Error',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.grey[900]),
-                ),
+                title: Text('Error',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey[900]),),
                 content: Text(message),
                 actions: <Widget>[
                   TextButton(
@@ -177,6 +190,8 @@ class _AppsGridState extends State<AppsGrid> {
       }
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -236,30 +251,30 @@ class _AppsGridState extends State<AppsGrid> {
                     return; // Exit early if already fetching
                   }
 
-                    // Proceed with the fetching logic
-                    setState(() {
-                      isFetching = true;
-                      activityLoader = true;
-                    });
+                  // Proceed with the fetching logic
+                  setState(() {
+                    isFetching = true;
+                    activityLoader = true;
+                  });
 
-                    final prefs = await SharedPreferences.getInstance();
-                    await prefs.setString("appShortCode", app.shortCode);
-                    globals.appShortCode =app.shortCode;
-                    await fetchAssetModels(app.shortCode);
-                    // here we have to store app_shortCode in SharedPreferences and get it in api_calling.dart page globally.
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setString("appShortCode", app.shortCode);
+                  await fetchAssetModels(app.shortCode);
+                  // here we have to store app_shortCode in SharedPreferences and get it in api_calling.dart page globally.
 
-                    // await saveApiToDb("/api/widgets/CNGCOM","widgets");
-                    // await saveApiToDb("/api/edge_event_model/CNGCOM","edge_event_model");
-                    // await saveApiToDb("/api/edge_telemetry_model/CNGCOM","edge_telemetry_model");
+                  // await saveApiToDb("/api/widgets/CNGCOM","widgets");
+                  // await saveApiToDb("/api/edge_event_model/CNGCOM","edge_event_model");
+                  // await saveApiToDb("/api/edge_telemetry_model/CNGCOM","edge_telemetry_model");
 
-                    Fluttertoast.showToast(
-                        msg: app.shortCode,
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.black12,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
+
+                  Fluttertoast.showToast(
+                      msg: app.shortCode,
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.black12,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
 
                   Navigator.push (
                     context,
@@ -375,7 +390,8 @@ Future<void> clearTable(String s) async {
 
 }
 
-Future<void> saveApiToDb(url, key) async {
+Future<void> saveApiToDb(url,key) async {
+
   var apiAllData = await get(url);
   final uniqueKey = key;
   final exampleData = {
@@ -384,8 +400,7 @@ Future<void> saveApiToDb(url, key) async {
   };
 
   final existingData = await DatabaseHelper.instance.queryAllRows();
-  bool exists = existingData
-      .any((row) => row[DatabaseHelper.columnUniqueKey] == uniqueKey);
+  bool exists = existingData.any((row) => row[DatabaseHelper.columnUniqueKey] == uniqueKey);
 
   print("dsajdlksadljksajdlkasldsa398");
   if (exists) {
