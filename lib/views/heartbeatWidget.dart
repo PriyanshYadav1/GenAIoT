@@ -109,7 +109,7 @@ class _HeartbeatWidgetState extends State<HeartbeatWidget> {
     }
 
     if (heartbeatData.isEmpty) {
-      return Center(child: Text('No Heartbeat data available'));
+      return Center(child: Text('No Heartbeat data available',style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[500])));
     }
 
     return ListView.builder(
@@ -120,57 +120,7 @@ class _HeartbeatWidgetState extends State<HeartbeatWidget> {
     );
   }
 
-  // Widget _assetHeartbeat(List<dynamic> heartBeatData) {
-  //   print(heartBeatData.toString() + " HeartBeat Data");
-  //   return _buildHeartBeat();
-  // }
 
-
-
-
-  // Widget _buildHeartbeatCard(BuildContext context, Map<String, dynamic> data) {
-  //   return Card(
-  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-  //     elevation: 4,
-  //     color: Colors.white,
-  //     child: ExpansionTile(
-  //       backgroundColor: Colors.white,
-  //       title: Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //         children: [
-  //           Text(
-  //             data['child_device'] ?? 'Unknown',
-  //             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey[900]),
-  //           ),
-  //           Text(
-  //             data['fullts'] ?? 'Unknown',
-  //             style: TextStyle(fontSize: 15, color: Colors.grey[600], fontWeight: FontWeight.bold),
-  //           ),
-  //           IconButton(
-  //             icon: Icon(Icons.remove_red_eye_sharp, size: 24),
-  //             onPressed: () {
-  //               var originalItem = originalHeartbeatData.firstWhere((item) => item['id'] == data['id']);
-  //               _showPopup(context, originalItem);
-  //             },
-  //           ),
-  //         ],
-  //       ),
-  //       children: [
-  //         Padding(
-  //           padding: const EdgeInsets.all(10.0),
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               _buildRichTextRow("Time:", data['fullts'] ?? 'N/A'),
-  //               _buildRichTextRow("Event:", data['value'] ?? 'N/A'),
-  //               _buildRichTextRow("Source:", data['child_device'] ?? 'N/A'),
-  //             ],
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
 
   Widget _buildHeartbeatCard(BuildContext context, Map<String, dynamic> data) {

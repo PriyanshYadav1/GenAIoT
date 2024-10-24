@@ -73,7 +73,7 @@ class _GetConfigurationScreenState extends State<GetConfigurationScreen> {
     }
 
     if (getConfData.isEmpty) {
-      return Center(child: Text('No data available'));
+      return Center(child: Text('No Configuration data available',style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[500])));
     }
 
     return ListView.builder(
@@ -139,6 +139,7 @@ class _GetConfigurationScreenState extends State<GetConfigurationScreen> {
                         _buildRichTextRow("Parameter:", data['property_display_name'] ?? 'N/A'),
                         _buildRichTextRow("Current Value:", data['property_default_value'] ?? 'N/A'),
                         _buildRichTextRow("TimeStamp:", formattedTime ?? 'N/A'),
+
                       ],
                     ),
                   ),

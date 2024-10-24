@@ -471,21 +471,40 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> with SingleTickerPr
                       isExpanded = !isExpanded; // Toggle expansion
                     });
                   },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        _getSelectedOptionTitle(),
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue[800],
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.blue[800]!,
+                            Colors.blue[300]!,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
+                      borderRadius: BorderRadius.circular(8)),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0), // Adjust padding as needed
+                     // color: Colors.grey[200],
+                      child: Row(
+
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            _getSelectedOptionTitle(),
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              // color: Colors.blue[800],
+                              color: Colors.white,
+                            ),
+                          ),
+                          Icon(
+                            isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,color: Colors.white,
+                          ),
+                        ],
                       ),
-                      Icon(
-                        isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
                 if (isExpanded) ...[
@@ -615,7 +634,7 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> with SingleTickerPr
       case 5:
         return GetConfigurationScreen(assetId: widget.assetId, assetModel: widget.assetModel); // GET Configuration
       case 6:
-        return SetConfigurationScreen(); // SET Configuration
+        return SetConfigurationScreen(assetId: widget.assetId, assetModel: widget.assetModel); // SET Configuration
       default:
         return Center(child: Text("Select an option above")); // Fallback case
     }
@@ -681,30 +700,30 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> with SingleTickerPr
 
 
 
-///////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////
-  Widget _buildSelectedView() {
-    final Map<String, List<FlSpot>> graphData = _prepareGraphData(recentTelemetryData);
-    switch (_selectedIndex) {
-      case 0:
-        return _buildTelemetryView(latestTelemetryData);
-      case 1:
-        //return _buildRecentTelemetryView(recentTelemetryData);
-        return _buildRecentTelemetryView(graphData);
-      case 2:
-        return _buildLiveEventsView(liveEventsData);
-      case 3:
-        return  HeartbeatWidget(assetId: widget.assetId);
-      case 4:
-        return LifeCycle(assetId: widget.assetId);
-      case 5:
-        return GetConfigurationScreen(assetId: widget.assetId, assetModel: widget.assetModel);
-      case 6:
-        return SetConfigurationScreen();
-      default:
-        return Center(child: Text('Select a View'));
-    }
-  }
+// ///////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////////////////
+//   Widget _buildSelectedView() {
+//     final Map<String, List<FlSpot>> graphData = _prepareGraphData(recentTelemetryData);
+//     switch (_selectedIndex) {
+//       case 0:
+//         return _buildTelemetryView(latestTelemetryData);
+//       case 1:
+//         //return _buildRecentTelemetryView(recentTelemetryData);
+//         return _buildRecentTelemetryView(graphData);
+//       case 2:
+//         return _buildLiveEventsView(liveEventsData);
+//       case 3:
+//         return  HeartbeatWidget(assetId: widget.assetId);
+//       case 4:
+//         return LifeCycle(assetId: widget.assetId);
+//       case 5:
+//         return GetConfigurationScreen(assetId: widget.assetId, assetModel: widget.assetModel);
+//       case 6:
+//         return SetConfigurationScreen(assetId: widget.assetId, assetModel: widget.assetModel);
+//       default:
+//         return Center(child: Text('Select a View'));
+//     }
+//   }
 
   // Widget _buildNavButton(String label, int index) {
   //   bool isSelected = _selectedIndex == index;
@@ -848,6 +867,8 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> with SingleTickerPr
   Widget _buildTelemetryView(List<dynamic> telemetryData) {
     return isLoading
         ? Center(child: CircularProgressIndicator())
+        : telemetryData.isEmpty
+        ? Center(child: Text('No Latest Telemetry data available',style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[500])))
         : GridView.builder(
       padding: const EdgeInsets.all(8.0),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -977,7 +998,11 @@ class _LiveEventsScreenState extends State<LiveEventsScreen> with SingleTickerPr
   }
 
   Widget _buildRecentTelemetryView(Map<String, List<FlSpot>> graphData) {
-    return GridView.builder(
+    return isLoading
+        ? Center(child: CircularProgressIndicator())
+        : graphData.isEmpty
+        ? Center(child: Text('No Recent Telemetry data available',style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[500])))
+        : GridView.builder(
       padding: const EdgeInsets.all(8.0),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 1,
